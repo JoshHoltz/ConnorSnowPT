@@ -5,13 +5,11 @@ export const MembershipTiers = () => {
   const [packages, setPackages] = useState<any[]>([]);
 
   useEffect(() => {
-  fetch('https://connor-snow-pt-bdd7a068ad9e.herokuapp.com/membership-packages')
+  fetch('http://localhost:3000/membership-packages')
       .then(res => res.json())
       .then(setPackages)
-      .catch(() => setPackages([]));  // simple error fallback
+      .catch(() => setPackages([]));  
   }, []);
-
-  if (!packages.length) return <div>Loading or no packages found</div>;
 
   return (
     <section className="bg-white py-20 h-100vh">

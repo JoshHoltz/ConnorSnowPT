@@ -17,7 +17,6 @@ app.get('/', async (req, res) => {
   }
 });
 
-
 // New route to get membership packages
 app.get('/membership-packages', async (req, res) => {
   try {
@@ -30,7 +29,7 @@ app.get('/membership-packages', async (req, res) => {
 });
 
 
-app.listen(port, '0.0.0.0', () => {
+app.listen(port, () => {
   console.log(`🚀 Server running on port ${port}`);
 });
 
