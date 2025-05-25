@@ -1,15 +1,36 @@
 import React, { useEffect, useState } from 'react';
-import { CheckIcon, XIcon } from 'lucide-react';
+import { CheckIcon, XIcon } from 'lucide-react';  // your icon lib
 
 export const MembershipTiers = () => {
-  const [packages, setPackages] = useState<any[]>([]);
+  const [packages, setPackages] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  useEffect(() => {
+useEffect(() => {
+  console.log('Fetching membership packages...');
   fetch('http://localhost:3000/membership-packages')
-      .then(res => res.json())
-      .then(setPackages)
-      .catch(() => setPackages([]));  
-  }, []);
+    .then(res => {
+      console.log('Response status:', res.status);
+      if (!res.ok) {
+        throw new Error('Network response was not OK');
+      }
+      return res.json();
+    })
+    .then(data => {
+      console.log('Data received:', data);
+      setPackages(data);
+      setLoading(false);
+    })
+    .catch(err => {
+      console.error('Fetch error:', err);
+      setError(err.message);
+      setLoading(false);
+    });
+}, []);
+
+  if (loading) return <div>Loading membership packages...</div>;
+  if (error) return <div>Error: {error}</div>;
+  if (!packages.length) return <div>No membership packages found.</div>;
 
   return (
     <section className="bg-white py-20 h-100vh">
@@ -17,8 +38,7 @@ export const MembershipTiers = () => {
         <div className="text-center mb-10">
           <h2 className="text-5xl font-bold mb-4">View Membership Packages</h2>
           <p className="text-lg">
-            Choose the perfect plan to achieve your fitness goals with our
-            expert trainers and state-of-the-art facilities.
+            Choose the perfect plan to achieve your fitness goals with our expert trainers and state-of-the-art facilities.
           </p>
         </div>
 
@@ -37,28 +57,26 @@ export const MembershipTiers = () => {
               <div className="mb-8">
                 <h4 className="font-bold mb-4 text-lg">What's included:</h4>
                 <ul className="list-disc list-inside mb-4">
-                  {/* You can parse package_features into an array and map */}
                   {pkg.package_features.split(',').map((feature, i) => (
                     <li key={i} className="flex items-center mb-2">
                       <CheckIcon className="text-green-500 w-5 h-5 mr-2" />
                       {feature.trim()}
                     </li>
                   ))}
-                  {/* Optionally show package_excludes */}
-                  {pkg.package_excludes && (
-                    <>
-                      <h4 className="font-bold mt-4 mb-2 text-lg">Excludes:</h4>
-                      <ul className="list-disc list-inside">
-                        {pkg.package_excludes.split(',').map((exclude, i) => (
-                          <li key={i} className="flex items-center mb-2">
-                            <XIcon className="text-red-500 w-5 h-5 mr-2" />
-                            {exclude.trim()}
-                          </li>
-                        ))}
-                      </ul>
-                    </>
-                  )}
                 </ul>
+                {pkg.package_excludes && (
+                  <>
+                    <h4 className="font-bold mt-4 mb-2 text-lg">Excludes:</h4>
+                    <ul className="list-disc list-inside">
+                      {pkg.package_excludes.split(',').map((exclude, i) => (
+                        <li key={i} className="flex items-center mb-2">
+                          <XIcon className="text-red-500 w-5 h-5 mr-2" />
+                          {exclude.trim()}
+                        </li>
+                      ))}
+                    </ul>
+                  </>
+                )}
               </div>
 
               <button className="w-full py-4 font-medium bg-black text-white hover:bg-gray-800 transition-colors">

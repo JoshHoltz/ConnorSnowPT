@@ -19,14 +19,17 @@ app.get('/', async (req, res) => {
 
 // New route to get membership packages
 app.get('/membership-packages', async (req, res) => {
+  console.log('Received request for membership packages');
   try {
     const [rows] = await pool.query('SELECT * FROM membership_packages');
+    console.log('Query result:', rows);
     res.json(rows);
   } catch (err) {
     console.error('DB error:', err);
     res.status(500).json({ error: 'Failed to fetch membership packages' });
   }
 });
+
 
 
 app.listen(port, () => {
