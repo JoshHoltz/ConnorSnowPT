@@ -5,7 +5,7 @@ export const MembershipTiers = () => {
   const [packages, setPackages] = useState<any[]>([]);
 
   useEffect(() => {
-    fetch('http://localhost:3000/membership-packages')
+  fetch('https://connor-snow-pt-bdd7a068ad9e.herokuapp.com/membership-packages')
       .then(res => res.json())
       .then(setPackages)
       .catch(() => setPackages([]));  // simple error fallback
