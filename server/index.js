@@ -30,11 +30,8 @@ app.get('/membership-packages', async (req, res) => {
 });
 
 
-app.listen(port, () => {
+app.listen(port, '0.0.0.0', () => {
   console.log(`🚀 Server running on port ${port}`);
 });
 
-// In your Express server (e.g., index.js)
-app.get('/ping', (req, res) => {
-  res.json({ message: 'pong' });
-});
+
