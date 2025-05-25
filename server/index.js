@@ -1,9 +1,9 @@
 import express from 'express';
-import { pool } from './db.js';
 import cors from 'cors';
+import { pool } from './db.js';
 
 const app = express();
-const port = 3000;
+const port = 4000;
 
 app.use(cors());
 
@@ -12,28 +12,21 @@ app.get('/', async (req, res) => {
     const [rows] = await pool.query('SELECT NOW() AS now');
     res.json({ message: 'Connected!', now: rows[0].now });
   } catch (err) {
-    console.error('DB error:', err);
-    res.status(500).json({ error: 'DB connection failed' });
+    console.error('Error on /:', err);
+    res.status(500).json({ error: 'DB connection failed', details: err.message, stack: err.stack });
   }
 });
 
-// New route to get membership packages
 app.get('/membership-packages', async (req, res) => {
-  console.log('Received request for membership packages');
   try {
     const [rows] = await pool.query('SELECT * FROM membership_packages');
-    console.log('Query result:', rows);
     res.json(rows);
   } catch (err) {
-    console.error('DB error:', err);
-    res.status(500).json({ error: 'Failed to fetch membership packages' });
+    console.error('Error on /membership-packages:', err);
+    res.status(500).json({ error: 'Failed to fetch membership packages', details: err.message, stack: err.stack });
   }
 });
-
-
 
 app.listen(port, () => {
   console.log(`🚀 Server running on port ${port}`);
 });
-
-

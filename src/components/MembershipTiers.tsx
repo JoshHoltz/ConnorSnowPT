@@ -8,7 +8,7 @@ export const MembershipTiers = () => {
 
 useEffect(() => {
   console.log('Fetching membership packages...');
-  fetch('http://localhost:3000/membership-packages')
+  fetch('http://localhost:4000/membership-packages')
     .then(res => {
       console.log('Response status:', res.status);
       if (!res.ok) {
@@ -28,9 +28,9 @@ useEffect(() => {
     });
 }, []);
 
-  if (loading) return <div>Loading membership packages...</div>;
+  // if (loading) return <div>Loading membership packages...</div>;
   if (error) return <div>Error: {error}</div>;
-  if (!packages.length) return <div>No membership packages found.</div>;
+  // if (!packages.length) return <div>No membership packages found.</div>;
 
   return (
     <section className="bg-white py-20 h-100vh">
