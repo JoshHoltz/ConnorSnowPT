@@ -27,6 +27,19 @@ app.get('/membership-packages', async (req, res) => {
   }
 });
 
+app.get('/client-testimonals', async (req, res) => {
+  try {
+    const [rows] = await pool.query(
+      'SELECT * FROM client_testimonials ORDER BY testimonial_id DESC LIMIT 3'
+    );
+    res.json(rows);
+  } catch (err) {
+    console.error('Error on /client-testimonals:', err);
+    res.status(500).json({ error: 'Failed to fetch testimonials', details: err.message });
+  }
+});
+
+
 app.listen(port, () => {
   console.log(`🚀 Server running on port ${port}`);
 });

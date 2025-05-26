@@ -1,36 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { CheckIcon, XIcon } from 'lucide-react';  // your icon lib
+import { CheckIcon, XIcon } from 'lucide-react';  
 
 export const MembershipTiers = () => {
   const [packages, setPackages] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
 useEffect(() => {
-  console.log('Fetching membership packages...');
   fetch('http://localhost:4000/membership-packages')
-    .then(res => {
-      console.log('Response status:', res.status);
-      if (!res.ok) {
-        throw new Error('Network response was not OK');
-      }
-      return res.json();
-    })
-    .then(data => {
-      console.log('Data received:', data);
-      setPackages(data);
-      setLoading(false);
-    })
-    .catch(err => {
-      console.error('Fetch error:', err);
-      setError(err.message);
-      setLoading(false);
-    });
+    .then(res => res.ok ? res.json() : Promise.reject('Fetch failed'))
+    .then(setPackages)
 }, []);
-
-  // if (loading) return <div>Loading membership packages...</div>;
-  if (error) return <div>Error: {error}</div>;
-  // if (!packages.length) return <div>No membership packages found.</div>;
 
   return (
     <section className="bg-white py-20 h-100vh">
