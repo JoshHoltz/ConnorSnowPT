@@ -30,7 +30,7 @@ app.get('/membership-packages', async (req, res) => {
 app.get('/client-testimonals', async (req, res) => {
   try {
     const [rows] = await pool.query(
-      'SELECT * FROM client_testimonials ORDER BY testimonial_id DESC LIMIT 3'
+      'SELECT * FROM client_testimonials WHERE testimonial_rating >= 3 ORDER BY testimonial_id DESC LIMIT 3'
     );
     res.json(rows);
   } catch (err) {

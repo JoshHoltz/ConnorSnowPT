@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { createIcons, icons } from 'lucide';
+import { Star } from 'lucide-react';
 
 export const Testimonials1 = () => {
   const [testimonals, setPackages] = useState([]);
@@ -23,13 +23,22 @@ export const Testimonials1 = () => {
               key={test.testimonial_id}
               className="border-t-4 bg-white p-8 flex flex-col h-full relative"
             >
-              
-              
+              <div className="flex mb-4">
+                {/* 
+                From the array, length the rating to see how many stars to show
+                .map will then state for the length of the rating create a star icon from lucid react
+                REF: https://stackoverflow.com/questions/40528557/how-does-array-fromlength-5-v-i-i-work
+                */}
+                {Array.from({ length: Number(test.testimonial_rating) }).map((_, i) => (
+                  <Star key={i} className="text-yellow-500 w-5 h-5" fill="currentColor" />
+                ))}
+              </div>
 
               <div>
                 <p className="mb-4">"{test.testimonial_descripton}"</p>
               </div>
               <h1 className="font-bold mt-auto">{test.client_name}</h1>
+              <small>{test.testimonial_date}</small>
             </div>
           ))}
         </div>
