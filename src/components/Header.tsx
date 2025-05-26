@@ -34,8 +34,8 @@ export const Header = () => {
             <Link to="/#" className="text-white hover:text-gray-400 ml-4">Home</Link>
             <Link to="/about" className="text-white hover:text-gray-400 ml-4">About</Link>
             <a href="#" className="text-white hover:text-gray-400 ml-4">Plans</a>
-            <a href="#" className="text-white hover:text-gray-400 ml-4">Packages</a>
-            <a href="#" className="text-white hover:text-gray-400 ml-4">Contact</a>
+            <Link to="/packages" className="text-white hover:text-gray-400 ml-4">Packages</Link>
+            <Link to="/contact" className="text-white hover:text-gray-400 ml-4">Contact</Link>
             <button className="ml-4 bg-blue-600 text-white hover:text-gray-400 px-6 py-3">
                 <a href="#">Login</a>
             </button>
