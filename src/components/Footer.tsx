@@ -106,7 +106,7 @@ export const Footer = () => {
         </div>
         <div className="border-t border-gray-800 pt-8">
           <p className="text-center text-gray-500">
-            © {new Date().getFullYear()} @ConnorSnowPT
+            © {new Date().getFullYear()} ConnorSnowPT
           </p>
         </div>
       </div>

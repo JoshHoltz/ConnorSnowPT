@@ -2,7 +2,7 @@ import React from "react";
 import { ArrowRightIcon } from "lucide-react";
 export const CTA = () => {
   return (
-    <section className="bg-black text-white py-20">
+    <section className="bg-black text-white py-20 m-6">
       <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-center">
         <div className="w-full space-y-8">
           <h1 className="text-2xl md:text-3xl font-bold mb-2">
