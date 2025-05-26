@@ -13,8 +13,8 @@ export const Testimonials1 = () => {
   return (
     <header className="bg-gray-100 text-black w-full">
       <div className="container mx-auto p-4">
-        <h1 className="text-2xl md:text-3xl font-bold text-center mb-10">
-          My Testimonals
+        <h1 className="text-2xl md:text-4xl font-bold text-center mb-10">
+           Testimonials
         </h1>
 
         <div className="flex flex-col justify-between md:grid grid-cols-1 md:grid-cols-3 gap-6">
