@@ -6,6 +6,7 @@ export const Plans = () => {
   return (
     <div className="mt-10">
       <TrainingGuideHeader />
+      <PlansGrid />
     </div>
   )
 }
