@@ -41,7 +41,7 @@ export const PlansGrid = () => {
 
       {/* Main Plan Grid - White Background */}
       <section>
-        <div className="bg-white p-4 px-0 md:px-20">
+        <div className="bg-white p-4 px-4 md:px-20">
           <div className="flex flex-col justify-between md:grid grid-cols-1 md:grid-cols-3 gap-4">
             {plans.map((plan) => (
               <div

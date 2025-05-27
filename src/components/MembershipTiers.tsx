@@ -12,19 +12,13 @@ useEffect(() => {
 
   return (
     <section className="bg-white py-20 h-100vh">
-      <div className="container mx-auto p-6">
-        <div className="text-center mb-10">
-          <h2 className="text-5xl font-bold mb-4">View Membership Packages</h2>
-          <p className="text-lg">
-            Choose the perfect plan to achieve your fitness goals with our expert trainers and state-of-the-art facilities.
-          </p>
-        </div>
+      <div className="container mx-auto px-6">
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 ">
           {packages.map(pkg => (
             <div
               key={pkg.package_id}
-              className="border-t-4 bg-white p-8 shadow-lg flex flex-col h-full relative"
+              className="border-t-4 bg-white p-8 shadow-lg flex flex-col h-full relative hover:bg-gray-300 transition duration-300 ease-in-out"
             >
               <h3 className="text-2xl font-bold mb-2">{pkg.package_name}</h3>
               <div className="mb-6">
