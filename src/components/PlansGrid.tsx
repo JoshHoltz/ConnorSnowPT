@@ -70,7 +70,7 @@ export const PlansGrid = () => {
                     </p>
                   </div>
 
-                  <p className="text-green-600 font-semibold mt-2">
+                  <p className="text-green-600 font-semibold mt-14">
                     £{plan.plan_price}
                   </p>
                 </div>
