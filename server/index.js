@@ -39,6 +39,29 @@ app.get('/client-testimonals', async (req, res) => {
   }
 });
 
+app.get('/welcome-hero', async (req, res) => {
+  try {
+    const [rows] = await pool.query(
+      'SELECT * FROM welcome_hero ORDER BY hero_id DESC LIMIT 1'
+    );
+    res.json(rows);
+  } catch (err) {
+    console.error('Error on /client-testimonals:', err);
+    res.status(500).json({ error: 'Failed to fetch welcoming', details: err.message });
+  }
+});
+
+app.get('/workout-plans', async (req, res) => {
+  try {
+    const [rows] = await pool.query(
+      'SELECT * FROM workout_plans'
+    );
+    res.json(rows);
+  } catch (err) {
+    console.error('Error on /workout-plan:', err);
+    res.status(500).json({ error: 'Failed to fetch plans', details: err.message });
+  }
+});
 
 app.listen(port, () => {
   console.log(`🚀 Server running on port ${port}`);
