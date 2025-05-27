@@ -16,10 +16,10 @@ export const CTA = () => {
 
         <div className="w-full mt-10 md:mt-0">
           <div className="relative flex justify-end">
-            <button className="bg-blue-600 hover:bg-blue-700 transition px-6 py-3 font-bold flex items-center gap-2">
+<a href="/packages"><button className="bg-blue-600 hover:bg-blue-700 transition px-6 py-3 font-bold flex items-start gap-2">
               Start Your Journey
               <ArrowRightIcon className="w-5 h-5" />
-            </button>
+            </button></a>
           </div>
         </div>
       </div>

@@ -14,14 +14,16 @@ export const Hero = () => {
           </p>
 
           <div className="flex flex-wrap gap-4">
-            <button className="bg-blue-600 hover:bg-blue-700 transition px-6 py-3 font-bold flex items-start gap-2">
+            <a href="/packages"><button className="bg-blue-600 hover:bg-blue-700 transition px-6 py-3 font-bold flex items-start gap-2">
               Start Your Journey
               <ArrowRightIcon className="w-5 h-5" />
-            </button>
+            </button></a>
 
+            <a href="/plans">
             <button className="bg-transparent border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white transition px-6 py-3 font-semibold">
               View Plans
             </button>
+            </a>
           </div>
         </div>
 

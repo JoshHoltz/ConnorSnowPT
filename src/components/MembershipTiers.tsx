@@ -18,7 +18,7 @@ useEffect(() => {
           {packages.map(pkg => (
             <div
               key={pkg.package_id}
-              className="border-t-4 bg-white p-8 shadow-lg flex flex-col h-full relative hover:bg-gray-300 transition duration-300 ease-in-out"
+              className="border-t-4 bg-white p-8 shadow-lg flex flex-col h-full relative hover:bg-gray-200 transition duration-300 ease-in-out"
             >
               <h3 className="text-2xl font-bold mb-2">{pkg.package_name}</h3>
               <div className="mb-6">
