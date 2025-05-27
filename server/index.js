@@ -6,6 +6,9 @@ const app = express();
 const port = 4000;
 
 app.use(cors());
+app.use(express.json());
+
+// Fetching Data From Database 
 
 app.get('/', async (req, res) => {
   try {
@@ -61,6 +64,20 @@ app.get('/workout-plans', async (req, res) => {
     console.error('Error on /workout-plan:', err);
     res.status(500).json({ error: 'Failed to fetch plans', details: err.message });
   }
+});
+
+app.post('/add-user', async (req, res) => {
+  const { user_firstname, user_lastname, user_password } = req.body;
+
+  if (!user_firstname || !user_lastname || !user_password) {
+    return res.status(400).json({ error: 'Missing required fields' });
+  }
+
+  const [result] = await pool.query(
+    'INSERT INTO user_logins (user_firstname, user_lastname, user_password) VALUES (?, ?, ?)',
+    [user_firstname, user_lastname, user_password]
+  );
+
 });
 
 app.listen(port, () => {
