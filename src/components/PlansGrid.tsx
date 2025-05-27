@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 export const PlansGrid = () => {
-  const [plan, setPackages] = useState([]);
+  const [plans, setPackages] = useState([]);
 
   useEffect(() => {
     fetch("http://localhost:4000/workout-plans")
@@ -41,8 +41,41 @@ export const PlansGrid = () => {
 
       {/* Main Plan Grid - White Background */}
       <section>
-        <div className="bg-white px-20">
-          <div className="container flex flex-col md:flex-row text-black"></div>
+        <div className="bg-white p-4 px-0 md:px-20">
+          <div className="flex flex-col justify-between md:grid grid-cols-1 md:grid-cols-3 gap-4">
+            {plans.map((plan) => (
+              <div
+                key={plan.plan_id}
+                className="flex flex-col justify-between border p-4 rounded"
+              >
+                <div>
+                  <h2 className="text-xl font-bold underline">
+                    {plan.plan_name}
+                  </h2>
+                  <p className="text-gray-600 mb-2">{plan.plan_description}</p>
+                  <div className="flex justify-between">
+                    <p className="font-bold">
+                      Type:{" "}
+                      <span className="text-blue-600">{plan.plan_type}</span>
+                    </p>
+                    <p className="font-bold">
+                      Pages:{" "}
+                      <span className="text-blue-600">{plan.plan_pages}</span>
+                    </p>
+                  </div>
+
+                  <p className="text-green-600 font-semibold mt-2">
+                    £{plan.plan_price}
+                  </p>
+                </div>
+
+                {/* Button at the bottom */}
+                <button className="mt-4 w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 hover:font-bold transition duration-300 ease-in-out">
+                  Purchase & Download
+                </button>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
     </>
