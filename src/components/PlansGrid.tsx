@@ -49,6 +49,12 @@ export const PlansGrid = () => {
                 className="flex flex-col justify-between border p-4 rounded"
               >
                 <div>
+                  {/* plan image */}
+                  <img
+                    src={`data:image/jpeg;base64,${plan.plan_image}`}
+                    className="w-full h-48 object-cover rounded mb-4"
+                  />
+
                   <h2 className="text-xl font-bold underline">
                     {plan.plan_name}
                   </h2>
