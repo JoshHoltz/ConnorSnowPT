@@ -3,7 +3,7 @@ import { Instagram, Mail, Ghost } from "lucide-react";
 
 export const ContactMe = () => {
   return (
-    <section className="bg-gray-100 text-black py-20">
+    <section className="text-black py-20">
       <div className="container mx-auto px-4 flex flex-col w-full md:flex-row">
         {/* Socials */}
         <div className="bg-gray-300 p-4 rounded-xl w-full mb-4 md:w-1/4 md:flex md:flex-col">
