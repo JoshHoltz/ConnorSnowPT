@@ -5,7 +5,7 @@ export const MembershipTiers = () => {
   const [packages, setPackages] = useState([]);
 
 useEffect(() => {
-  fetch('http://localhost:4000/membership-packages')
+  fetch('http://localhost:4000/membership-packages') 
     .then(res => res.ok ? res.json() : Promise.reject('Fetch failed'))
     .then(setPackages)
 }, []);

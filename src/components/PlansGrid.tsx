@@ -46,7 +46,7 @@ export const PlansGrid = () => {
             {plans.map((plan) => (
               <div
                 key={plan.plan_id}
-                className="flex flex-col justify-between border p-4 rounded"
+                className="flex flex-col justify-between border p-4 rounded hover:bg-gray-100 transition duration-300 ease-in-out"
               >
                 <div>
                   {/* plan image */}
