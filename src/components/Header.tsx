@@ -7,7 +7,10 @@ export const Header = () => {
   return <header className="bg-black text-white w-full fixed z-10">
     <div className="container mx-auto flex justify-between items-center p-4">
         <div className="flex items-center">
-            <h1 className="text-2xl font-bold">CONNOR <span className="text-blue-600">SNOW</span></h1>
+            <button><a href="/">
+                <h1 className="text-2xl font-bold">CONNOR<span className="text-blue-600">SNOW</span></h1>
+            </a>
+          </button>
         </div>
 
         {/* Desktop Navigation */}
