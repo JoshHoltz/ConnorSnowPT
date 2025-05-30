@@ -4,7 +4,7 @@ export const PlansGrid = () => {
   const [plans, setPackages] = useState([]);
 
   useEffect(() => {
-    fetch("https://connorsnowpt.onrender.com/workout-plans")
+    fetch("https://connorsnowpt.onrender.com/api/workout-plans")
       .then((res) => (res.ok ? res.json() : Promise.reject("Fetch failed")))
       .then(setPackages);
   }, []);

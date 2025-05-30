@@ -5,7 +5,7 @@ export const Testimonials1 = () => {
   const [testimonals, setPackages] = useState([]);
 
   useEffect(() => {
-    fetch("https://connorsnowpt.onrender.com/client-testimonals")
+    fetch("https://connorsnowpt.onrender.com/api/client-testimonals")
       .then((res) => (res.ok ? res.json() : Promise.reject("Fetch failed")))
       .then(setPackages);
   }, []);
