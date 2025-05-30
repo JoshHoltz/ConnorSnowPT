@@ -11,11 +11,11 @@ app.use(cors());
 app.use(express.json());
 
 // For __dirname in ES modules
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = path.dirname(__filename);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-// Serve static files from 'dist'
-// app.use(express.static(path.join(__dirname, '..', 'dist')));
+app.use(express.static(path.join(__dirname, '..', 'dist')));
+
 
 app.get('/', async (req, res) => {
   try {
@@ -71,9 +71,9 @@ app.get('/workout-plans', async (req, res) => {
   }
 });
 
-// app.get('*', (req, res) => {
-//   res.sendFile(path.join(__dirname, '..', 'dist', 'index.html'));
-// });
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'dist', 'index.html'));
+});
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
