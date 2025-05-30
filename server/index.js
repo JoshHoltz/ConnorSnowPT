@@ -61,7 +61,7 @@ app.get('/api/welcome-hero', async (req, res) => {
   }
 });
 
-app.get('api//workout-plans', async (req, res) => {
+app.get('api/workout-plans', async (req, res) => {
   try {
     const [rows] = await pool.query('SELECT * FROM workout_plans');
     res.json(rows);
@@ -71,9 +71,9 @@ app.get('api//workout-plans', async (req, res) => {
   }
 });
 
-// app.get('*', (req, res) => {
-//   res.sendFile(path.join(__dirname, '..', 'dist', 'index.html'));
-// });
+app.get('/{*splat}', async (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'dist', 'index.html'));
+});
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
