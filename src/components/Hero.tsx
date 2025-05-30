@@ -13,11 +13,13 @@ export const Hero = () => {
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum sequi earum dolores saepe, numquam minus ea perspiciatis itaque ducimus est.
           </p>
 
-          <div className="flex flex-wrap gap-4">
-            <a href="/packages"><button className="bg-blue-600 hover:bg-blue-700 transition px-6 py-3 font-bold flex items-start gap-2">
-              Start Your Journey
-              <ArrowRightIcon className="w-5 h-5" />
-            </button></a>
+          {/* REF: https://devdojo.com/tailwindcss/buttons#_ */}
+          <div className="flex gap-4">
+<a href="/packages" className=" px-6 py-3 flex flex-row overflow-hidden relative group cursor-pointer border font-medium border-blue-600 text-blue-600 text-white">
+    <span className="absolute w-64 h-0 transition-all duration-300 origin-center rotate-45 -translate-x-20 bg-blue-600 top-1/2 group-hover:h-64 group-hover:-translate-y-32 ease"></span>
+    <span className="relative flex flex-row text-blue-600 transition duration-300 group-hover:text-white ease">Start Your Journey<ArrowRightIcon/></span>
+</a>
+            
 
             <a href="/plans">
             <button className="bg-transparent border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white transition px-6 py-3 font-semibold">
