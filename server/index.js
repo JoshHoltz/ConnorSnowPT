@@ -63,25 +63,6 @@ app.get('/workout-plans', async (req, res) => {
   }
 });
 
-app.post('/add-user', async (req, res) => {
-  const { user_firstname, user_lastname, user_password } = req.body;
-
-  if (!user_firstname || !user_lastname || !user_password) {
-    return res.status(400).json({ error: 'Missing required fields' });
-  }
-
-  try {
-    const [result] = await pool.query(
-      'INSERT INTO user_logins (user_firstname, user_lastname, user_password) VALUES (?, ?, ?)',
-      [user_firstname, user_lastname, user_password]
-    );
-    res.status(201).json({ message: 'User added', userId: result.insertId });
-  } catch (err) {
-    console.error('Error adding user:', err);
-    res.status(500).json({ error: 'Failed to add user', details: err.message });
-  }
-});
-
 // *** Catch-all handler: for any request that doesn't match above, serve React's index.html ***
 
 app.get('*', (req, res) => {
