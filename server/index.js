@@ -17,8 +17,14 @@ app.use(express.json());
 // Serve static files from 'dist'
 // app.use(express.static(path.join(__dirname, '..', 'dist')));
 
-app.get('/', (req, res) => {
-  res.send('Hello World');
+app.get('/', async (req, res) => {
+  try {
+    const [rows] = await pool.query('SELECT NOW() AS now');
+    res.json({ message: 'Connected!', now: rows[0].now });
+  } catch (err) {
+    console.error('Error on /:', err);
+    res.status(500).json({ error: 'DB connection failed', details: err.message, stack: err.stack });
+  }
 });
 
 app.get('/membership-packages', async (req, res) => {
