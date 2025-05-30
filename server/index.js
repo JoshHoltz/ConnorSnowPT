@@ -61,7 +61,7 @@ app.get('/api/welcome-hero', async (req, res) => {
   }
 });
 
-app.get('api/workout-plans', async (req, res) => {
+app.get('/api/workout-plans', async (req, res) => {
   try {
     const [rows] = await pool.query('SELECT * FROM workout_plans');
     res.json(rows);
