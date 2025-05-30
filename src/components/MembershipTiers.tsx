@@ -5,7 +5,7 @@ export const MembershipTiers = () => {
   const [packages, setPackages] = useState([]);
 
 useEffect(() => {
-  fetch('https://connorsnowpt.onrender.com/membership-packages') 
+  fetch('https://connorsnowpt.onrender.com/api/membership-packages') 
     .then(res => res.ok ? res.json() : Promise.reject('Fetch failed'))
     .then(setPackages)
 }, []);
