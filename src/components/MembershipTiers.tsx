@@ -22,7 +22,8 @@ useEffect(() => {
             >
               <h3 className="text-2xl font-bold mb-2">{pkg.package_name}</h3>
               <div className="mb-6">
-                <span className="text-5xl font-bold">£{pkg.package_price}</span>
+                <span className="text-5xl font-bold">£{pkg.package_price}<span className="text-2xl text-gray-500">p/m</span>
+                </span>
               </div>
               <p className="text-gray-600 mb-6">{pkg.package_description}</p>
 
