@@ -27,7 +27,7 @@ app.get('/', async (req, res) => {
   }
 });
 
-app.get('/membership-packages', async (req, res) => {
+app.get('/api/membership-packages', async (req, res) => {
   try {
     const [rows] = await pool.query('SELECT * FROM membership_packages');
     res.json(rows);
@@ -37,7 +37,7 @@ app.get('/membership-packages', async (req, res) => {
   }
 });
 
-app.get('/client-testimonals', async (req, res) => {
+app.get('/api/client-testimonals', async (req, res) => {
   try {
     const [rows] = await pool.query(
       'SELECT * FROM client_testimonials WHERE testimonial_rating >= 4 ORDER BY testimonial_id DESC LIMIT 3'
@@ -49,7 +49,7 @@ app.get('/client-testimonals', async (req, res) => {
   }
 });
 
-app.get('/welcome-hero', async (req, res) => {
+app.get('/api/welcome-hero', async (req, res) => {
   try {
     const [rows] = await pool.query(
       'SELECT * FROM welcome_hero ORDER BY hero_id DESC LIMIT 1'
@@ -61,7 +61,7 @@ app.get('/welcome-hero', async (req, res) => {
   }
 });
 
-app.get('/workout-plans', async (req, res) => {
+app.get('api//workout-plans', async (req, res) => {
   try {
     const [rows] = await pool.query('SELECT * FROM workout_plans');
     res.json(rows);
