@@ -7,7 +7,7 @@ export const Hero = () => {
         {/* Text Section */}
         <div className="w-full md:w-1/2 space-y-8 position-relative ">
           <h1 className="text-3xl md:text-5xl lg:text-6xl font-extrabold leading-tight">
-            A WORKOUT PLAN, TAILORED TO <span className="text-blue-600 hover:underline transition duration-150 ">YOU</span>
+            A WORKOUT PLAN, TAILORED TO <span className="text-blue-600 hover:underline transition duration-700 ease-in-out">YOU</span>
           </h1>
           <p>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum sequi earum dolores saepe, numquam minus ea perspiciatis itaque ducimus est.
@@ -22,7 +22,7 @@ export const Hero = () => {
             
 
             <a href="/plans">
-            <button className="bg-transparent border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white transition px-6 py-3 font-semibold">
+            <button className="font-semibold border border-blue-600 text-white bg-blue-600 hover:bg-transparent hover:text-blue-600 transition px-6 py-3">
               View Plans
             </button>
             </a>
