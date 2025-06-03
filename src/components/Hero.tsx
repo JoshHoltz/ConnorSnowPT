@@ -40,7 +40,7 @@ export const Hero = () => {
           </div>
           
           <h1>Insert User</h1>
-          <form action="https://connorsnowpt.onrender.com/api/insert-user" method="POST" className="mt-4">
+          <form action="https://connorsnowpt.onrender.com/api/insert-user" method="POST" className="mt-4"> {/* to look at: https://react.dev/reference/react-dom/components/form */}
             <input
               type="text"
               name="user_firstname"
