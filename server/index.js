@@ -82,7 +82,7 @@ app.get('/api/workout-plans', async (req, res) => {
 
 app.use('/api/insert-user', express.urlencoded()); 
 
-app.post('/api/insert-user', (req, res) => {
+app.post('/api/insert-user', async(req, res) => {
   console.log('Received request to insert user:', req.body);
 
   const user_firstname = req.body.user_firstname;
@@ -95,17 +95,9 @@ app.post('/api/insert-user', (req, res) => {
 
   const sql = 'INSERT INTO user_logins (user_firstname, user_lastname, user_password) VALUES (?, ?, ?)';
 
-  pool.query(sql, [user_firstname, user_lastname, user_password], (err, result) => {
-    if (err) {
-      console.error('Error inserting user:', err);
-      return res.status(500).json({ error: 'Database error inserting user' });
-    }
-
-    console.log('User inserted:', { user_firstname, user_lastname, user_password });
-    res.status(201).json({ message: 'User inserted successfully', userId: result.insertId });
-  });
+  const result = await pool.query(sql, [user_firstname, user_lastname, user_password])
+  res.send("Sucessfully inserted User");
 });
-
 
 app.get('/{*splat}', async (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'dist', 'index.html'));
