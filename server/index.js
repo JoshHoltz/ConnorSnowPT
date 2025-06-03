@@ -71,6 +71,32 @@ app.get('/api/workout-plans', async (req, res) => {
   }
 });
 
+// Inserting frontend to the DB
+// REF (Formatting of Insertion): https://stackoverflow.com/questions/56034455/how-to-send-json-data-from-react-to-node-js-express-server
+// REF (Status Messages): https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status
+// REF (Routing Guide): https://expressjs.com/en/guide/routing.html
+
+app.post('/api/insert-user', (req, res) => {
+  const { user_firstname, user_lastname, user_password } = req.body;
+
+  if (!user_firstname || !user_lastname || !user_password) {
+    return res.status(400).json({ error: 'All fields are required' });
+  }
+
+  const sql = 'INSERT INTO user_logins (user_firstname, user_lastname, user_password) VALUES (?, ?, ?)';
+
+  pool.query(sql, [user_firstname, user_lastname, user_password], (err, result) => {
+    if (err) {
+      console.error('Error inserting user:', err);
+      return res.status(500).json({ error: 'Database error inserting user' });
+    }
+
+    console.log('User inserted:', { user_firstname, user_lastname, user_password });
+    res.status(201).json({ message: 'User inserted successfully', userId: result.insertId });
+  });
+});
+
+
 app.get('/{*splat}', async (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'dist', 'index.html'));
 });

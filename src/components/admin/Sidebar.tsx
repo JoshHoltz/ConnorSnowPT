@@ -31,7 +31,7 @@ export const Sidebar = () => {
             <ul className="flex flex-col gap-2 mt-4">
               <li className="list-none px-4">
                 <NavButton
-                  href="/admin/dashboard"
+                  href="/admin/home"
                   icon={<LayoutDashboard />}
                   text="Dashboard"
                 />

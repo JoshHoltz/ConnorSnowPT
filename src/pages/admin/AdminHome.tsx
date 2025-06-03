@@ -1,14 +1,14 @@
-// import React from 'react'
-import { FAQs } from '../../components/FAQs'
-import { CTA } from '../../components/CTA'
-import { ContactMe } from '../../components/ContactMe'
+import React from 'react'
+import { TopLevelInfo } from '../../components/admin/TopLevelInfo'
+import { QuickLinks } from '../../components/admin/QuickLinks'
+
 // import  Calendar  from '../../components/admin/Calendar'
 export const AdminHome = () => {
   return (
     <>
-    <FAQs />
-    <ContactMe />
-    <CTA />
+    <TopLevelInfo />
+    <QuickLinks />
+
     </>
   )
 }

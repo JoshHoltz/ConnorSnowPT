@@ -1,58 +1,38 @@
-import React, { useState } from 'react';
-import { insertDataToDB } from './insertDataToDB';
+import React from 'react';
 
-export const LoginForm = () => {
-  const [msg, setMsg] = useState('');
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const { ok, result } = await insertDataToDB('http://localhost:4000/add-user', e.target);
-
-    setMsg(ok ? `✅ User added with ID: ${result.userId}` : `❌ ${result.error}`);
-    if (ok) e.target.reset();
-  };
-
+const InsertUserForm = () => {
   return (
     <section className="text-black py-20 md:mt-20 bg-gray-100 h-screen">
       <div className="container mx-auto px-4 flex flex-col items-center justify-center">
-        <h2 className="text-2xl mb-6 font-bold">Add New User</h2>
-        <form onSubmit={handleSubmit} className="bg-white p-6 rounded shadow-md w-full max-w-sm">
-          <label className="block mb-4">
-            First Name:
-            <input
-              type="text"
-              name="user_firstname"
-              required
-              className="mt-1 block w-full border border-gray-300 rounded px-2 py-1"
-            />
-          </label>
-          <label className="block mb-4">
-            Last Name:
-            <input
-              type="text"
-              name="user_lastname"
-              required
-              className="mt-1 block w-full border border-gray-300 rounded px-2 py-1"
-            />
-          </label>
-          <label className="block mb-4">
-            Password:
-            <input
-              type="password"
-              name="user_password"
-              required
-              className="mt-1 block w-full border border-gray-300 rounded px-2 py-1"
-            />
-          </label>
+        <h1>Insert User</h1>
+        <form action="https://connorsnowpt.onrender.com/api/insert-user" method="POST" className="mt-4">
+          <input
+            type="text"
+            name="user_firstname"
+            placeholder="Enter your name"
+            className="text-black w-full p-2 mt-4 border border-blue-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
+          />
+          <input
+            type="text"
+            name="user_lastname"
+            placeholder="Enter your last name"
+            className="text-black w-full p-2 mt-4 border border-blue-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
+          />
+          <input
+            type="password"
+            name="user_password"
+            placeholder="Enter your password"
+            className="text-black w-full p-2 mt-4 border border-blue-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
+          />
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
+            className="mt-4 px-6 py-3 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700 transition duration-300"
           >
             Submit
           </button>
         </form>
-        <p className="mt-4 text-center">{msg}</p>
       </div>
     </section>
   );
 };
+
