@@ -27,6 +27,10 @@ app.get('/', async (req, res) => {
   }
 });
 
+app.get('/api/health'), async (req, res) => {
+  res.send('Help me')
+};
+
 app.get('/api/membership-packages', async (req, res) => {
   try {
     const [rows] = await pool.query('SELECT * FROM membership_packages');
@@ -76,8 +80,14 @@ app.get('/api/workout-plans', async (req, res) => {
 // REF (Status Messages): https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status
 // REF (Routing Guide): https://expressjs.com/en/guide/routing.html
 
+app.use('/api/insert-user', express.urlencoded()); 
+
 app.post('/api/insert-user', (req, res) => {
-  const { user_firstname, user_lastname, user_password } = req.body;
+  console.log('Received request to insert user:', req.body);
+
+  const user_firstname = req.body.user_firstname;
+  const user_lastname = req.body.user_lastname;
+  const user_password = req.body.user_password;
 
   if (!user_firstname || !user_lastname || !user_password) {
     return res.status(400).json({ error: 'All fields are required' });
