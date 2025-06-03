@@ -24,7 +24,7 @@ export const MembersTable = () => {
           <tbody className="text-black">
             {clients.map((client, index) => (
               <tr key={index} 
-              className={index % 2 == 0 ? "bg-gray-200 hover:bg-gray-700 hover:text-white transition duration-300" : "bg-white hover:bg-gray-700 hover:text-white transition duration-300"}>
+              className={index % 2 == 0 ? "bg-gray-300 hover:bg-gray-400 transition duration-300" : "bg-white hover:bg-gray-400 transition duration-300"}>
                 {/* photo */}
                 <td className="p-2">
                   <div className="flex items-center gap-2">

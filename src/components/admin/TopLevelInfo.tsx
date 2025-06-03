@@ -3,13 +3,6 @@ import { UserRound, Globe, Send } from 'lucide-react';
 export const TopLevelInfo = () => {
   return (
     <section className=" text-white p-4 mt-10 md:mt-0">
-      <div className="mb-4 px-4 text-black">
-        <h1 className="hidden md:flex text-2xl font-bold text-black">Dashboard</h1>
-        <p className="hidden md:flex text-black">
-          Welcome Back! Take a look at your client overview:
-        </p>
-      </div>
-
       <div className="px-4 container mx-auto flex flex-col md:flex-row items-center justify-center gap-4">
         {/* 3 Top Level Info Bar */}
         <div className="flex flex-col md:flex-row w-full">

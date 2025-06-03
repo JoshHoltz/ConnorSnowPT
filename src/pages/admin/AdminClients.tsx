@@ -1,13 +1,16 @@
 import React from 'react'
 import { TopLevelInfo } from '../../components/admin/TopLevelInfo'
-import { QuickLinks } from '../../components/admin/QuickLinks'
+import { MembersTable } from '../../components/admin/MembersTable'
 
 export const AdminClients = () => {
   return (
-    <>
+        <div className="mb-4 text-black">
+      <h1 className="hidden md:flex text-2xl font-bold text-black px-6">Clients</h1>
+      <p className="hidden md:flex text-black px-6">
+        View and Manage Your Clients
+      </p>
     <TopLevelInfo />
-    <QuickLinks />
-
-    </>
+    <MembersTable />
+    </div>
   )
 }
