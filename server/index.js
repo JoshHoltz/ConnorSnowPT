@@ -75,6 +75,16 @@ app.get('/api/workout-plans', async (req, res) => {
   }
 });
 
+app.get('/api/client-information', async (req, res) => {
+  try {
+    const [rows] = await pool.query('SELECT * FROM client_information');
+    res.json(rows);
+  } catch (err) {
+    console.error('Error on /client-information:', err);
+    res.status(500).json({ error: 'Failed to fetch client information', details: err.message });
+  }
+});
+
 // Inserting frontend to the DB
 // REF (Formatting of Insertion): https://stackoverflow.com/questions/56034455/how-to-send-json-data-from-react-to-node-js-express-server
 // REF (Status Messages): https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status

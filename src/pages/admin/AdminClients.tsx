@@ -1,14 +1,11 @@
 import React from 'react'
 import { TopLevelInfo } from '../../components/admin/TopLevelInfo'
 import { QuickLinks } from '../../components/admin/QuickLinks'
-import { MembersTable } from '../../components/admin/MembersTable'
 
-// import  Calendar  from '../../components/admin/Calendar'
-export const AdminHome = () => {
+export const AdminClients = () => {
   return (
     <>
     <TopLevelInfo />
-    <MembersTable />
     <QuickLinks />
 
     </>

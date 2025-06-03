@@ -10,7 +10,7 @@ export const TopLevelInfo = () => {
         </p>
       </div>
 
-      <div className="container mx-auto flex flex-col md:flex-row items-center justify-center gap-4">
+      <div className="px-4 container mx-auto flex flex-col md:flex-row items-center justify-center gap-4">
         {/* 3 Top Level Info Bar */}
         <div className="flex flex-col md:flex-row w-full">
           <div className="bg-gray-800 w-full md:w-full">
