@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { AdminHome } from './pages/admin/AdminHome'
 import { Sidebar } from './components/admin/Sidebar'
 import { AdminClients } from './pages/admin/AdminClients'
-import ViewClient from './pages/admin/ViewClient';
+import ViewClient  from './pages/admin/ViewClient';
 
 export function AdminApp() {
   return (

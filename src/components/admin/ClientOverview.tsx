@@ -12,9 +12,12 @@ export const ClientOverview = ({ id }) => {
   }, [id]);
 
   return (
-    <div>
-      <h2>{client.user_firstname}</h2>
-      {/* Render more fields as needed */}
-    </div>
+    <section className="text-white p-4 mt-10 md:mt-0">
+      <div className="mb-4 px-4 text-black">
+        <h2>
+          {client ? `${client.client_firstname} ${client.client_lastname}` : 'Client not found'}
+        </h2>
+      </div>
+    </section>
   );
 };
