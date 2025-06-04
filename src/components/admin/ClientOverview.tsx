@@ -9,7 +9,9 @@ export const ClientOverview = () => {
   const id = queryParams.get("id");
 
   useEffect(() => {
-    if (!id) return;
+console.log("Extracted ID:", id);
+
+if (!id) return;
     fetch(`https://connorsnowpt.onrender.com/api/client-by-id/${id}`)
       .then((res) =>
         res.ok ? res.json() : Promise.reject("Failed to fetch client")
