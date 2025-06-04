@@ -23,8 +23,14 @@ export const MembersTable = () => {
           </thead>
           <tbody className="text-black">
             {clients.map((client, index) => (
-              <tr key={index} 
-              className={index % 2 == 0 ? "bg-gray-300 hover:bg-gray-400 transition duration-300" : "bg-white hover:bg-gray-400 transition duration-300"}>
+              <tr
+                key={index}
+                className={
+                  index % 2 == 0
+                    ? "bg-gray-300 hover:bg-gray-400 transition duration-300"
+                    : "bg-white hover:bg-gray-400 transition duration-300"
+                }
+              >
                 {/* photo */}
                 <td className="p-2">
                   <div className="flex items-center gap-2">
@@ -47,7 +53,9 @@ export const MembersTable = () => {
                 </td>
                 <td className="p-2">
                   <button className="bg-yellow-500 text-white px-4 py-2 rounded">
-                    Edit
+                    <a href={`/admin/ViewClient?id=${client.client_id}`}>
+                      Edit
+                    </a>
                   </button>
                 </td>
               </tr>
