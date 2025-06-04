@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
 
-export const ClientOverview = ({ clientId }) => {
+export const ClientOverview = ({ id }) => {
   const [client, setClient] = useState(null);
 
   useEffect(() => {
-    if (!clientId) return;
-    fetch(`https://connorsnowpt.onrender.com/api/client-by-id/${clientId}`)
+    if (!id) return;
+    fetch(`https://connorsnowpt.onrender.com/api/client-by-id/${id}`)
       .then(res => res.ok ? res.json() : Promise.reject("Failed to fetch client"))
       .then(setClient)
       .catch(err => console.error(err));
-  }, [clientId]);
+  }, [id]);
 
   return (
     <div>
