@@ -39,8 +39,8 @@ export const Hero = () => {
             <div className="absolute inset-0 border-4 border-blue-600 pointer-events-none"></div>
           </div>
           
-          <h1>Insert User</h1>
-          <form action="https://connorsnowpt.onrender.com/api/insert-user" method="POST" className="mt-4"> {/* to look at: https://react.dev/reference/react-dom/components/form */}
+          {/* <h1>Insert User</h1>
+          <form action="https://connorsnowpt.onrender.com/api/insert-user" method="POST" className="mt-4"> to look at: https://react.dev/reference/react-dom/components/form
             <input
               type="text"
               name="user_firstname"
@@ -65,7 +65,7 @@ export const Hero = () => {
             >
               Submit
             </button>
-          </form>
+          </form> */}
           
 
         </div>
