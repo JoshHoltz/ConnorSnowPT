@@ -2,13 +2,14 @@ import { useSearchParams } from 'react-router-dom';
 import { ClientOverview } from '../../components/admin/ClientOverview'; 
 
 const ViewClient = () => {
-  const [searchParams] = useSearchParams(); //REF: https://reactrouter.com/en/main/hooks/use-search-params
+  const [searchParams] = useSearchParams();
   const clientId = searchParams.get('id');
 
   return (
     <div>
-      <h1>Editing Client #{clientId}</h1>
-      <ClientOverview />
+      {/* <h1>hello</h1>
+      <h1>Editing Client #{clientId}</h1> */}
+      <ClientOverview clientId={clientId} />
     </div>
   );
 };
