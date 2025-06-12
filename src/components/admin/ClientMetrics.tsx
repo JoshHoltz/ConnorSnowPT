@@ -4,7 +4,7 @@
 import OverviewComponent from "./Components/Overview";
 import MetricsComponent from "./Components/Metrics";
 import ActivityComponent from "./Components/Activity";
-import AccountComponent from "./Components/Account.tsx";
+import AccountComponent from "./Components/Account.tsx";    
 
 import { useEffect, useState } from "react";
 

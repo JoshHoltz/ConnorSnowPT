@@ -1,7 +1,8 @@
 import { useSearchParams } from 'react-router-dom';
 import { ClientOverview } from '../../components/admin/ClientOverview'; 
-import { ClientMetrics } from '../../components/admin/ClientMetrics'
-import { ClientNotes } from '../../components/admin/ClientNotes'; 
+import { ClientMetrics } from '../../components/admin/ClientMetrics';
+import { ClientNotes } from '../../components/admin/ClientNotes';
+import { PRs } from '../../components/admin/PRs';
 
 const ViewClient = () => {
   const [searchParams] = useSearchParams();
@@ -9,13 +10,13 @@ const ViewClient = () => {
 
   return (
     <div>
-      {/* <h1>hello</h1>
-      <h1>Editing Client #{clientId}</h1> */}
       <ClientOverview clientId={clientId} />
       <ClientMetrics clientId={clientId} />
+      <div className='flex'>
       <ClientNotes clientId={clientId} />
-      {/* Uncomment if you want to display the client ID */}
-      {/* <p>Client ID: {clientId}</p> */}
+      <PRs clientId={clientId} />
+      </div>
+
     </div>
   );
 };
