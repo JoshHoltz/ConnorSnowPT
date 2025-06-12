@@ -26,14 +26,14 @@ export const ClientMetrics = ({ clientId }: { clientId: string | null }) => {
 
   if (!client) {
     return (
-      <section className="text-black p-4 mt-10 md:mt-0">
+      <section className=" text-black p-4 mt-10 md:mt-0">
         <p className="text-black">Loading client metrics...</p>
       </section>
     );
   }
 
   return (
-    <section className="text-black p-4 mt-10 md:mt-0">
+    <section className="bg-red-6text-black p-4 mt-10 md:mt-0">
       <div className="bg-gray-400 px-4 p-4">
         <div className="tab-buttons flex gap-4 mb-4">
           <button
