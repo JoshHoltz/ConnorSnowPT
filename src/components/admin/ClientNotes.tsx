@@ -12,9 +12,8 @@ export const ClientNotes = ({ clientId }: { clientId: string | null }) => {
         res.ok ? res.json() : Promise.reject("Failed to fetch client")
       )
       .then(setClient)
-      .catch((err) => console.error(err));
+      .catch((err) => console.error(err))
   }, [clientId]);
-
     if (!client) {
             return (
       <section className="text-white p-4 mt-10 md:mt-0">
@@ -24,7 +23,7 @@ export const ClientNotes = ({ clientId }: { clientId: string | null }) => {
   }
 
   return (
-    <section className="text-white p-4 mt-10 md:mt-0 w-2/3">
+    <section className="text-white p-4 md:mt-0 w-full md:w-2/3">
       <div className="bg-gray-700 px-4 p-2">
         <h1 className="text-xl font-semibold">Client Notes</h1>
         <p className="text-sm">
