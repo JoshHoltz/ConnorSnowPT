@@ -34,8 +34,8 @@ export const ClientMetrics = ({ clientId }: { clientId: string | null }) => {
 
   return (
     <section className="p-4 mt-10 md:mt-0">
-      <div className="bg-gray-400 px-4 p-4">
-        <div className="tab-buttons flex gap-4 mb-4">
+      <div className="">
+        <div className="tab-buttons p-2 px-4 bg-gray-700 text-white flex gap-4">
           <button
             onClick={() => setActiveTab("overview")}
             className={activeTab === "overview" ? "font-bold underline" : ""}
