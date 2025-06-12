@@ -33,7 +33,7 @@ export const ClientMetrics = ({ clientId }: { clientId: string | null }) => {
   }
 
   return (
-    <section className="bg-red-6text-black p-4 mt-10 md:mt-0">
+    <section className="p-4 mt-10 md:mt-0">
       <div className="bg-gray-400 px-4 p-4">
         <div className="tab-buttons flex gap-4 mb-4">
           <button
@@ -62,7 +62,7 @@ export const ClientMetrics = ({ clientId }: { clientId: string | null }) => {
           </button>
         </div>
 
-        <div className="tab-content">
+        <div>
           {activeTab === "overview" && <OverviewComponent />}
           {activeTab === "metrics" && <MetricsComponent />}
           {activeTab === "activity" && <ActivityComponent />}
