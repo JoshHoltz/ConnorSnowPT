@@ -32,7 +32,7 @@ export const ClientOverview = ({ clientId }: { clientId: string | null }) => {
             : "Loading client..."}
         </h1>
       </div>
-      <div className="px-4 w-full bg-gray-600 flex justify-between">
+      <div className="hidden md:flex px-4 w-full bg-gray-600 justify-between">
         <p className="flex justify-between p-2 font-semibold">Goal: {client.client_goal}</p>
         <p className="flex justify-between p-2 font-semibold">Contact: {client.client_preferred_contact}</p>
         <p className="flex justify-between p-2 font-semibold">Plan: {client.client_plan_type}</p>
