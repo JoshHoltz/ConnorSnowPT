@@ -136,7 +136,7 @@ app.post('/api/insert-client-note', async (req, res) => {
   console.log('Inserting to client_id', client_id);
   console.log('Inserting client_note', client_note);
 
-  const sql = 'INSERT INTO client_information (client_id, client_notes) VALUES (?, ?)';
+  const sql = 'UPDATE client_information SET client_notes = ? WHERE client_id = ?';
 
   const result = await pool.query(sql, [client_id, client_note]);
   res.send("Successfully inserted Client Note")
