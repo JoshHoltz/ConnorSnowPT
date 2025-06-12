@@ -139,7 +139,7 @@ app.post('/api/insert-client-note', async (req, res) => {
   const sql = 'UPDATE client_information SET client_notes = ? WHERE client_id = ?';
 
   const result = await pool.query(sql, [client_note, client_id]);
-  res.send("Successfully inserted Client Note")
+  window.location.reload();
 });
 
 
