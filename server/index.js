@@ -141,6 +141,28 @@ app.post('/api/insert-client-note', async (req, res) => {
   res.json({ message: "Successfully inserted Client Note" });
 });
 
+//api insert a client pr 
+app.use('/api/insert-client-bench-pr', express.urlencoded());
+
+app.post('/api/insert-client-bench-pr', async (req, res) => {
+  console.log('Received request to insert client PR:', req.body);
+
+  const client_id = Number(req.body.client_id);
+  const client_bench_pr = Number(req.body.client_bench_pr);
+
+  if (!client_id || !client_bench_pr) {
+    return res.status(400).json({ error: 'All fields are required' });
+  }
+
+  console.log('Inserting to client_id', client_id);
+  console.log('Inserting client_bench_pr', client_bench_pr);
+
+  const sql = 'UPDATE client_information SET client_bench_pr = ? WHERE client_id = ?';
+  await pool.query(sql, [client_bench_pr, client_id]);
+  res.json({ message: "Successfully inserted Client PR" });
+}
+);
+
 
 app.get('/{*splat}', async (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'dist', 'index.html'));
