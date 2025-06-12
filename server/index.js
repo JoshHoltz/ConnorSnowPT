@@ -133,7 +133,10 @@ app.post('/api/insert-client-note', async (req, res) => {
     return res.status(400).json({ error: 'All fields are required' });
   }
 
-  const sql = 'INSERT INTO client_information (client_id, client_note) VALUES (?, ?)';
+  console.log('Inserting to client_id', client_id);
+  console.log('Inserting client_note', client_note);
+
+  const sql = 'INSERT INTO client_information (client_id, client_notes) VALUES (?, ?)';
 
   const result = await pool.query(sql, [client_id, client_note]);
   res.send("Successfully inserted Client Note")

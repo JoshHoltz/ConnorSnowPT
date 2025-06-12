@@ -20,14 +20,14 @@ const OverviewComponent = () => {
 
   if (!client) {
     return (
-      <section className="text-white p-4 mt-10 md:mt-0">
+      <section className="text-white p-4 sm:mt-0">
         <p>Loading client...</p>
       </section>
     );
   }
 
   return (
-    <section className="text-black bg-gray-200 rounded-b-lg p-4 mt-10 md:mt-0 grid grid-cols-5 gap-4">
+    <section className="text-black bg-gray-200 rounded-b-lg p-4 md:mt-0 grid grid-cols-5 gap-4">
       <h1 className="md:text-xl font-bold text-center">
         {client.client_firstname} <br /> {client.client_lastname}
       </h1>
@@ -38,8 +38,8 @@ const OverviewComponent = () => {
       <Trophy />
     </p>
     <div className="ml-4">
-      <h2 className="text-l font-bold">Goal:</h2>
-      <p className="text-2xl">{client.client_goal}</p>
+      <h2 className="md:text-l font-bold sm:text-sm">Goal:</h2>
+      <p className="md:text-2xl sm:text-sm">{client.client_goal}</p>
     </div>
   </div>
 
@@ -48,8 +48,8 @@ const OverviewComponent = () => {
       <Weight />
     </p>
     <div className="ml-4">
-      <h2 className="text-l font-bold">Weight:</h2>
-      <p className="text-2xl">
+      <h2 className="md:text-l font-bold sm:text-sm">Weight:</h2>
+      <p className="md:text-2xl sm:text-sm">
         {client.client_weight} <span className="text-sm">kg</span>
       </p>
     </div>
@@ -60,8 +60,8 @@ const OverviewComponent = () => {
       <Phone />
     </p>
     <div className="ml-4">
-      <h2 className="text-l font-bold">Contact:</h2>
-      <p className="text-2xl">{client.client_preferred_contact}</p>
+      <h2 className="md:text-l font-bold sm:text-sm">Contact:</h2>
+      <p className="md:text-2xl sm:text-sm">{client.client_preferred_contact}</p>
     </div>
   </div>
 
@@ -70,8 +70,8 @@ const OverviewComponent = () => {
       <NotepadText />
     </p>
     <div className="ml-4">
-      <h2 className="text-l font-bold">Plan:</h2>
-      <p className="text-2xl">{client.client_plan_type}</p>
+      <h2 className="md:text-l font-bold sm:text-sm">Plan:</h2>
+      <p className="md:text-2xl sm:text-sm">{client.client_plan_type}</p>
     </div>
   </div>
 </div>

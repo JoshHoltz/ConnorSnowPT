@@ -42,10 +42,10 @@ export const ClientNotes = ({ clientId }: { clientId: string | null }) => {
                 name="client_id"
                 value={client.client_id}
             />
-            <textarea
-                name="note_content"
+            <textarea 
+                name="client_note"
                 placeholder="Enter client notes..."
-                className="w-full p-2 bg-gray-900 text-white rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
+                className="w-full h-96 p-2 bg-gray-900 text-white rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
                 rows={5}
             >
                 {client.client_notes}
