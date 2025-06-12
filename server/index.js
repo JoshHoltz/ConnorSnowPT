@@ -126,7 +126,7 @@ app.use('/api/insert-client-note', express.urlencoded());
 app.post('/api/insert-client-note', async (req, res) => {
   console.log('Received request to insert client note:', req.body);
 
-  const client_id = req.body.client_id;
+  const client_id = Number(req.body.client_id);
   const client_note = req.body.client_note;
 
   if (!client_id || !client_note) {
