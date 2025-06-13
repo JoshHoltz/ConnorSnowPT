@@ -144,21 +144,21 @@ app.post('/api/insert-client-note', async (req, res) => {
 //api insert a client pr 
 app.use('/api/insert-client-bench-pr', express.urlencoded());
 
-app.post('/api/insert-client-bench-pr', async (req, res) => {
+app.post('/api/insert-client-pr-result-1', async (req, res) => {
   console.log('Received request to insert client PR:', req.body);
 
   const client_id = Number(req.body.client_id);
-  const client_bench_pr = Number(req.body.client_bench_pr);
+  const client_pr_result_1 = Number(req.body.client_pr_result_1);
 
-  if (!client_id || !client_bench_pr) {
+  if (!client_id || !client_pr_result_1) {
     return res.status(400).json({ error: 'All fields are required' });
   }
 
   console.log('Inserting to client_id', client_id);
-  console.log('Inserting client_bench_pr', client_bench_pr);
+  console.log('Inserting client_pr_result_1', client_pr_result_1);
 
-  const sql = 'UPDATE client_information SET client_bench_pr = ? WHERE client_id = ?';
-  await pool.query(sql, [client_bench_pr, client_id]);
+  const sql = 'UPDATE client_information SET client_pr_result_1 = ? WHERE client_id = ?';
+  await pool.query(sql, [client_pr_result_1, client_id]);
   res.json({ message: "Successfully inserted Client PR" });
 }
 );

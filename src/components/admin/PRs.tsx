@@ -38,9 +38,9 @@ export const PRs = ({ clientId }: { clientId: string | null }) => {
               <Trophy />
             </p>
             <div className="ml-4">
-              <h2 className="md:text-l font-bold sm:text-sm">Bench:</h2>
+              <h2 className="md:text-l font-bold sm:text-sm">{client.client_pr_name_1}:</h2>
               <form
-                action="https://connorsnowpt.onrender.com/api/insert-client-bench-pr"
+                action="https://connorsnowpt.onrender.com/api/insert-client-pr-result-1"
                 method="POST"
                 className="flex"
               >
@@ -52,7 +52,7 @@ export const PRs = ({ clientId }: { clientId: string | null }) => {
                 <input
                   type="text"
                   name="client_bench_pr"
-                  defaultValue={client.client_bench_pr}
+                  defaultValue={client.client_pr_result_1}
                   className="w-full p-2 bg-gray-800 text-white rounded focus:outline-none focus:ring-2 focus:ring-blue-600 mb-2 md:text-2xl sm:text-sm"
                 />
                 <button
