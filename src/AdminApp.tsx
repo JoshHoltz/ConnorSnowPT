@@ -5,6 +5,10 @@ import { Sidebar } from './components/admin/Sidebar'
 import { AdminClients } from './pages/admin/AdminClients'
 import ViewClient  from './pages/admin/ViewClient';
 import { AdminPackages } from './pages/admin/AdminPackages'
+import { AdminPlans } from './pages/admin/AdminPlans'
+import { AdminAnalytics } from './pages/admin/AdminAnalytics';
+import { AdminCalendar } from './pages/admin/AdminCalendar';
+
  
 export function AdminApp() {
   return (
@@ -17,6 +21,9 @@ export function AdminApp() {
             <Route path="/admin/AdminClients" element={<AdminClients />} />
             <Route path="/admin/ViewClient" element={<ViewClient />} />
             <Route path="/admin/AdminPackages" element={<AdminPackages />} />
+            <Route path="/admin/AdminPlans" element={<AdminPlans />} />
+            <Route path="/admin/analytics" element={<AdminAnalytics />} />
+            <Route path="/admin/calendar" element={<AdminCalendar />} />
           </Routes>
         </main>
       </div>

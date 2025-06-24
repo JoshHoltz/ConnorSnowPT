@@ -62,7 +62,7 @@ export const Sidebar = () => {
               </li>
               <li className="list-none px-4">
                 <NavButton
-                  href="/admin/user"
+                  href="/admin/AdminPlans"
                   icon={<ScrollText />}
                   text="Plans"
                 />
