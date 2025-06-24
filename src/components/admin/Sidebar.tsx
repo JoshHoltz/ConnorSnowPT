@@ -55,7 +55,7 @@ export const Sidebar = () => {
               </li>
               <li className="list-none px-4">
                 <NavButton
-                  href="/admin/AdminClients"
+                  href="/admin/AdminPackages"
                   icon={<Dumbbell />}
                   text="Packages"
                 />
