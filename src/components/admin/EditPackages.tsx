@@ -4,14 +4,14 @@ import { CheckIcon, XIcon } from 'lucide-react';
 export const AdminMembershipTiers = () => {
   const [packages, setPackages] = useState([]);
 
-useEffect(() => {
-  fetch('https://connorsnowpt.onrender.com/api/membership-packages') 
-    .then(res => res.ok ? res.json() : Promise.reject('Fetch failed'))
-    .then(setPackages)
-}, []);
+  useEffect(() => {
+    fetch('https://connorsnowpt.onrender.com/api/membership-packages') 
+      .then(res => res.ok ? res.json() : Promise.reject('Fetch failed'))
+      .then(setPackages)
+  }, []);
 
   return (
-    <section className="bg-white py-20 h-100vh">
+    <section className="bg-white py-5 h-100vh">
       <div className="container mx-auto px-6">
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 ">
@@ -20,11 +20,22 @@ useEffect(() => {
               key={pkg.package_id}
               className="border-t-4 bg-white p-8 shadow-lg flex flex-col h-full relative hover:bg-gray-200 transition duration-300 ease-in-out"
             >
-              <textarea className="border-2 black">{pkg.package_name}</textarea>
-              <div className="mb-6">
-                <textarea className='border-2 black"'>{pkg.package_price}</textarea>
+              <input
+                type="text"
+                className="border-2 p-2 mb-4"
+                defaultValue={pkg.package_name}
+              />
+              <div className="mb-6 w-full">
+                <input
+                  type="text"
+                  className="border-2 p-2"
+                  defaultValue={pkg.package_price}
+                />
               </div>
-              <textarea className="border-2 black">{pkg.package_description}</textarea>
+              <textarea
+                className="border-2 p-2 mb-4"
+                defaultValue={pkg.package_description}
+              />
 
               <div className="mb-8">
                 <h4 className="font-bold mb-4 text-lg">What's included:</h4>
@@ -32,7 +43,11 @@ useEffect(() => {
                   {pkg.package_features.split(',').map((feature, i) => (
                     <li key={i} className="flex items-center mb-2">
                       <CheckIcon className="text-green-500 w-5 h-5 mr-2" />
-                      {feature.trim()}
+                      <input
+                        type="text"
+                        className="border p-1 flex-1"
+                        defaultValue={feature.trim()}
+                      />
                     </li>
                   ))}
                 </ul>
@@ -43,7 +58,11 @@ useEffect(() => {
                       {pkg.package_excludes.split(',').map((exclude, i) => (
                         <li key={i} className="flex items-center mb-2">
                           <XIcon className="text-red-500 w-5 h-5 mr-2" />
-                          {exclude.trim()}
+                          <input
+                            type="text"
+                            className="border p-1 flex-1"
+                            defaultValue={exclude.trim()}
+                          />
                         </li>
                       ))}
                     </ul>
@@ -52,7 +71,7 @@ useEffect(() => {
               </div>
 
               <button className="w-full py-4 font-medium bg-black text-white hover:bg-gray-800 transition-colors">
-                Save
+                Save & Update
               </button>
             </div>
           ))}
