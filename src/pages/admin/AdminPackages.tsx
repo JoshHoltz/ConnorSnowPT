@@ -1,4 +1,5 @@
 import React from "react";
+import { AdminMembershipTiers } from "../../components/admin/EditPackages";
 
 export const AdminPackages = () => {
   return (
@@ -7,6 +8,8 @@ export const AdminPackages = () => {
       <p className="hidden md:flex text-black px-8">
         View and Manage Your Packages
       </p>
+        <AdminMembershipTiers />
+
     </div>
   );
 };
