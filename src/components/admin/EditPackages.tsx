@@ -12,7 +12,7 @@ export const AdminMembershipTiers = () => {
 
   return (
     <section className="bg-white py-5 h-100vh">
-      <div className="container mx-auto px-6">
+      <div className="container mx-auto px-6 py-10 md:py-2">
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 ">
           {packages.map(pkg => (

@@ -1,4 +1,5 @@
 import React from "react";
+import { Calendar } from "../../components/admin/Calendar";
 
 export const AdminCalendar = () => {
   return (
@@ -7,6 +8,9 @@ export const AdminCalendar = () => {
       <p className="hidden md:flex text-black px-8">
         View and Manage Your Calendar
       </p>
+      <div className="p-4 mt-10 md:mt-0">
+        <Calendar />
+    </div>
     </div>
   );
 };
