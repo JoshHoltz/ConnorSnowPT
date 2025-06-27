@@ -68,7 +68,12 @@ app.get('/api/welcome-hero', async (req, res) => {
 app.get('/api/workout-plans', async (req, res) => {
   try {
     const [rows] = await pool.query('SELECT * FROM workout_plans');
-    res.json(rows);
+    const mappedRows = rows.map(plan => {
+      plan.plan_image = plan.plan_image.toString('base64'); // Convert buffer to base64 string
+      return plan;
+    });
+
+    res.json(mappedRows);
   } catch (err) {
     console.error('Error on /workout-plans:', err);
     res.status(500).json({ error: 'Failed to fetch plans', details: err.message });
