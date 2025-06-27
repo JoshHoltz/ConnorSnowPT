@@ -173,20 +173,19 @@ app.use('/api/insert-plan-change', express.urlencoded());
 app.post('/api/insert-plan-change', async (req, res) => {
   console.log('Received request to insert plan change:', req.body);
 
-    const planID = Number(req.body.plan_id);
-    const plan_image = String(req.body.plan_image);
+    const plan_id = Number(req.body.plan_id);
     const plan_name = String(req.body.plan_name);
     const plan_description = String(req.body.plan_description);
     const plan_pages = Number(req.body.plan_pages);
     const plan_price = String(req.body.plan_price);
 
-  if (!planID || !plan_image || !plan_name || !plan_description || !plan_pages || !plan_price) {
+  if (!plan_id || !plan_name || !plan_description || !plan_pages || !plan_price) {
     return res.status(400).json({ error: 'All fields are required' });
   }
 
-    const sql = " UPDATE workout_plans SET plan_image = ?, plan_name = ?, plan_description = ?, plan_pages = ?, plan_price = ? WHERE plan_id = ?";
+    const sql = " UPDATE workout_plans SET plan_name = ?, plan_description = ?, plan_pages = ?, plan_price = ? WHERE plan_id = ?";
 
-    await pool.query(sql, [ plan_image, plan_name, plan_description, plan_pages, plan_price, planID ]);  
+    await pool.query(sql, [ plan_name, plan_description, plan_pages, plan_price, plan_id ]);  
     res.json({ message: "Successfully inserted plan change" });
 });
 

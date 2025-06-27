@@ -15,6 +15,7 @@ export const AdminPlansGrid = () => {
         <div className="flex flex-col justify-between md:grid grid-cols-1 md:grid-cols-3 gap-4">
           {plans.map((plan) => (
             <form
+              key={plan.plan_id}
               action="https://connorsnowpt.onrender.com/api/insert-plan-change"
               method="POST"
               className="flex flex-col gap-4"
@@ -26,7 +27,6 @@ export const AdminPlansGrid = () => {
                 <div>
                   <input type="hidden" name="plan_id" value={plan.plan_id} />
 
-                  {/* plan image */}
                   <img
                     src={`data:image/jpeg;base64,${plan.plan_image}`}
                     className="w-full h-48 object-cover rounded mb-4"
