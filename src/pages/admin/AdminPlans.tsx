@@ -8,6 +8,7 @@ export const AdminPlans = () => {
       <p className="hidden md:flex text-black px-8">
         View and Manage Your Plans
       </p>
+      <AdminPlansGrid />
     </div>
   );
 };

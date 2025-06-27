@@ -9,80 +9,70 @@ export const AdminPlansGrid = () => {
       .then(setPlans);
   }, []);
 
-  const handleInputChange = (index, field, value) => {
-    const updatedPlans = [...plans];
-    updatedPlans[index][field] = value;
-    setPlans(updatedPlans);
-  };
-
-  const handleSave = (plan) => {
-    fetch(`https://connorsnowpt.onrender.com/api/workout-plans/${plan.plan_id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(plan),
-    })
-      .then((res) => {
-        if (!res.ok) throw new Error("Update failed");
-        alert("Plan updated successfully");
-      })
-      .catch((err) => alert(err.message));
-  };
-
   return (
-    <section className="p-4 bg-white">
-      <h1 className="text-2xl font-bold mb-4">Admin Workout Plan Editor</h1>
-      <div className="grid md:grid-cols-2 gap-4">
-        {plans.map((plan, index) => (
-          <div key={plan.plan_id} className="border p-4 rounded shadow">
-            <img
-              src={`data:image/jpeg;base64,${plan.plan_image}`}
-              className="w-full h-48 object-cover rounded mb-4"
-            />
-            <input
-              className="mb-2 p-2 border w-full"
-              value={plan.plan_name}
-              onChange={(e) =>
-                handleInputChange(index, "plan_name", e.target.value)
-              }
-            />
-            <textarea
-              className="mb-2 p-2 border w-full"
-              value={plan.plan_description}
-              onChange={(e) =>
-                handleInputChange(index, "plan_description", e.target.value)
-              }
-            />
-            <input
-              className="mb-2 p-2 border w-full"
-              value={plan.plan_type}
-              onChange={(e) =>
-                handleInputChange(index, "plan_type", e.target.value)
-              }
-            />
-            <input
-              className="mb-2 p-2 border w-full"
-              type="number"
-              value={plan.plan_pages}
-              onChange={(e) =>
-                handleInputChange(index, "plan_pages", e.target.value)
-              }
-            />
-            <input
-              className="mb-2 p-2 border w-full"
-              type="number"
-              value={plan.plan_price}
-              onChange={(e) =>
-                handleInputChange(index, "plan_price", e.target.value)
-              }
-            />
-            <button
-              className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
-              onClick={() => handleSave(plan)}
+    <section>
+      <div className="bg-white p-4 px-4 md:px-8">
+        <div className="flex flex-col justify-between md:grid grid-cols-1 md:grid-cols-3 gap-4">
+          {plans.map((plan) => (
+            <div
+              key={plan.plan_id}
+              className="flex flex-col justify-between border p-4 rounded hover:bg-gray-100 transition duration-300 ease-in-out"
             >
-              Save Changes
-            </button>
-          </div>
-        ))}
+              <div>
+                {/* plan image */}
+                <img
+                  src={`data:image/jpeg;base64,${plan.plan_image}`}
+                  className="w-full h-48 object-cover rounded mb-4"
+                />
+
+                <input
+                  type="text"
+                  name="plan_name"
+                  className="text-xl font-bold underline w-full border-2 p-2 mb-4"
+                  defaultValue={plan.plan_name}
+                />
+
+                <textarea
+                  name="plan_description"
+                  className="text-gray-600 mb-2 w-full border-2 p-2 h-28"
+                  defaultValue={plan.plan_description}
+                />
+
+                <div className="flex justify-between">
+                  <p className="font-bold">
+                    Type:{" "}
+                    <input
+                      type="text"
+                      name="plan_type"
+                      className="text-blue-600 font-semibold border-2 p-2 mb-4"
+                      defaultValue={plan.plan_type}
+                    />
+                  </p>
+                  <p className="font-bold">
+                    Pages:{" "}
+                    <input 
+                    type="text" 
+                    name="plan_pages"
+                    className="text-blue-600 font-semibold border-2 p-2 mb-4"
+                    defaultValue={plan.plan_pages}/>
+                  </p>
+                </div>
+
+                <input 
+                type="text"
+                name="plan_price"
+                className="text-green-600 font-semibold mt-14 border-2 p-2 mb-4 w-full"
+                defaultValue={plan.plan_price}
+                />
+              </div>
+
+              {/* Button at the bottom */}
+              <button className="mt-4 w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 hover:font-bold transition duration-300 ease-in-out">
+                Save & Update
+              </button>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

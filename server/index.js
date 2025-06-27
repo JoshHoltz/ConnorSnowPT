@@ -163,8 +163,7 @@ app.post('/api/insert-package-change', async (req, res) => {
 
     const sql = " UPDATE membership_packages SET package_name = ?, package_price = ?, package_description = ?, package_features = ?, package_excludes = ? WHERE package_id = ?";
 
-    await pool.query(sql, [ packageName, packagePrice, packageDescription, packageFeatures, packageExcludes, packageId,
-    ]);  
+    await pool.query(sql, [ packageName, packagePrice, packageDescription, packageFeatures, packageExcludes, packageId, ]);  
     res.json({ message: "Successfully inserted package change" });
 });
 
