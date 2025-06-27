@@ -4,7 +4,6 @@ export const LoginForm = () => {
   return (
     <section className="text-black py-20 md:mt-20 bg-gray-100 h-screen">
       <div className="container mx-auto px-4 flex flex-col items-center justify-center">
-        <h1>Insert User</h1>
         {/* <form action="https://connorsnowpt.onrender.com/api/insert-user" method="POST" className="mt-4">
           <input
             type="text"

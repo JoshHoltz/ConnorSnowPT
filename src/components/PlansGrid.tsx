@@ -76,9 +76,17 @@ export const PlansGrid = () => {
                 </div>
 
                 {/* Button at the bottom */}
+                {/* stripe link wrapped around purchase and download button plan.plan_stripe_link */}
+                <a
+                  href={plan.plan_stripe_link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full"
+                >
                 <button className="mt-4 w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 hover:font-bold transition duration-300 ease-in-out">
                   Purchase & Download
                 </button>
+                </a>
               </div>
             ))}
           </div>

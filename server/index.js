@@ -222,14 +222,14 @@ app.use('/api/login-user', express.urlencoded());
 
 app.post('/api/login-user', async (req, res) => {
   console.log('Received request to login user:', req.body); 
-  const user_username = req.body.user_firstname;
+  const user_username = req.body.user_username; 
   const user_password = req.body.user_password;
 
   if (!user_username || !user_password) {
     return res.status(400).json({ error: 'All fields are required' });
   } 
 
-  const sql = 'SELECT * FROM user_logins WHERE user_firstname = ? AND user_password = ?';
+  const sql = 'SELECT * FROM user_logins WHERE user_username = ? AND user_password = ?';
 
   // if sucessful, move them to the dashboard at client/home
   const [rows] = await pool.query(sql, [user_username, user_password]);
