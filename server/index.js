@@ -141,6 +141,33 @@ app.post('/api/insert-client-note', async (req, res) => {
   res.json({ message: "Successfully inserted Client Note" });
 });
 
+//inserting a package change 
+app.use('/api/insert-package-change', express.urlencoded());
+
+app.post('/api/insert-package-change', async (req, res) => {
+  console.log('Received request to insert package change:', req.body);
+
+    const packageId = Number(req.body.package_id);
+    const packageName = String(req.body.package_name);
+    const packagePrice = String(req.body.package_price);
+    const packageDescription = String(req.body.package_description);
+    const featuresArray = req.body['package_features[]']; // get the array in the same way as the other names 
+    const excludesArray = req.body['package_excludes[]']; // for both included and excluded features
+
+    const packageFeatures = Array.isArray(featuresArray) ? featuresArray.join(',') : featuresArray || ''; // join the array into one string seperated by commas (as in the db)
+    const packageExcludes = Array.isArray(excludesArray) ? excludesArray.join(',') : excludesArray || '';
+
+  if (!packageId || !packageName || !packagePrice || !packageDescription) {
+    return res.status(400).json({ error: 'All fields are required' });
+  }
+
+    const sql = " UPDATE membership_packages SET package_name = ?, package_price = ?, package_description = ?, package_features = ?, package_excludes = ? WHERE package_id = ?";
+
+    await pool.query(sql, [ packageName, packagePrice, packageDescription, packageFeatures, packageExcludes, packageId,
+    ]);  
+    res.json({ message: "Successfully inserted package change" });
+});
+
 //api insert a client pr 
 app.use('/api/insert-client-bench-pr', express.urlencoded());
 
