@@ -37,7 +37,7 @@ export const Sidebar = () => {
                 />
               </li>
               <li className="list-none px-4">
-                <NavButton href="/Client/Workouts" icon={<User />} text="Workouts" />
+                <NavButton href="/client/workouts" icon={<User />} text="Workouts" />
               </li>
               <li className="list-none px-4">
                 <NavButton

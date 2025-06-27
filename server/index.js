@@ -216,6 +216,32 @@ app.post('/api/insert-client-pr-result-1', async (req, res) => {
 }
 );
 
+// Logging In
+
+app.use('/api/login-user', express.urlencoded());
+
+app.post('/api/login-user', async (req, res) => {
+  console.log('Received request to login user:', req.body); 
+  const user_username = req.body.user_firstname;
+  const user_password = req.body.user_password;
+
+  if (!user_username || !user_password) {
+    return res.status(400).json({ error: 'All fields are required' });
+  } 
+
+  const sql = 'SELECT * FROM user_logins WHERE user_firstname = ? AND user_password = ?';
+
+  // if sucessful, move them to the dashboard at client/home
+  const [rows] = await pool.query(sql, [user_username, user_password]);
+    if (rows.length > 0) {
+      console.log('User logged in successfully:', rows[0]);
+      res.redirect('/client/home');
+    } else {
+      console.log('Invalid username or password');
+      res.status(401).json({ error: 'Invalid username or password' });
+    }
+}); 
+
 
 app.get('/{*splat}', async (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'dist', 'index.html'));
