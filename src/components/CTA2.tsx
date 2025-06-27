@@ -9,7 +9,7 @@ export const CTA2 = () => {
             Transform Your Life With <span className="text-blue-600">Expert</span> Personal Training
           </h1>
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum sequi earum dolores saepe, numquam minus ea perspiciatis itaque ducimus est.
+            Get ready to transform your life with personalised expoert training designed to help you achive your fitness goals. Start your journey today!
           </p>
 
           <div className="flex flex-wrap gap-4">

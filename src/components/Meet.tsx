@@ -21,23 +21,23 @@ export const Meet = () => {
             <span className="text-blue-600"> Connor Snow</span>
           </h1>
           <p className="mb-6">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tempora
-            quis voluptas delectus inventore placeat qui non eum facilis
-            voluptatem quo eveniet, quaerat sint perferendis dolores ipsum
-            laborum id praesentium? Eligendi. Lorem ipsum, dolor sit amet
-            consectetur adipisicing elit. Natus, perspiciatis doloremque labore
-            accusantium, aperiam fugiat inventore incidunt omnis officia facere
-            eligendi cupiditate repudiandae explicabo soluta beatae. Ullam
-            quaerat iusto vero.
+            Hey! I'm Connor Snow, a passionate personal trainer dedicated to 
+            helping you achive your desired fitness goals, whether it be strength and
+            conditioning, weight loss, to mobility and improving your overall well-being, 
+            I am here happy to support you in your journey. 
+            With a solid background in fitness and a commitment to 
+            personalised training, I strive to create a positive and motivating environment for all my clients.
+            My approach is tailored to your unique needs, ensuring that you receive the guidance and support necessary
+            to reach your full potential.
           </p>
 
           {/* Ticks */}
           {/* grid with 4 sections */}
         <div className="grid grid-cols-2 gap-4">
-            <div className="flex items-center gap-2"><CheckIcon className="text-green-500" /> <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</span></div>
-            <div className="flex items-center gap-2"><CheckIcon className="text-green-500" /> <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</span></div>
-            <div className="flex items-center gap-2"><CheckIcon className="text-green-500" /> <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</span></div>
-            <div className="flex items-center gap-2"><CheckIcon className="text-green-500" /> <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</span></div>
+            <div className="flex items-center gap-2"><CheckIcon className="text-green-500" /> <span>Track progress and adjust routines for improvement.</span></div>
+            <div className="flex items-center gap-2"><CheckIcon className="text-green-500" /> <span>Personalised programs for all fitness goals and achievements.</span></div>
+            <div className="flex items-center gap-2"><CheckIcon className="text-green-500" /> <span>Expert advice on nutrition and recovery to support well-being.</span></div>
+            <div className="flex items-center gap-2"><CheckIcon className="text-green-500" /> <span>Strong client relations through motivation and accountability.</span></div>
         </div>
         </div>
       </div>

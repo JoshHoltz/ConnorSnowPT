@@ -9,8 +9,8 @@ export const Hero = () => {
           <h1 className="text-3xl md:text-5xl lg:text-6xl font-extrabold leading-tight">
             A WORKOUT PLAN, TAILORED TO <span className="text-blue-600 hover:underline transition duration-700 ease-in-out">YOU</span>
           </h1>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum sequi earum dolores saepe, numquam minus ea perspiciatis itaque ducimus est.
+          <p className='pr-2'>
+            Ready to take your fitness to the next level? Whether you're looking to build strength and endurence, lose weight, or simply enhance your overall well-being, my personalised traning programs and packages are designed to help you succeed.
           </p>
 
           {/* REF: https://devdojo.com/tailwindcss/buttons#_ */}

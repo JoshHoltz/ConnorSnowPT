@@ -9,18 +9,12 @@ export const Footer = () => {
               CONNOR<span className="text-blue-600">SNOW</span>
             </h3>
             <p className="text-gray-400 mb-6">
-              Transforming lives through expert personal training and customized
+              Transforming lives through expert personal training and customised
               fitness programs.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="hover:text-red-500 transition-colors">
+              <a href="https://www.instagram.com/connorsnowpt?igsh=MWR3ZDliNmlyZ2h4Zw==" target="_blank" className="hover:text-blue-500 transition-colors">
                 <InstagramIcon size={24} />
-              </a>
-              <a href="#" className="hover:text-red-500 transition-colors">
-                <FacebookIcon size={24} />
-              </a>
-              <a href="#" className="hover:text-red-500 transition-colors">
-                <TwitterIcon size={24} />
               </a>
             </div>
           </div>
@@ -33,23 +27,23 @@ export const Footer = () => {
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                  About Us
+                <a href="/about" className="text-gray-400 hover:text-white transition-colors">
+                  About
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                  Services
+                <a href="/plans" className="text-gray-400 hover:text-white transition-colors">
+                  Plans
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                  Trainers
+                <a href="/packages" className="text-gray-400 hover:text-white transition-colors">
+                  Packages
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                  Testimonials
+                <a href="/contact" className="text-gray-400 hover:text-white transition-colors">
+                  Contact
                 </a>
               </li>
             </ul>
@@ -58,27 +52,22 @@ export const Footer = () => {
             <h4 className="text-lg font-bold mb-6">Membership</h4>
             <ul className="space-y-3">
               <li>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                  Basic Plan
+                <a href="/packages" className="text-gray-400 hover:text-white transition-colors">
+                  Bronze Plan
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                  Premium Plan
+                <a href="/packages" className="text-gray-400 hover:text-white transition-colors">
+                  Silver Plan
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                  Elite Plan
+                <a href="/packages" className="text-gray-400 hover:text-white transition-colors">
+                  Gold Plan
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                  Corporate Packages
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors">
+                <a href="/contact" className="text-gray-400 hover:text-white transition-colors">
                   FAQs
                 </a>
               </li>
@@ -88,17 +77,17 @@ export const Footer = () => {
             <h4 className="text-lg font-bold mb-6">Contact Us</h4>
             <ul className="space-y-3">
               <li className="flex items-start">
-                <MapPinIcon className="mr-3 h-6 w-6 text-red-500 flex-shrink-0" />
+                <MapPinIcon className="mr-3 h-6 w-6 text-blue-500 flex-shrink-0" />
                 <span className="text-gray-400">
                   123 Fitness Street
                 </span>
               </li>
               <li className="flex items-center">
-                <PhoneIcon className="mr-3 h-6 w-6 text-red-500 flex-shrink-0" />
+                <PhoneIcon className="mr-3 h-6 w-6 text-blue-500 flex-shrink-0" />
                 <span className="text-gray-400">+441122334455</span>
               </li>
               <li className="flex items-center">
-                <MailIcon className="mr-3 h-6 w-6 text-red-500 flex-shrink-0" />
+                <MailIcon className="mr-3 h-6 w-6 text-blue-500 flex-shrink-0" />
                 <span className="text-gray-400">contact@cspt.com</span>
               </li>
             </ul>

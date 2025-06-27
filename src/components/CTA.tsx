@@ -9,7 +9,7 @@ export const CTA = () => {
             Wanting to get started? Join Me Now!
           </h1>
           <p className="text-center md:text-left">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo accusantium sunt.
+            Explore my training packages and find the perfect plan for your fitness journey.
           </p>
         </div>
 

@@ -3,7 +3,7 @@ import { ArrowDown, ArrowUp } from "lucide-react";
 
 export const FAQs = () => {
   return (
-    <section className="bg-gray-200 text-black py-20 md:mt-20">
+    <section className="bg-gray-200 text-black py-20 md:mt-0">
       <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-center">
         <div className="w-full bg-gray-600 rounded p-4">
           <h1 className="text-2xl text-white mb-4">
