@@ -69,7 +69,7 @@ app.get('/api/workout-plans', async (req, res) => {
   try {
     const [rows] = await pool.query('SELECT * FROM workout_plans');
     const mappedRows = rows.map(plan => {
-      plan.plan_image = plan.plan_image.toString('base64'); // Convert buffer to base64 string
+      plan.plan_image = plan.plan_image?.toString('base64'); // Convert buffer to base64 string
       return plan;
     });
 
