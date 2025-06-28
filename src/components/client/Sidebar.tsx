@@ -60,13 +60,6 @@ export const Sidebar = () => {
                   text="Message Trainer"
                 />
               </li>
-              <li className="list-none px-4">
-                <NavButton
-                  href="/admin/AdminPlans"
-                  icon={<ScrollText />}
-                  text="Plans"
-                />
-              </li>
             </ul>
 
             <div className="flex-grow" />

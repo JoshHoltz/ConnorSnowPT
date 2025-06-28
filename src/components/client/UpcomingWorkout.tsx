@@ -79,11 +79,15 @@ export const UpcomingWorkout = () => {
                       </td>
                       <td className="border-2">
                         <iframe
+                          width="full"
+                          height="150"
                           src={workout.upcoming_workout_e_one_how_to}
-                          frameBorder="0"
-                          className="w-full h-48"
-                          allowFullScreen
-                        />
+                          title="YouTube video player"
+                          frameborder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          referrerpolicy="strict-origin-when-cross-origin"
+                          allowfullscreen
+                        ></iframe>
                       </td>
                     </tr>
                   )}
@@ -101,11 +105,15 @@ export const UpcomingWorkout = () => {
                       </td>
                       <td className="border-2">
                         <iframe
+                          width="full"
+                          height="150"
                           src={workout.upcoming_workout_e_two_how_to}
-                          frameBorder="0"
-                          className="w-full h-48"
-                          allowFullScreen
-                        />
+                          title="YouTube video player"
+                          frameborder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          referrerpolicy="strict-origin-when-cross-origin"
+                          allowfullscreen
+                        ></iframe>
                       </td>
                     </tr>
                   )}
@@ -123,11 +131,15 @@ export const UpcomingWorkout = () => {
                       </td>
                       <td className="border-2">
                         <iframe
+                          width="full"
+                          height="150"
                           src={workout.upcoming_workout_e_three_how_to}
-                          frameBorder="0"
-                          className="w-full h-48"
-                          allowFullScreen
-                        />
+                          title="YouTube video player"
+                          frameborder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          referrerpolicy="strict-origin-when-cross-origin"
+                          allowfullscreen
+                        ></iframe>
                       </td>
                     </tr>
                   )}
