@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect, useState } from "react";
 
 // app.get('/api/upcoming-workouts/:id', async (req, res) => {
 //   const clientId = req.params.id;
@@ -27,8 +28,7 @@ export const UpcomingWorkout = () => {
       </h1>
       <div className="p-4 mt-10 md:mt-0 bg-white ">
         <div className="p-4 mt-10 md:mt-0 text-black">
-          {/* Placeholder for upcoming workout content */}
-          <p>No upcoming workouts scheduled.</p>
+            {/* map */}
 
 
         </div>
