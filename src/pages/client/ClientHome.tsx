@@ -1,14 +1,16 @@
 import React from 'react'
-
+import { useSearchParams } from 'react-router-dom'
+import { ClientWelcome } from '../../components/client/ClientWelcome'
+import { OverviewComponent } from '../../components/client/Overview'
 
 export const ClientHome = () => {
-  return (
-        <div className="mb-4 text-black">
-      <h1 className="hidden md:flex text-2xl font-bold text-black px-8">Welcome</h1>
-      <p className="hidden md:flex text-black px-8">
-        View and Manage Your Clients
-      </p>
+  const [searchParams] = useSearchParams()
+  const clientId = searchParams.get('id')
 
+  return (
+    <div className="mb-4 text-black">
+      <ClientWelcome clientId={clientId} />
+      {/* <OverviewComponent /> */}
     </div>
   )
 }

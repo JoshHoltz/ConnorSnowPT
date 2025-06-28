@@ -235,8 +235,7 @@ app.post('/api/login-user', async (req, res) => {
   const [rows] = await pool.query(sql, [user_username, user_password]);
     if (rows.length > 0) {
       console.log('User logged in successfully:', rows[0]);
-      const basePath = req.originalUrl.replace(/\/+$/, '');
-res.redirect(basePath + '/client/home');
+      return res.json({ success: true, client_id: user.client_id });
     } else {
       console.log('Invalid username or password');
       res.status(401).json({ error: 'Invalid username or password' });
