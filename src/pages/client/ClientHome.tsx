@@ -1,7 +1,9 @@
 import React from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { ClientWelcome } from '../../components/client/ClientWelcome'
-import { OverviewComponent } from '../../components/client/Overview'
+import { PRs } from '../../components/client/PRs'
+import { UpcomingWorkout } from '../../components/client/UpcomingWorkout'
+// import { OverviewComponent } from '../../components/client/Overview'
 
 export const ClientHome = () => {
   const [searchParams] = useSearchParams()
@@ -10,6 +12,10 @@ export const ClientHome = () => {
   return (
     <div className="mb-4 text-black">
       <ClientWelcome clientId={clientId} />
+      <div className='flex'>
+      <UpcomingWorkout />
+      <PRs clientId={clientId} />
+      </div>
       {/* <OverviewComponent /> */}
     </div>
   )

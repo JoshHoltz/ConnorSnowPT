@@ -101,6 +101,18 @@ app.get('/api/client-by-id/:id', async (req, res) => {
   }
 })
 
+// get all upcoming workouts
+app.get('/api/upcoming-workouts/:id', async (req, res) => {
+  const clientId = req.params.id;
+  try {
+    const [rows] = await pool.query('SELECT * FROM upcoming_workouts WHERE client_id = ? AND workout_date >= CURDATE() ORDER BY upcoming_workout_date ASC LIMIT 1', [clientId]);
+    res.json(rows);
+  } catch (err) {
+    console.error(`Error on /upcoming-workouts/${clientId}:`, err);
+    res.status(500).json({ error: 'Failed to fetch upcoming workouts', details: err.message });
+  }
+});
+
 // Inserting frontend to the DB
 // REF (Formatting of Insertion): https://stackoverflow.com/questions/56034455/how-to-send-json-data-from-react-to-node-js-express-server
 // REF (Status Messages): https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status
