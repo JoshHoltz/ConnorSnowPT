@@ -242,8 +242,8 @@ app.post('/api/insert-client-pr-result-1', async (req, res) => {
 
 //inserting a client change split
 app.use(express.json());
-app.post("/api/insert-a-client-split/:clientId", async (req, res) => {
-  const clientId = req.params.clientId;
+app.post("/api/insert-a-client-split", async (req, res) => {
+  const clientId = req.body.clientId;
   const workouts = req.body;
 
   if (!Array.isArray(workouts) || workouts.length === 0) {
