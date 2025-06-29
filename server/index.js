@@ -241,9 +241,10 @@ app.post('/api/insert-client-pr-result-1', async (req, res) => {
 );
 
 //inserting a client change split
-router.post("/api/insert-a-client-split/:clientId", async (req, res) => {
+app.use(express.json());
+app.post("/api/insert-a-client-split/:clientId", async (req, res) => {
   const clientId = req.params.clientId;
-  const workouts = req.body; 
+  const workouts = req.body;
 
   if (!Array.isArray(workouts) || workouts.length === 0) {
     return res.status(400).json({ error: "No workouts submitted." });
@@ -303,7 +304,6 @@ router.post("/api/insert-a-client-split/:clientId", async (req, res) => {
           ]
         );
       } else {
-        // INSERT a new workout split
         await db.query(
           `INSERT INTO upcoming_workouts (
             client_id,
