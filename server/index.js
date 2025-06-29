@@ -243,121 +243,132 @@ app.post('/api/insert-client-pr-result-1', async (req, res) => {
 //inserting a client change split
 app.use(express.json());
 app.post("/api/insert-a-client-split", async (req, res) => {
-  const clientId = req.body.clientId;
-  const workouts = req.body;
+  // Form sends client_id, workout fields directly in req.body
+  const clientId = req.body.client_id;
 
-  if (!Array.isArray(workouts) || workouts.length === 0) {
-    return res.status(400).json({ error: "No workouts submitted." });
+  if (!clientId) {
+    return res.status(400).json({ error: "Missing client_id" });
+  }
+
+  const workout = {
+    upcoming_workout_split_name: req.body.upcoming_workout_split_name,
+    upcoming_workout_date: req.body.upcoming_workout_date,
+    idupcoming_workouts: req.body.idupcoming_workouts, 
+  };
+
+  const exercises = req.body.exercises || [];
+
+  const mapIndexToSuffix = ["one", "two", "three", "four"];
+
+  for (let i = 0; i < 4; i++) {
+    const ex = exercises[i] || {};
+    const suffix = mapIndexToSuffix[i];
+    workout[`upcoming_workout_e_${suffix}_name`] = ex.name || "";
+    workout[`upcoming_workout_e_${suffix}_sets`] = ex.sets || "";
+    workout[`upcoming_workout_e_${suffix}_reps`] = ex.reps || "";
+    workout[`upcoming_workout_e_${suffix}_how_to`] = ex.howTo || "";
   }
 
   try {
-    const [existing] = await db.query(
-      "SELECT idupcoming_workouts, upcoming_workout_split_name FROM upcoming_workouts WHERE client_id = ?",
-      [clientId]
-    );
-
-    for (const workout of workouts) {
-      const matched = existing.find(
-        (w) => w.upcoming_workout_split_name === workout.upcoming_workout_split_name
+    // Check if workout exists (update) or new (insert)
+    if (workout.idupcoming_workouts) {
+      await db.query(
+        `UPDATE upcoming_workouts SET
+          upcoming_workout_split_name = ?,
+          upcoming_workout_date = ?,
+          upcoming_workout_e_one_name = ?,
+          upcoming_workout_e_one_sets = ?,
+          upcoming_workout_e_one_reps = ?,
+          upcoming_workout_e_one_how_to = ?,
+          upcoming_workout_e_two_name = ?,
+          upcoming_workout_e_two_sets = ?,
+          upcoming_workout_e_two_reps = ?,
+          upcoming_workout_e_two_how_to = ?,
+          upcoming_workout_e_three_name = ?,
+          upcoming_workout_e_three_sets = ?,
+          upcoming_workout_e_three_reps = ?,
+          upcoming_workout_e_three_how_to = ?,
+          upcoming_workout_e_four_name = ?,
+          upcoming_workout_e_four_sets = ?,
+          upcoming_workout_e_four_reps = ?,
+          upcoming_workout_e_four_how_to = ?
+        WHERE idupcoming_workouts = ?`,
+        [
+          workout.upcoming_workout_split_name,
+          workout.upcoming_workout_date,
+          workout.upcoming_workout_e_one_name,
+          workout.upcoming_workout_e_one_sets,
+          workout.upcoming_workout_e_one_reps,
+          workout.upcoming_workout_e_one_how_to,
+          workout.upcoming_workout_e_two_name,
+          workout.upcoming_workout_e_two_sets,
+          workout.upcoming_workout_e_two_reps,
+          workout.upcoming_workout_e_two_how_to,
+          workout.upcoming_workout_e_three_name,
+          workout.upcoming_workout_e_three_sets,
+          workout.upcoming_workout_e_three_reps,
+          workout.upcoming_workout_e_three_how_to,
+          workout.upcoming_workout_e_four_name,
+          workout.upcoming_workout_e_four_sets,
+          workout.upcoming_workout_e_four_reps,
+          workout.upcoming_workout_e_four_how_to,
+          workout.idupcoming_workouts,
+        ]
       );
-
-      if (matched) {
-        await db.query(
-          `UPDATE upcoming_workouts SET
-            upcoming_workout_date = ?,
-            upcoming_workout_e_one_name = ?,
-            upcoming_workout_e_one_sets = ?,
-            upcoming_workout_e_one_reps = ?,
-            upcoming_workout_e_one_how_to = ?,
-            upcoming_workout_e_two_name = ?,
-            upcoming_workout_e_two_sets = ?,
-            upcoming_workout_e_two_reps = ?,
-            upcoming_workout_e_two_how_to = ?,
-            upcoming_workout_e_three_name = ?,
-            upcoming_workout_e_three_sets = ?,
-            upcoming_workout_e_three_reps = ?,
-            upcoming_workout_e_three_how_to = ?,
-            upcoming_workout_e_four_name = ?,
-            upcoming_workout_e_four_sets = ?,
-            upcoming_workout_e_four_reps = ?,
-            upcoming_workout_e_four_how_to = ?
-          WHERE idupcoming_workouts = ?`,
-          [
-            workout.upcoming_workout_date,
-            workout.upcoming_workout_e_one_name,
-            workout.upcoming_workout_e_one_sets,
-            workout.upcoming_workout_e_one_reps,
-            workout.upcoming_workout_e_one_how_to,
-            workout.upcoming_workout_e_two_name,
-            workout.upcoming_workout_e_two_sets,
-            workout.upcoming_workout_e_two_reps,
-            workout.upcoming_workout_e_two_how_to,
-            workout.upcoming_workout_e_three_name,
-            workout.upcoming_workout_e_three_sets,
-            workout.upcoming_workout_e_three_reps,
-            workout.upcoming_workout_e_three_how_to,
-            workout.upcoming_workout_e_four_name,
-            workout.upcoming_workout_e_four_sets,
-            workout.upcoming_workout_e_four_reps,
-            workout.upcoming_workout_e_four_how_to,
-            matched.idupcoming_workouts,
-          ]
-        );
-      } else {
-        await db.query(
-          `INSERT INTO upcoming_workouts (
-            client_id,
-            upcoming_workout_split_name,
-            upcoming_workout_date,
-            upcoming_workout_e_one_name,
-            upcoming_workout_e_one_sets,
-            upcoming_workout_e_one_reps,
-            upcoming_workout_e_one_how_to,
-            upcoming_workout_e_two_name,
-            upcoming_workout_e_two_sets,
-            upcoming_workout_e_two_reps,
-            upcoming_workout_e_two_how_to,
-            upcoming_workout_e_three_name,
-            upcoming_workout_e_three_sets,
-            upcoming_workout_e_three_reps,
-            upcoming_workout_e_three_how_to,
-            upcoming_workout_e_four_name,
-            upcoming_workout_e_four_sets,
-            upcoming_workout_e_four_reps,
-            upcoming_workout_e_four_how_to
-          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-          [
-            clientId,
-            workout.upcoming_workout_split_name,
-            workout.upcoming_workout_date,
-            workout.upcoming_workout_e_one_name,
-            workout.upcoming_workout_e_one_sets,
-            workout.upcoming_workout_e_one_reps,
-            workout.upcoming_workout_e_one_how_to,
-            workout.upcoming_workout_e_two_name,
-            workout.upcoming_workout_e_two_sets,
-            workout.upcoming_workout_e_two_reps,
-            workout.upcoming_workout_e_two_how_to,
-            workout.upcoming_workout_e_three_name,
-            workout.upcoming_workout_e_three_sets,
-            workout.upcoming_workout_e_three_reps,
-            workout.upcoming_workout_e_three_how_to,
-            workout.upcoming_workout_e_four_name,
-            workout.upcoming_workout_e_four_sets,
-            workout.upcoming_workout_e_four_reps,
-            workout.upcoming_workout_e_four_how_to,
-          ]
-        );
-      }
+    } else {
+      // Insert new workout
+      await db.query(
+        `INSERT INTO upcoming_workouts (
+          client_id,
+          upcoming_workout_split_name,
+          upcoming_workout_date,
+          upcoming_workout_e_one_name,
+          upcoming_workout_e_one_sets,
+          upcoming_workout_e_one_reps,
+          upcoming_workout_e_one_how_to,
+          upcoming_workout_e_two_name,
+          upcoming_workout_e_two_sets,
+          upcoming_workout_e_two_reps,
+          upcoming_workout_e_two_how_to,
+          upcoming_workout_e_three_name,
+          upcoming_workout_e_three_sets,
+          upcoming_workout_e_three_reps,
+          upcoming_workout_e_three_how_to,
+          upcoming_workout_e_four_name,
+          upcoming_workout_e_four_sets,
+          upcoming_workout_e_four_reps,
+          upcoming_workout_e_four_how_to
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        [
+          clientId,
+          workout.upcoming_workout_split_name,
+          workout.upcoming_workout_date,
+          workout.upcoming_workout_e_one_name,
+          workout.upcoming_workout_e_one_sets,
+          workout.upcoming_workout_e_one_reps,
+          workout.upcoming_workout_e_one_how_to,
+          workout.upcoming_workout_e_two_name,
+          workout.upcoming_workout_e_two_sets,
+          workout.upcoming_workout_e_two_reps,
+          workout.upcoming_workout_e_two_how_to,
+          workout.upcoming_workout_e_three_name,
+          workout.upcoming_workout_e_three_sets,
+          workout.upcoming_workout_e_three_reps,
+          workout.upcoming_workout_e_three_how_to,
+          workout.upcoming_workout_e_four_name,
+          workout.upcoming_workout_e_four_sets,
+          workout.upcoming_workout_e_four_reps,
+          workout.upcoming_workout_e_four_how_to,
+        ]
+      );
     }
 
-    res.status(200).json({ message: "Workouts synced successfully" });
+    res.redirect(`/client/${clientId}`); 
   } catch (err) {
-    console.error("Workout sync error:", err);
-    res.status(500).json({ error: "Something went wrong" });
+    console.error("Workout save error:", err);
+    res.status(500).send("Internal server error");
   }
 });
-
 
 // Logging In
 

@@ -76,8 +76,8 @@ export const AdminAssignWorkout = ({ clientId }) => {
                 name="upcoming_workout_date"
                 defaultValue={workout.upcoming_workout_date}
                 className="text-l text-black"
+                type="date"
               />
-              {/* Include hidden id if editing existing */}
               {workout.idupcoming_workouts && (
                 <input
                   type="hidden"
@@ -85,7 +85,6 @@ export const AdminAssignWorkout = ({ clientId }) => {
                   value={workout.idupcoming_workouts}
                 />
               )}
-              {/* Include hidden client id */}
               <input type="hidden" name="client_id" value={clientId} />
             </div>
 
