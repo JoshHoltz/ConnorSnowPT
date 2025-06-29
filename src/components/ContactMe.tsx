@@ -4,9 +4,9 @@ import { Instagram, Mail, Ghost } from "lucide-react";
 export const ContactMe = () => {
   return (
     <section className="text-black py-20">
-      <div className="container mx-auto px-4 flex flex-col w-full md:flex-row">
+      <div className="container mx-auto px-4 flex-col w-full md:flex md:flex-row">
         {/* Socials */}
-        <div className="bg-gray-300 p-4 rounded-xl w-full mb-4 md:w-1/4 md:flex md:flex-col">
+        <div className="bg-white p-4 rounded-xl w-full mb-4 md:w-1/4 md:flex md:flex-col hidden border-2">
           <h2 className="text-2xl font-bold mb-4">Contact Information</h2>
 
           <div className="flex items-center">
@@ -29,7 +29,7 @@ export const ContactMe = () => {
         </div>
 
         {/* Send Me a Message */}
-        <div className="w-full md:w-3/4 md:ml-4 bg-gray-300 p-4 rounded-xl ">
+        <div className="border-2 w-full md:w-3/4 md:ml-4 bg-white p-4 rounded-xl ">
           <h1 className="text-2xl font-bold mb-4">Send Me a Message</h1>
 
           <form action="">
