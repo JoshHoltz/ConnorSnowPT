@@ -93,7 +93,7 @@ app.get('/api/client-information', async (req, res) => {
 app.get('/api/client-by-id/:id', async (req, res) => {
   const clientId = req.params.id;
   try {
-    const [rows] = await pool.query('SELECT * FROM upcoming_workouts WHERE client_id = ? ORDER BY idupcoming_workouts DESC LIMIT 1', [clientId]);
+    const [rows] = await pool.query('SELECT * FROM ', [clientId]);
     res.json(rows[0]);
   } catch (err) {
     console.error(`Error on /client-by-id/${clientId}:`, err);
@@ -105,7 +105,7 @@ app.get('/api/client-by-id/:id', async (req, res) => {
 app.get('/api/upcoming-workouts/:id', async (req, res) => {
   const clientId = req.params.id;
   try {
-    const [rows] = await pool.query('SELECT * FROM upcoming_workouts WHERE client_id = ? ORDER BY upcoming_workout_date ASC LIMIT 1', [clientId]);
+    const [rows] = await pool.query('SELECT * FROM client_information WHERE client_id = ?', [clientId]);
     res.json(rows);
   } catch (err) {
     console.error(`Error on /upcoming-workouts/${clientId}:`, err);
