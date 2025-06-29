@@ -49,7 +49,9 @@ export const MembersTable = () => {
                 <td className="p-2">{client.client_plan_type}</td>
                 <td className="p-2">
                   <button className="bg-blue-500 text-white px-4 py-2 rounded">
-                    Assign
+                      <a href={`/admin/AssignWorkout?id=${client.client_id}`}>
+                      Assign
+                    </a>
                   </button>
                 </td>
                 <td className="p-2">
