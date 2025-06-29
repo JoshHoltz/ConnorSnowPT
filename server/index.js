@@ -105,7 +105,7 @@ app.get('/api/client-by-id/:id', async (req, res) => {
 app.get('/api/upcoming-workouts/:id', async (req, res) => {
   const clientId = req.params.id;
   try {
-    const [rows] = await pool.query('SELECT * FROM upcoming_workouts WHERE client_id = ? AND upcoming_workout_date >= CURDATE() ORDER BY upcoming_workout_date ASC LIMIT 1', [clientId]);
+    const [rows] = await pool.query('SELECT * FROM upcoming_workouts WHERE client_id = ? ORDER BY upcoming_workout_date ASC LIMIT 3', [clientId]);
     res.json(rows);
   } catch (err) {
     console.error(`Error on /upcoming-workouts/${clientId}:`, err);
