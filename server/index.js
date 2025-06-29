@@ -241,7 +241,8 @@ app.post('/api/insert-client-pr-result-1', async (req, res) => {
 );
 
 //inserting a client change split
-app.use(express.json());
+app.use('/api/insert-a-client-split', express.urlencoded());
+
 app.post("/api/insert-a-client-split", async (req, res) => {
   // Form sends client_id, workout fields directly in req.body
   const clientId = req.body.client_id;
