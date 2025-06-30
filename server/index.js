@@ -126,6 +126,17 @@ app.get('/api/workout-split/:id', async (req, res) => {
   }
 });
 
+// get all upcoming workouts
+app.get('/api/motivation-message', async (req, res) => {
+  try {
+    const [rows] = await pool.query('SELECT motivation_message FROM motivation_message WHERE id_motivation_message LIMIT 1', [clientId]);
+    res.json(rows);
+  } catch (err) {
+    console.error('Error on /motivation-message:', err);
+    res.status(500).json({ error: 'Failed to fetch motivational message', details: err.message });
+  }
+});
+
 // Inserting frontend to the DB
 // REF (Formatting of Insertion): https://stackoverflow.com/questions/56034455/how-to-send-json-data-from-react-to-node-js-express-server
 // REF (Status Messages): https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status
