@@ -129,7 +129,7 @@ app.get('/api/workout-split/:id', async (req, res) => {
 // get all upcoming workouts
 app.get('/api/motivation-message', async (req, res) => {
   try {
-    const [rows] = await pool.query('SELECT motivation_message FROM motivation_message WHERE id_motivation_message LIMIT 1', [clientId]);
+    const [rows] = await pool.query('SELECT motivation_message FROM motivation_message WHERE id_motivation_message LIMIT 1');
     res.json(rows);
   } catch (err) {
     console.error('Error on /motivation-message:', err);
