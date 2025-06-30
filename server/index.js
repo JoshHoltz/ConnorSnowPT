@@ -274,7 +274,7 @@ console.log("Workout object:", workout);
 
     if (workout.idupcoming_workouts) {
       // Update existing workout
-      await db.query(
+      await pool.query(
         `UPDATE upcoming_workouts SET
           upcoming_workout_split_name = ?,
           upcoming_workout_date = ?,
@@ -319,7 +319,7 @@ console.log("Workout object:", workout);
       );
     } else {
       // Insert new workout
-      await db.query(
+      await pool.query(
         `INSERT INTO upcoming_workouts (
           client_id,
           upcoming_workout_split_name,
