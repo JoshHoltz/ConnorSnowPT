@@ -64,7 +64,7 @@ export const AdminAssignWorkout = ({ clientId }) => {
             key={workout.idupcoming_workouts}
             className="border-2 bg-white md:w-1/3 mb-6"
             method="POST"
-            action="/api/insert-a-client-split"
+            action="https://connor-snow-pt-bdd7a068ad9e.herokuapp.com/api/insert-a-client-split"
           >
             <div className="bg-gray-600 p-4 flex justify-between text-black">
               <input
