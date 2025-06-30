@@ -251,9 +251,9 @@ app.post("/api/insert-a-client-split", async (req, res) => {
     }
 
     const workout = {
-      upcoming_workout_split_name: req.body.upcoming_workout_split_name,
-      upcoming_workout_date: req.body.upcoming_workout_date,
-      idupcoming_workouts: req.body.idupcoming_workouts,
+      upcoming_workout_split_name: req.body.upcoming_workout_split_name || "",
+      upcoming_workout_date: req.body.upcoming_workout_date || "",
+      idupcoming_workouts: req.body.idupcoming_workouts || null,
     };
 
     const exercises = req.body.exercises || [];
@@ -269,8 +269,11 @@ app.post("/api/insert-a-client-split", async (req, res) => {
       workout[`upcoming_workout_e_${suffix}_how_to`] = ex.howTo || "";
     }
 
+    console.log("Request body:", req.body);
+console.log("Workout object:", workout);
+
     if (workout.idupcoming_workouts) {
-      //Update
+      // Update existing workout
       await db.query(
         `UPDATE upcoming_workouts SET
           upcoming_workout_split_name = ?,
@@ -315,7 +318,7 @@ app.post("/api/insert-a-client-split", async (req, res) => {
         ]
       );
     } else {
-      //Insert
+      // Insert new workout
       await db.query(
         `INSERT INTO upcoming_workouts (
           client_id,
@@ -361,14 +364,17 @@ app.post("/api/insert-a-client-split", async (req, res) => {
         ]
       );
     }
-
     res.redirect(`/client/${clientId}`);
-  } catch (err) {
-    console.error("Workout save error:", err);
-    res.status(500).json({ error: "Internal server error", detail: err.message });
-  }
-});
 
+  } catch (err) {
+  console.error("Workout save error:", err);
+  res.status(500).json({
+    error: "Internal server error",
+    message: err.message,
+    stack: err.stack,
+  });
+}
+});
 // Logging In
 
 app.use('/api/login-user', express.urlencoded());
