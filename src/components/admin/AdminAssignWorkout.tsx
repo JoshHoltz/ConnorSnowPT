@@ -51,7 +51,7 @@ export const AdminAssignWorkout = ({ clientId }) => {
         {completeWorkouts.map((workout, dayIndex) => (
           <form
             key={dayIndex}
-            className="border-2 bg-white md:w-1/3 mb-6"
+            className="border-2 bg-white md:w-[32%] mb-6 min-h-[500px]"
             method="POST"
             action="https://connor-snow-pt-bdd7a068ad9e.herokuapp.com/api/insert-a-client-split"
           >
