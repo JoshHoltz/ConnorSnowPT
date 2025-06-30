@@ -29,7 +29,7 @@ export const AdminAssignWorkout = ({ clientId }) => {
   if (!clientId) return <p>Loading client ID...</p>;
 
 if (workouts.length === 0) {
-  const emptyWorkout = {
+  const emptyDayWorkout = {
     upcoming_workout_split_name: "",
     upcoming_workout_date: "",
     idupcoming_workouts: null,
@@ -41,85 +41,92 @@ if (workouts.length === 0) {
     ],
   };
 
+  // Create 3 empty days:
+  const emptyWorkouts = [0, 1, 2].map(() => ({ ...emptyDayWorkout }));
+
   return (
     <div className="px-4 py-4 mb-4 text-black md:w-2/3 w-full">
       <h1 className="py-4 hidden md:flex text-2xl font-bold text-white px-8 bg-gray-800">
-        Add Upcoming Workout
+        Add Upcoming 3-Day Workout Split
       </h1>
 
-      <form
-        className="border-2 bg-white md:w-1/3 mb-6"
-        method="POST"
-        action="https://connor-snow-pt-bdd7a068ad9e.herokuapp.com/api/insert-a-client-split"
-      >
-        <div className="bg-gray-600 p-4 flex justify-between text-black">
-          <input
-            name="upcoming_workout_split_name"
-            defaultValue={emptyWorkout.upcoming_workout_split_name}
-            placeholder="Workout Split Name"
-            className="text-l"
-          />
-          <input
-            name="upcoming_workout_date"
-            defaultValue={emptyWorkout.upcoming_workout_date}
-            className="text-l text-black"
-            type="date"
-          />
-          <input type="hidden" name="client_id" value={clientId} />
-        </div>
+      {emptyWorkouts.map((workout, dayIndex) => (
+        <form
+          key={dayIndex}
+          className="border-2 bg-white md:w-1/3 mb-6"
+          method="POST"
+          action="https://connor-snow-pt-bdd7a068ad9e.herokuapp.com/api/insert-a-client-split"
+        >
+          <div className="bg-gray-600 p-4 flex justify-between text-black">
+            <input
+              name={`upcoming_workout_split_name_day${dayIndex}`}
+              defaultValue={workout.upcoming_workout_split_name}
+              placeholder={`Workout Split Name Day ${dayIndex + 1}`}
+              className="text-l"
+            />
+            <input
+              name={`upcoming_workout_date_day${dayIndex}`}
+              defaultValue={workout.upcoming_workout_date}
+              className="text-l text-black"
+              type="date"
+            />
+            <input type="hidden" name="client_id" value={clientId} />
+            <input type="hidden" name="day" value={dayIndex + 1} />
+          </div>
 
-        <table className="px-2 py-2 text-black border-2 w-full">
-          <thead>
-            <tr>
-              <th className="border-2">Exercise</th>
-              <th className="border-2">No. of Sets</th>
-              <th className="border-2">No. of Reps</th>
-              <th className="border-2">How To</th>
-            </tr>
-          </thead>
-          <tbody className="border-2 text-center">
-            {emptyWorkout.exercises.map((ex, exIndex) => (
-              <tr key={exIndex}>
-                <td className="border-2">
-                  <input
-                    className="border-2 w-full"
-                    name={`exercises[${exIndex}][name]`}
-                    defaultValue={ex.name}
-                    placeholder="Exercise Name"
-                  />
-                </td>
-                <td className="border-2">
-                  <input
-                    className="border-2 w-full"
-                    name={`exercises[${exIndex}][sets]`}
-                    defaultValue={ex.sets}
-                    placeholder="Sets"
-                  />
-                </td>
-                <td className="border-2">
-                  <input
-                    className="border-2 w-full"
-                    name={`exercises[${exIndex}][reps]`}
-                    defaultValue={ex.reps}
-                    placeholder="Reps"
-                  />
-                </td>
-                <td className="border-2">
-                  <input
-                    className="border-2 w-full"
-                    name={`exercises[${exIndex}][howTo]`}
-                    defaultValue={ex.howTo}
-                    placeholder="How To"
-                  />
-                </td>
+          <table className="px-2 py-2 text-black border-2 w-full">
+            <thead>
+              <tr>
+                <th className="border-2">Exercise</th>
+                <th className="border-2">No. of Sets</th>
+                <th className="border-2">No. of Reps</th>
+                <th className="border-2">How To</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-        <button type="submit" className="p-2 m-4 bg-blue-600 text-white">
-          Save Workout
-        </button>
-      </form>
+            </thead>
+            <tbody className="border-2 text-center">
+              {workout.exercises.map((ex, exIndex) => (
+                <tr key={exIndex}>
+                  <td className="border-2">
+                    <input
+                      className="border-2 w-full"
+                      name={`exercises_day${dayIndex}[${exIndex}][name]`}
+                      defaultValue={ex.name}
+                      placeholder="Exercise Name"
+                    />
+                  </td>
+                  <td className="border-2">
+                    <input
+                      className="border-2 w-full"
+                      name={`exercises_day${dayIndex}[${exIndex}][sets]`}
+                      defaultValue={ex.sets}
+                      placeholder="Sets"
+                    />
+                  </td>
+                  <td className="border-2">
+                    <input
+                      className="border-2 w-full"
+                      name={`exercises_day${dayIndex}[${exIndex}][reps]`}
+                      defaultValue={ex.reps}
+                      placeholder="Reps"
+                    />
+                  </td>
+                  <td className="border-2">
+                    <input
+                      className="border-2 w-full"
+                      name={`exercises_day${dayIndex}[${exIndex}][howTo]`}
+                      defaultValue={ex.howTo}
+                      placeholder="How To"
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <button type="submit" className="p-2 m-4 bg-blue-600 text-white">
+            Save Day {dayIndex + 1} Workout
+          </button>
+        </form>
+      ))}
     </div>
   );
 }
