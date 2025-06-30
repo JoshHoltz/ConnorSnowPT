@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom'
 import { ClientWelcome } from '../../components/client/ClientWelcome'
 import { PRs } from '../../components/client/PRs'
 import { UpcomingWorkout } from '../../components/client/UpcomingWorkout'
+import { MotivationMessage } from '../../components/client/Motivation'
 // import { OverviewComponent } from '../../components/client/Overview'
 
 export const ClientHome = () => {
@@ -12,6 +13,7 @@ export const ClientHome = () => {
   return (
     <div className="mb-4 text-black">
       <ClientWelcome clientId={clientId} />
+      <MotivationMessage />
       <div className='flex'>
       <UpcomingWorkout />
       <PRs clientId={clientId} />
