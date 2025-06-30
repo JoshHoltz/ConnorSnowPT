@@ -8,6 +8,7 @@ const app = express();
 const port = process.env.PORT || 4000;
 
 app.use(cors());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // For __dirname in ES modules
@@ -241,38 +242,35 @@ app.post('/api/insert-client-pr-result-1', async (req, res) => {
 );
 
 //inserting a client change split
-app.use('/api/insert-a-client-split', express.urlencoded({ extended: true }));
-
 app.post("/api/insert-a-client-split", async (req, res) => {
-  // Form sends client_id, workout fields directly in req.body
-  const clientId = req.body.client_id;
-
-  if (!clientId) {
-    return res.status(400).json({ error: "Missing client_id" });
-  }
-
-  const workout = {
-    upcoming_workout_split_name: req.body.upcoming_workout_split_name,
-    upcoming_workout_date: req.body.upcoming_workout_date,
-    idupcoming_workouts: req.body.idupcoming_workouts, 
-  };
-
-  const exercises = req.body.exercises || [];
-
-  const mapIndexToSuffix = ["one", "two", "three", "four"];
-
-  for (let i = 0; i < 4; i++) {
-    const ex = exercises[i] || {};
-    const suffix = mapIndexToSuffix[i];
-    workout[`upcoming_workout_e_${suffix}_name`] = ex.name || "";
-    workout[`upcoming_workout_e_${suffix}_sets`] = ex.sets || "";
-    workout[`upcoming_workout_e_${suffix}_reps`] = ex.reps || "";
-    workout[`upcoming_workout_e_${suffix}_how_to`] = ex.howTo || "";
-  }
-
   try {
-    // Check if workout exists (update) or new (insert)
+    const clientId = req.body.client_id;
+
+    if (!clientId) {
+      return res.status(400).json({ error: "Missing client_id" });
+    }
+
+    const workout = {
+      upcoming_workout_split_name: req.body.upcoming_workout_split_name,
+      upcoming_workout_date: req.body.upcoming_workout_date,
+      idupcoming_workouts: req.body.idupcoming_workouts,
+    };
+
+    const exercises = req.body.exercises || [];
+
+    const mapIndexToSuffix = ["one", "two", "three", "four"];
+
+    for (let i = 0; i < 4; i++) {
+      const ex = exercises[i] || {};
+      const suffix = mapIndexToSuffix[i];
+      workout[`upcoming_workout_e_${suffix}_name`] = ex.name || "";
+      workout[`upcoming_workout_e_${suffix}_sets`] = ex.sets || "";
+      workout[`upcoming_workout_e_${suffix}_reps`] = ex.reps || "";
+      workout[`upcoming_workout_e_${suffix}_how_to`] = ex.howTo || "";
+    }
+
     if (workout.idupcoming_workouts) {
+      //Update
       await db.query(
         `UPDATE upcoming_workouts SET
           upcoming_workout_split_name = ?,
@@ -317,7 +315,7 @@ app.post("/api/insert-a-client-split", async (req, res) => {
         ]
       );
     } else {
-      // Insert new workout
+      //Insert
       await db.query(
         `INSERT INTO upcoming_workouts (
           client_id,
@@ -364,10 +362,10 @@ app.post("/api/insert-a-client-split", async (req, res) => {
       );
     }
 
-    res.redirect(`/client/${clientId}`); 
+    res.redirect(`/client/${clientId}`);
   } catch (err) {
     console.error("Workout save error:", err);
-    res.status(500).send("Internal server error");
+    res.status(500).json({ error: "Internal server error", detail: err.message });
   }
 });
 
