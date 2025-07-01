@@ -1,4 +1,5 @@
-import { UserRound, Globe, Send } from 'lucide-react';
+import { UserRound, Globe, Send } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export const TopLevelInfo = () => {
   return (
@@ -19,11 +20,11 @@ export const TopLevelInfo = () => {
                 </div>
               </div>
             </div>
-            <div className="bg-gray-600">
-              <p className="w-full bg-gray-600 mt-4 p-4 cursor-pointer hover:bg-gray-500 transiton duration-300">
+            <Link to="../admin/AdminClients">
+              <button className="text-left w-full bg-gray-600 mt-4 p-4 cursor-pointer hover:bg-gray-500 transiton duration-300">
                 View Total Clients
-              </p>
-            </div>
+              </button>
+            </Link>
           </div>
         </div>
 
@@ -41,11 +42,11 @@ export const TopLevelInfo = () => {
                 </div>
               </div>
             </div>
-            <div className="bg-gray-600">
-              <p className="w-full bg-gray-600 mt-4 p-4 cursor-pointer hover:bg-gray-500 transiton duration-300">
+            <Link to="../admin/AdminClients">
+              <button className="text-left w-full bg-gray-600 mt-4 p-4 cursor-pointer hover:bg-gray-500 transiton duration-300">
                 View Total Clients
-              </p>
-            </div>
+              </button>
+            </Link>
           </div>
         </div>
 
@@ -63,15 +64,13 @@ export const TopLevelInfo = () => {
                 </div>
               </div>
             </div>
-            <div className="bg-gray-600">
-              <p className="w-full bg-gray-600 mt-4 p-4 cursor-pointer hover:bg-gray-500 transiton duration-300">
-                View Client Messages
-              </p>
-            </div>
+            <Link to="../admin/AdminMessages">
+              <button className="text-left w-full bg-gray-600 mt-4 p-4 cursor-pointer hover:bg-gray-500 transiton duration-300">
+                View Messages
+              </button>
+            </Link>
           </div>
         </div>
-
-
       </div>
     </section>
   );

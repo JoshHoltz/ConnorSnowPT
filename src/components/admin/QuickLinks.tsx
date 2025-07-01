@@ -1,4 +1,5 @@
 import { Zap } from "lucide-react";
+import { Link } from "react-router-dom"; //Ref (Linking To): https://www.youtube.com/watch?v=DO-pSysGItQ&ab_channel=NetNinja
 
 export const QuickLinks = () => {
   return (
@@ -11,25 +12,37 @@ export const QuickLinks = () => {
 
           {/* Nav Buttons */}
 <div className="hidden md:flex justify-between gap-2 w-full text-white">
+
+        <Link to="../admin/AdminClients" className="p-2 bg-gray-600  w-full rounded-lg hover:bg-gray-500 transiton duration-300">
           <button className="p-2 bg-gray-600 w-full rounded-lg hover:bg-gray-500 transiton duration-300">
-            <a href="/admin/insert-user">Manage Clients</a>
+            View Clients
           </button>
+        </Link>
 
-          <button className="p-2 bg-gray-600  w-full rounded-lg hover:bg-gray-500 transiton duration-300">
-            <a href="/admin/insert-user">Communications</a>
+        <Link to="../admin/AdminCommunications" className="p-2 bg-gray-600  w-full rounded-lg hover:bg-gray-500 transiton duration-300">
+          <button className="p-2 bg-gray-600 w-full rounded-lg hover:bg-gray-500 transiton duration-300">
+            View Messages
           </button>
+        </Link>
 
-          <button className="p-2 bg-gray-600  w-full rounded-lg hover:bg-gray-500 transiton duration-300">
-            <a href="/admin/insert-user">View Packages</a>
+        <Link to="../admin/AdminPackages" className="p-2 bg-gray-600  w-full rounded-lg hover:bg-gray-500 transiton duration-300">
+          <button className="p-2 bg-gray-600 w-full rounded-lg hover:bg-gray-500 transiton duration-300">
+            View Packages
           </button>
+        </Link>
 
-          <button className="p-2 bg-gray-600  w-full rounded-lg hover:bg-gray-500 transiton duration-300">
-            <a href="/admin/insert-user">View Plans</a>
+        <Link to="../admin/AdminPlans" className="p-2 bg-gray-600  w-full rounded-lg hover:bg-gray-500 transiton duration-300">
+          <button className="p-2 bg-gray-600 w-full rounded-lg hover:bg-gray-500 transiton duration-300">
+            View Plans
           </button>
+        </Link>
 
-          <button className="p-2 bg-gray-600  w-full rounded-lg hover:bg-gray-500 transiton duration-300">
-            <a href="/admin/insert-user">Analytics</a>
+        <Link to="../admin/analytics" className="p-2 bg-gray-600  w-full rounded-lg hover:bg-gray-500 transiton duration-300">
+          <button className="p-2 bg-gray-600 w-full rounded-lg hover:bg-gray-500 transiton duration-300">
+            View Analytics
           </button>
+        </Link>
+
         </div>
           </div>
 
