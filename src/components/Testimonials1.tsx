@@ -44,7 +44,7 @@ export const Testimonials1 = () => {
                 <p className="mb-4">"{test.testimonial_descripton}"</p>
               </div>
               <h1 className="font-bold mt-auto">{test.client_name}</h1>
-              <small>{test.testimonial_date}</small>
+              <small>{new Date(test.testimonial_date).toLocaleDateString('en-GB')}</small> {/* Ref (Date Formatting): https://stackoverflow.com/questions/27939773/tolocaledatestring-short-format */}
             </div>
           ))}
         </div>
