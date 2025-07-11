@@ -39,6 +39,16 @@ export const Meet = () => {
             <div className="flex items-center gap-2"><CheckIcon className="text-green-500" /> <span>Expert advice on nutrition and recovery to support well-being.</span></div>
             <div className="flex items-center gap-2"><CheckIcon className="text-green-500" /> <span>Strong client relations through motivation and accountability.</span></div>
         </div>
+
+        {/* Video Connor Section */}
+        <div className="mt-10 p-8 h-96">
+          <iframe
+            className="w-full h-full"
+            src="https://www.youtube.com/embed/NpEaa2P7qZI?si=K8NMT9UxAUejFV22"
+            title="Placeholder Connor Video"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          />
+        </div>
         </div>
       </div>
     </section>
