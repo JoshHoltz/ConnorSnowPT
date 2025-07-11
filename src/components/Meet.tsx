@@ -41,7 +41,7 @@ export const Meet = () => {
         </div>
 
         {/* Video Connor Section */}
-        <div className="mt-10 p-8 h-96">
+        <div className="mt-10 h-96">
           <iframe
             className="w-full h-full"
             src="https://www.youtube.com/embed/NpEaa2P7qZI?si=K8NMT9UxAUejFV22"
