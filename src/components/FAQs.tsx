@@ -24,7 +24,6 @@ export const FAQs = () => {
     });
 
     return () => {
-      // Cleanup to prevent duplicate event listeners
       faqs.forEach((faq) => {
         faq.replaceWith(faq.cloneNode(true));
       });
