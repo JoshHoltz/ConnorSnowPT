@@ -79,7 +79,7 @@ export const Footer = () => {
               <li className="flex items-start">
                 <MapPinIcon className="mr-3 h-6 w-6 text-blue-500 flex-shrink-0" />
                 <span className="text-gray-400">
-                  123 Fitness Street
+                  Gym: 91 Windingbrook Ln, Collingtree
                 </span>
               </li>
               <li className="flex items-center">
@@ -88,7 +88,8 @@ export const Footer = () => {
               </li>
               <li className="flex items-center">
                 <MailIcon className="mr-3 h-6 w-6 text-blue-500 flex-shrink-0" />
-                <span className="text-gray-400">contact@cspt.com</span>
+                <a className="text-gray-400 click hover:underline transition duration-500" href="mailto:connor@connorsnowpt.com">connor@connorsnowpt.com</a> {/* REF: https://stackoverflow.com/questions/63782544/react-open-mailto-e-mail-client-onclick-with-body-from-textarea */}
+                {/* <span className="text-gray-400">connor@connorsnowpt.com</span> */}
               </li>
             </ul>
           </div>
