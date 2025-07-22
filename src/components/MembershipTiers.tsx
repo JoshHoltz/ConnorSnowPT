@@ -54,10 +54,10 @@ useEffect(() => {
               className="border-t-4 bg-white p-8 shadow-lg flex flex-col h-full relative hover:bg-gray-200 transition duration-300 ease-in-out"
             >
               <h3 className="text-2xl font-bold mb-2">{pkg.package_name}</h3>
-              <div className="mb-6">
-                <span className="text-5xl font-bold">£{pkg.package_price}<p className="text-2xl text-gray-500">p/m</p>
-                </span>
-              </div>
+                <div className="mb-6 flex flex-wrap items-baseline gap-x-1 leading-none">
+                  <span className="text-5xl font-bold">£{pkg.package_price}</span>
+                  <span className="text-2xl text-gray-500">p/m</span>
+                </div>
               <p className="text-gray-600 mb-6">{pkg.package_description}</p>
 
               <div className="mb-8">
