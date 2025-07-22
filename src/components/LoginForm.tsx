@@ -16,30 +16,35 @@ async function loginUser(credentials) {
 
 export default function LoginForm() {
 
-  const setToken = ({ user_id, user_username }) => {
-    sessionStorage.setItem('user_id', user_id);
-    sessionStorage.setItem('user_username', user_username);
-  };
-
+const setToken = ({ user_id, user_username, isAdmin }) => {
+  sessionStorage.setItem('user_id', user_id);
+  sessionStorage.setItem('user_username', user_username);
+  sessionStorage.setItem('isAdmin', isAdmin); 
+};
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const token = await loginUser({
-      user_username: username,
-      user_password: password,
-    });
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  const token = await loginUser({
+    user_username: username,
+    user_password: password,
+  });
 
-    if (token) {
-      setToken(token);
-      navigate(`/client/home?id=${token.user_id}`);
+  if (token?.success) {
+    setToken(token);
+
+    if (token.isAdmin === 'Y') {
+      navigate('/admin/home');
     } else {
-      alert('Login failed. Please check your username and password.');
+      navigate(`/client/home?id=${token.user_id}`);
     }
+  } else {
+    alert('Login failed. Please check your username and password.');
   }
+};
 
 
   return (

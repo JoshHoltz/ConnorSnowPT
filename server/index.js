@@ -399,7 +399,7 @@ app.post('/api/login-user', async (req, res) => {
     }
 
     const sql = `
-      SELECT user_id, user_username
+      SELECT user_id, user_username, isAdmin
       FROM user_logins
       WHERE user_username = ? AND user_password = ?
       LIMIT 1
@@ -416,6 +416,7 @@ app.post('/api/login-user', async (req, res) => {
       success: true,
       user_id: user.user_id,
       user_username: user.user_username,
+      isAdmin: user.isAdmin, 
     });
   } catch (err) {
     console.error('Login error:', err);
