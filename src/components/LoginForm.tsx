@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 
+// REF (Logging In and Session Tokens): https://www.digitalocean.com/community/tutorials/how-to-add-login-authentication-to-react-applications
+
 async function loginUser(credentials) {
   return fetch('https://connorsnowpt.onrender.com/api/login-user', {
     method: 'POST',
@@ -12,7 +14,14 @@ async function loginUser(credentials) {
     .then(data => data.json());
 }
 
-export default function LoginForm({ setToken }) {
+export default function LoginForm() {
+
+  const setToken = ({ user_id, user_username }) => {
+    sessionStorage.setItem('user_id', user_id);
+    sessionStorage.setItem('user_username', user_username);
+  };
+
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
@@ -67,46 +76,8 @@ export default function LoginForm({ setToken }) {
   );
 }
 
-function setToken({ user_id, user_username }) {
-  sessionStorage.setItem('user_id', user_id);
-  sessionStorage.setItem('user_username', user_username);
-}
-
-
 function getToken() {
   const tokenString = sessionStorage.getItem('token');
   const userToken = JSON.parse(tokenString);
   return userToken?.token;
 }
-
-
-// export function LoginForm() {
-//   const [username, setUsername] = useState('');
-//   const [password, setPassword] = useState('');
-//   const [error, setError] = useState('');
-
-//   const handleSubmit = async (e) => {
-//     e.preventDefault(); // prevent default form submit reload
-
-//     setError('');
-
-//     try {
-//       const res = await fetch('https://connorsnowpt.onrender.com/api/login-user', {
-//         method: 'POST',
-//         headers: 'Content-Type': 'application/json',
-//         body: JSON.stringify({
-//           user_username: username,
-//           user_password: password,
-//         }),
-//       });
-
-//       if (res.ok) {
-//         window.location.href = 'http://localhost:5173/client/home';
-//       } else {
-//         const data = await res.json();
-//         setError(data.error || 'Login failed');
-//       }
-//     } catch (err) {
-//       setError('Network error');
-//     }
-//   };
