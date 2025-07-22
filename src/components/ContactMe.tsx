@@ -33,11 +33,12 @@ export const ContactMe = () => {
           <h1 className="text-2xl font-bold mb-4">Send Me a Message</h1>
 
           <form action="">
-            <div className="flex flex-col md:flex-row gap-4">
+            <div className="flex flex-col md:flex-row">
+
               <input
                 type="text"
                 placeholder="Your Name"
-                className="w-full md:w-1/2 p-2 border border-gray-300 rounded"
+                className="mr-2 w-full md:w-1/2 p-2 border border-gray-300 rounded"
               />
               <input
                 type="email"
