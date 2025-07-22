@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { CheckIcon, XIcon } from 'lucide-react';  
-import Skeleton from 'react-loading-skeleton'
+import Skeleton from 'react-loading-skeleton' // REF (Skeleton Loading): https://www.npmjs.com/package/react-loading-skeleton
 import 'react-loading-skeleton/dist/skeleton.css'
 
 
