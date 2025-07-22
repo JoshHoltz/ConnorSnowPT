@@ -112,7 +112,7 @@ export default function LoginForm() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
-
+              
               <HCaptcha
                 sitekey="86ac12b0-919e-4d8c-9df6-975c73a6ad76"
                 onVerify={(token) => setCaptchaToken(token)}
