@@ -399,7 +399,7 @@ app.post('/api/login-user', async (req, res) => {
     }
 
     const sql = `
-      SELECT client_id, user_username
+      SELECT user_id, user_username
       FROM user_logins
       WHERE user_username = ? AND user_password = ?
       LIMIT 1
@@ -411,18 +411,17 @@ app.post('/api/login-user', async (req, res) => {
     }
 
     const user = rows[0];
+
     return res.json({
       success: true,
-      client_id: user.client_id,
-      username: user.user_username
+      user_id: user.user_id,
+      user_username: user.user_username,
     });
   } catch (err) {
     console.error('Login error:', err);
     return res.status(500).json({ error: 'Server error' });
   }
 });
-
-
 
 app.get('/{*splat}', async (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'dist', 'index.html'));

@@ -64,9 +64,11 @@ export default function LoginForm({ setToken }) {
   );
 }
 
-function setToken(token) {
-  sessionStorage.setItem('token', JSON.stringify(token));
+function setToken({ user_id, user_username }) {
+  sessionStorage.setItem('user_id', user_id);
+  sessionStorage.setItem('user_username', user_username);
 }
+
 
 function getToken() {
   const tokenString = sessionStorage.getItem('token');
