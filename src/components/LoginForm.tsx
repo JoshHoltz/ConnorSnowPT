@@ -1,35 +1,34 @@
 import { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 
-export function LoginForm() {
+async function loginUser(credentials) {
+  return fetch('https://connorsnowpt.onrender.com/api/login-user', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(credentials),
+  })
+    .then(data => data.json());
+}
+
+export default function LoginForm({ setToken }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // prevent default form submit reload
-
-    setError('');
-
-    try {
-      const res = await fetch('https://connorsnowpt.onrender.com/api/login-user', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          user_username: username,
-          user_password: password,
-        }),
-      });
-
-      if (res.ok) {
-        window.location.href = 'http://localhost:5173/client/home';
-      } else {
-        const data = await res.json();
-        setError(data.error || 'Login failed');
-      }
-    } catch (err) {
-      setError('Network error');
+    e.preventDefault();
+    const token = await loginUser({
+      user_username: username,
+      user_password: password,
+    });
+    
+    if (token) {
+      setToken(token);
+      navigate('/client/home?id={token.user_id}'); 
     }
-  };
+  }
 
   return (
         <section className="text-black py-20 md:mt-20 bg-gray-100 h-screen">
@@ -59,9 +58,50 @@ export function LoginForm() {
       >
         Login
       </button>
-      {error && <p className="text-red-600 mt-2">{error}</p>}
     </form>
     </div>
     </section>
   );
 }
+
+function setToken(token) {
+  sessionStorage.setItem('token', JSON.stringify(token));
+}
+
+function getToken() {
+  const tokenString = sessionStorage.getItem('token');
+  const userToken = JSON.parse(tokenString);
+  return userToken?.token;
+}
+
+
+// export function LoginForm() {
+//   const [username, setUsername] = useState('');
+//   const [password, setPassword] = useState('');
+//   const [error, setError] = useState('');
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault(); // prevent default form submit reload
+
+//     setError('');
+
+//     try {
+//       const res = await fetch('https://connorsnowpt.onrender.com/api/login-user', {
+//         method: 'POST',
+//         headers: 'Content-Type': 'application/json',
+//         body: JSON.stringify({
+//           user_username: username,
+//           user_password: password,
+//         }),
+//       });
+
+//       if (res.ok) {
+//         window.location.href = 'http://localhost:5173/client/home';
+//       } else {
+//         const data = await res.json();
+//         setError(data.error || 'Login failed');
+//       }
+//     } catch (err) {
+//       setError('Network error');
+//     }
+//   };

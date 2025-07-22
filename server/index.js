@@ -391,26 +391,37 @@ console.log("Workout object:", workout);
 app.use('/api/login-user', express.urlencoded());
 
 app.post('/api/login-user', async (req, res) => {
-  console.log('Received request to login user:', req.body); 
-  const user_username = req.body.user_username; 
-  const user_password = req.body.user_password;
+  try {
+    const { user_username, user_password } = req.body;
 
-  if (!user_username || !user_password) {
-    return res.status(400).json({ error: 'All fields are required' });
-  } 
-
-  const sql = 'SELECT * FROM user_logins WHERE user_username = ? AND user_password = ?';
-
-  // if sucessful, move them to the dashboard at client/home
-  const [rows] = await pool.query(sql, [user_username, user_password]);
-    if (rows.length > 0) {
-      console.log('User logged in successfully:', rows[0]);
-      return res.json({ success: true, client_id: user.client_id });
-    } else {
-      console.log('Invalid username or password');
-      res.status(401).json({ error: 'Invalid username or password' });
+    if (!user_username || !user_password) {
+      return res.status(400).json({ error: 'All fields are required' });
     }
-}); 
+
+    const sql = `
+      SELECT client_id, user_username
+      FROM user_logins
+      WHERE user_username = ? AND user_password = ?
+      LIMIT 1
+    `;
+    const [rows] = await pool.query(sql, [user_username, user_password]);
+
+    if (rows.length === 0) {
+      return res.status(401).json({ error: 'Invalid username or password' });
+    }
+
+    const user = rows[0];
+    return res.json({
+      success: true,
+      client_id: user.client_id,
+      username: user.user_username
+    });
+  } catch (err) {
+    console.error('Login error:', err);
+    return res.status(500).json({ error: 'Server error' });
+  }
+});
+
 
 
 app.get('/{*splat}', async (req, res) => {
