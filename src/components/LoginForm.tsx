@@ -1,47 +1,55 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-// REF (Logging In and Session Tokens): https://www.digitalocean.com/community/tutorials/how-to-add-login-authentication-to-react-applications
-
 async function loginUser(credentials) {
   return fetch("https://connorsnowpt.onrender.com/api/login-user", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(credentials),
   }).then((data) => data.json());
 }
 
 export default function LoginForm() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
   const setToken = ({ user_id, user_username, isAdmin }) => {
     sessionStorage.setItem("user_id", user_id);
     sessionStorage.setItem("user_username", user_username);
     sessionStorage.setItem("isAdmin", isAdmin);
   };
 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const navigate = useNavigate();
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const token = await loginUser({
-      user_username: username,
-      user_password: password,
-    });
 
-    if (token?.success) {
-      setToken(token);
+    // Run reCAPTCHA first
+    grecaptcha.enterprise.ready(async () => {
+      const recaptchaToken = await grecaptcha.enterprise.execute(
+        "6Lce5IsrAAAAAFasRzvQw9bMXs1d8LQkXJQb2k2g",
+        { action: "login" }
+      );
 
-      if (token.isAdmin === "Y") {
-        navigate("/admin/home");
+      console.log("reCAPTCHA Token:", recaptchaToken);
+
+      // Send login request along with recaptcha token
+      const token = await loginUser({
+        user_username: username,
+        user_password: password,
+        recaptchaToken,
+      });
+
+      if (token?.success) {
+        setToken(token);
+        if (token.isAdmin === "Y") {
+          navigate("/admin/home");
+        } else {
+          navigate(`/client/home?id=${token.user_id}`);
+        }
       } else {
-        navigate(`/client/home?id=${token.user_id}`);
+        alert("Login failed. Please check your username and password.");
       }
-    } else {
-      alert("Login failed. Please check your username and password.");
-    }
+    });
   };
 
   return (
