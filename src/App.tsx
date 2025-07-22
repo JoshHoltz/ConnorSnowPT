@@ -8,6 +8,7 @@ import { Packages } from './pages/Packages'
 import { Contact } from './pages/Contact'
 import { Login } from './pages/Login'
 import { Plans } from './pages/Plans'
+import { Forbidden } from './pages/Forbidden'
 export function App() {
   return (
     <BrowserRouter>
@@ -21,6 +22,7 @@ export function App() {
             <Route path="/packages" element={<Packages />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/Login" element={<Login />} />
+            <Route path="/forbidden" element={<Forbidden />} />
           </Routes>
         </main>
         <Footer />

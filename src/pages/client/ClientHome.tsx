@@ -19,17 +19,19 @@ export const ClientHome = () => {
   const navigate = useNavigate()
   const clientId = searchParams.get('id')
 
-  useEffect(() => {
-    const token = getToken()
+useEffect(() => {
+  const token = getToken();
 
-    if (!clientId && token?.user_id) {
-      navigate(`/client/home?id=${token.user_id}`, { replace: true })
-    }
+  if (!token) {
+    navigate('/forbidden', { replace: true });
+    return;
+  }
 
-    if (!token) {
-      navigate('/login', { replace: true }) 
-    }
-  }, [clientId, navigate])
+  if (!clientId && token?.user_id) {
+    navigate(`/client/home?id=${token.user_id}`, { replace: true });
+  }
+}, [clientId, navigate]);
+
 
   return (
     <div className="mb-4 text-black">
