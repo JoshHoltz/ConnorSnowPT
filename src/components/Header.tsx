@@ -20,9 +20,9 @@ export const Header = () => {
             <Link to="/plans" className="text-white hover:text-gray-400 ml-4">Plans</Link>
             <Link to="/packages" className="text-white hover:text-gray-400 ml-4">Packages</Link>
             <Link to="/contact" className="text-white hover:text-gray-400 ml-4">Contact</Link>
-            <button className="ml-4 bg-blue-600 text-white hover:text-gray-400 px-6 py-3">
-                <a href="/Login">Login</a>
-            </button>
+            <Link to="/Login" className="ml-4 bg-blue-600 text-white hover:text-gray-400 px-6 py-3">
+                Login
+            </Link>
         </nav>
 
         {/* Mobile Menu Button */}
@@ -39,9 +39,10 @@ export const Header = () => {
             <Link to="/plans" className="text-white hover:text-gray-400 ml-4">Plans</Link>
             <Link to="/packages" className="text-white hover:text-gray-400 ml-4">Packages</Link>
             <Link to="/contact" className="text-white hover:text-gray-400 ml-4">Contact</Link>
-            <button className="ml-4 bg-blue-600 text-white hover:text-gray-400 px-6 py-3">
+            
+            <Link to="/login" className="text- ml-4 bg-blue-600 text-white hover:text-gray-400 px-6 py-3">
                 <a href="/login">Login</a>
-            </button>
+            </Link>
           </div>
         </div>}
     </header>;
