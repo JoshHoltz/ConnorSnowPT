@@ -1,14 +1,47 @@
 import React, { useEffect, useState } from "react";
 import { Star } from "lucide-react";
+import Skeleton from 'react-loading-skeleton' // REF (Skeleton Loading): https://www.npmjs.com/package/react-loading-skeleton
+import 'react-loading-skeleton/dist/skeleton.css'
+import { data } from "react-router-dom";
 
 export const Testimonials1 = () => {
   const [testimonals, setPackages] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch("https://connorsnowpt.onrender.com/api/client-testimonals")
       .then((res) => (res.ok ? res.json() : Promise.reject("Fetch failed")))
-      .then(setPackages);
+      .then((data) => {
+        setPackages(data);
+        setLoading(false); // once data is fetched, set loading to false to stop the skeleton effect
+      });
   }, []);
+
+  if (loading) {
+    return (
+          <header className="bg-gray-100 text-black w-full">
+        <h1 className="p-4 text-2xl md:text-4xl font-bold text-center mb-6">
+          Testimonials
+        </h1>
+      <div className="p-4 px-4 md:px-20">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {[...Array(3)].map((_, i) => (
+            <div
+              key={i}
+              className="border p-4 rounded hover:bg-gray-100 transition duration-300 ease-in-out"
+            >
+              <Skeleton width="40%" />
+              <Skeleton height={200} />
+              <div className="mb-4"></div>
+              <Skeleton width="30%" />
+              <Skeleton width="40%" />
+            </div>
+          ))}
+        </div>
+      </div>
+    </header>
+    );
+  }
 
   return (
     <header className="bg-gray-100 text-black w-full">
