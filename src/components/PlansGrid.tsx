@@ -1,13 +1,36 @@
 import React, { useEffect, useState } from "react";
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 export const PlansGrid = () => {
   const [plans, setPackages] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch("https://connorsnowpt.onrender.com/api/workout-plans")
       .then((res) => (res.ok ? res.json() : Promise.reject("Fetch failed")))
-      .then(setPackages);
+      .then((data) => {
+        setPackages(data);
+        setLoading(false); // once data is fetched, set loading to false to stop the skeleton effect
+      })      
   }, []);
+
+  if (loading) { //If it is loading, show this skeleton effect
+    return (
+      <div className="p-4 px-4 md:px-20">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {[...Array(6)].map((_, i) => ( // ARRRAY: length of 6 elements, which maps to the skeleton cards, so for each length index create a skeleeton card
+            <div key={i} className="border p-4 rounded hover:bg-gray-100 transition duration-300 ease-in-out">
+              <Skeleton height={200} />
+              <Skeleton count={2} />
+              <Skeleton width="60%" />
+              <Skeleton width="100%" />
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -47,8 +70,9 @@ export const PlansGrid = () => {
               <div
                 key={plan.plan_id}
                 className="flex flex-col justify-between border p-4 rounded hover:bg-gray-100 transition duration-300 ease-in-out"
-              >
-                <div>
+              > 
+
+                <div> 
                   {/* plan image */}
                   <img
                     src={`data:image/jpeg;base64,${plan.plan_image}`}

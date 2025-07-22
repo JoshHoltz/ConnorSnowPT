@@ -1,14 +1,47 @@
 import React, { useEffect, useState } from 'react';
 import { CheckIcon, XIcon } from 'lucide-react';  
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
+
 
 export const MembershipTiers = () => {
   const [packages, setPackages] = useState([]);
+    const [loading, setLoading] = useState(true);
 
 useEffect(() => {
   fetch('https://connorsnowpt.onrender.com/api/membership-packages') 
     .then(res => res.ok ? res.json() : Promise.reject('Fetch failed'))
-    .then(setPackages)
+    .then((data) => {
+      setPackages(data);
+      setLoading(false); // once data is fetched, set loading to false to stop the skeleton effect
+    })
 }, []);
+
+  if (loading) { //If it is loading, show this skeleton effect
+    return (
+      <div className="p-4 px-4 md:px-20">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {[...Array(3)].map((_, i) => ( // ARRRAY: length of 6 elements, which maps to the skeleton cards, so for each length index create a skeleeton card
+            <div key={i} className="border p-4 rounded hover:bg-gray-100 transition duration-300 ease-in-out">
+              <Skeleton width="40%" />
+              <Skeleton height={100} />
+              <div className='mb-4'></div>
+              <Skeleton width="100%" height={50} />
+              <div className="mb-2"></div>
+              <div>
+                {[...Array(10)].map((_, i) => (
+                  <Skeleton key={i} width="60%" />
+                ))}
+              </div>
+              <Skeleton width="40%" />
+              <div className="mb-8"></div>
+              <Skeleton width="100%" height={30} />
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <section className="bg-white py-20 h-100vh">
