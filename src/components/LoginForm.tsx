@@ -23,12 +23,15 @@ export default function LoginForm({ setToken }) {
       user_username: username,
       user_password: password,
     });
-    
+
     if (token) {
       setToken(token);
-      navigate('/client/home?id={token.user_id}'); 
+      navigate(`/client/home?id=${token.user_id}`);
+    } else {
+      alert('Login failed. Please check your username and password.');
     }
   }
+
 
   return (
         <section className="text-black py-20 md:mt-20 bg-gray-100 h-screen">
