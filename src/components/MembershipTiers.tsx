@@ -55,7 +55,7 @@ useEffect(() => {
             >
               <h3 className="text-2xl font-bold mb-2">{pkg.package_name}</h3>
               <div className="mb-6">
-                <span className="text-5xl font-bold">£{pkg.package_price}<span className="text-2xl text-gray-500">p/m</span>
+                <span className="text-5xl font-bold">£{pkg.package_price}<p className="text-2xl text-gray-500">p/m</p>
                 </span>
               </div>
               <p className="text-gray-600 mb-6">{pkg.package_description}</p>
@@ -84,10 +84,10 @@ useEffect(() => {
                   </>
                 )}
               </div>
-
-              <button className="w-full py-4 font-medium bg-black text-white hover:bg-gray-800 transition-colors">
-                Select Plan
-              </button>
+              
+              <div className="flex flex-1 flex-col justify-end">
+                  <button className="w-full py-4 font-medium bg-black text-white hover:bg-gray-800 transition-colors">Select Plan</button>
+              </div>
             </div>
           ))}
         </div>
