@@ -1,32 +1,55 @@
 import React, { useEffect, useState } from "react";
-import Skeleton from 'react-loading-skeleton' // REF (Skeleton Loading): https://www.npmjs.com/package/react-loading-skeleton
-import 'react-loading-skeleton/dist/skeleton.css'
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+
+// REF (Filtering with an API and UseEffect): https://dev.to/alais29dev/building-a-real-time-search-filter-in-react-a-step-by-step-guide-3lmm
 
 export const PlansGrid = () => {
   const [plans, setPackages] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchItem, setSearchedItem] = useState("");
+  const [filteredItems, setFilteredItems] = useState([]); 
 
   useEffect(() => {
     fetch("https://connorsnowpt.onrender.com/api/workout-plans")
       .then((res) => (res.ok ? res.json() : Promise.reject("Fetch failed")))
       .then((data) => {
         setPackages(data);
-        setLoading(false); // once data is fetched, set loading to false to stop the skeleton effect
-      })      
-  }, []);
+        setFilteredItems(data);
+        setLoading(false);
 
-  if (loading) { //If it is loading, show this skeleton effect
+        const filtered = data.filter((plan) =>
+          plan.plan_name.toLowerCase().includes(searchItem.toLowerCase())
+        );
+        setFilteredItems(filtered);
+      });
+  }, [searchItem]);
+
+  const handleInputChange = (e) => {
+    setSearchedItem(e.target.value);
+  };
+
+  if (loading) {
+    //If it is loading, show this skeleton effect
     return (
       <div className="p-4 px-4 md:px-20">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {[...Array(6)].map((_, i) => ( // ARRRAY: length of 6 elements, which maps to the skeleton cards, so for each length index create a skeleeton card
-            <div key={i} className="border p-4 rounded hover:bg-gray-100 transition duration-300 ease-in-out">
-              <Skeleton height={200} />
-              <Skeleton count={2} />
-              <Skeleton width="60%" />
-              <Skeleton width="100%" />
-            </div>
-          ))}
+          {[...Array(6)].map(
+            (
+              _,
+              i // ARRRAY: length of 6 elements, which maps to the skeleton cards, so for each length index create a skeleeton card
+            ) => (
+              <div
+                key={i}
+                className="border p-4 rounded hover:bg-gray-100 transition duration-300 ease-in-out"
+              >
+                <Skeleton height={200} />
+                <Skeleton count={2} />
+                <Skeleton width="60%" />
+                <Skeleton width="100%" />
+              </div>
+            )
+          )}
         </div>
       </div>
     );
@@ -39,6 +62,8 @@ export const PlansGrid = () => {
           <input
             className="rounded-lg p-2 w-full sm:w-64"
             type="text"
+            value={searchItem}
+            onChange={handleInputChange}
             placeholder="Search..."
           />
 
@@ -66,51 +91,57 @@ export const PlansGrid = () => {
       <section>
         <div className="bg-white p-4 px-4 md:px-20">
           <div className="flex flex-col justify-between md:grid grid-cols-1 md:grid-cols-3 gap-4">
-            {plans.map((plan) => (
-              <div
-                key={plan.plan_id}
-                className="flex flex-col justify-between border p-4 rounded hover:bg-gray-100 transition duration-300 ease-in-out"
-              > 
 
-                <div> 
-                  {/* plan image */}
-                  <img
-                    src={`data:image/jpeg;base64,${plan.plan_image}`}
-                    className="w-full h-48 object-cover rounded mb-4"
-                  />
+            {plans 
+              .filter((plan) => //If filter has been applied, conver the plan input to lowercase and see if it is in the searchItem
+                plan.plan_name.toLowerCase().includes(searchItem.toLowerCase())
+              )
+              .map((plan) => (
+                <div
+                  key={plan.plan_id}
+                  className="flex flex-col justify-between border p-4 rounded hover:bg-gray-100 transition duration-300 ease-in-out"
+                >
 
-                  <h2 className="text-xl font-bold underline">
-                    {plan.plan_name}
-                  </h2>
-                  <p className="text-gray-600 mb-2">{plan.plan_description}</p>
-                  <div className="flex justify-between">
-                    <p className="font-bold">
-                      Type:{" "}
-                      <span className="text-blue-600">{plan.plan_type}</span>
+                  <div>
+                    {/* plan image */}
+                    <img
+                      src={`data:image/jpeg;base64,${plan.plan_image}`}
+                      className="w-full h-48 object-cover rounded mb-4"
+                    />
+
+                    <h2 className="text-xl font-bold underline">
+                      {plan.plan_name}
+                    </h2>
+                    <p className="text-gray-600 mb-2">
+                      {plan.plan_description}
                     </p>
-                    <p className="font-bold">
-                      Pages:{" "}
-                      <span className="text-blue-600">{plan.plan_pages}</span>
+                    <div className="flex justify-between">
+                      <p className="font-bold">
+                        Type:{" "}
+                        <span className="text-blue-600">{plan.plan_type}</span>
+                      </p>
+                      <p className="font-bold">
+                        Pages:{" "}
+                        <span className="text-blue-600">{plan.plan_pages}</span>
+                      </p>
+                    </div>
+
+                    <p className="text-green-600 font-semibold mt-14">
+                      £{plan.plan_price}
                     </p>
                   </div>
 
-                  <p className="text-green-600 font-semibold mt-14">
-                    £{plan.plan_price}
-                  </p>
+                  {/* Button at the bottom */}
+                  <a
+                    href={plan.plan_stripe_link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-4 w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 hover:font-bold transition duration-300 ease-in-out text-center block"
+                  >
+                    Purchase & Download
+                  </a>
                 </div>
-
-                {/* Button at the bottom */}
-                {/* stripe link wrapped around purchase and download button plan.plan_stripe_link */}
-                <a
-                  href={plan.plan_stripe_link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-4 w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 hover:font-bold transition duration-300 ease-in-out text-center block"
-                >
-                  Purchase & Download
-                </a>
-              </div>
-            ))}
+              ))}
           </div>
         </div>
       </section>
