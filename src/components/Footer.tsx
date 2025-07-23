@@ -78,8 +78,8 @@ export const Footer = () => {
             <ul className="space-y-3">
               <li className="flex items-start">
                 <MapPinIcon className="mr-3 h-6 w-6 text-blue-500 flex-shrink-0" />
-                <span className="text-gray-400">
-                  Gym: 91 Windingbrook Ln, Collingtree
+                <span className="text-gray-400 hover:underline">
+                  <a href="https://maps.app.goo.gl/zu7adaUEWkXKscQZ8" target='_blank'>Gym: 91 Windingbrook Ln, Collingtree</a>
                 </span>
               </li>
               <li className="flex items-center">
