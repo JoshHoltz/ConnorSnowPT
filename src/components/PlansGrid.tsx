@@ -90,18 +90,32 @@ export const PlansGrid = () => {
       {/* Main Plan Grid - White Background */}
       <section>
         <div className="bg-white p-4 px-4 md:px-20">
-          <div className="flex flex-col justify-between md:grid grid-cols-1 md:grid-cols-3 gap-4">
 
-            {plans 
-              .filter((plan) => //If filter has been applied, conver the plan input to lowercase and see if it is in the searchItem
-                plan.plan_name.toLowerCase().includes(searchItem.toLowerCase())
+        {searchItem && ( // If the searchItem has been set, show the number of matching results and plans
+          filteredItems.length > 0 ? (
+            <p className="text-gray-700 mb-4">
+              Showing {filteredItems.length} matching plans
+            </p>
+          ) : (
+            <p className="text-gray-500 mb-4">No plans match your search.</p>
+          )
+        )}
+
+          <div className="flex flex-col justify-between md:grid grid-cols-1 md:grid-cols-3 gap-4">
+            {plans
+              .filter(
+                (
+                  plan //If filter has been applied, conver the plan input to lowercase and see if it is in the searchItem
+                ) =>
+                  plan.plan_name
+                    .toLowerCase()
+                    .includes(searchItem.toLowerCase())
               )
               .map((plan) => (
                 <div
                   key={plan.plan_id}
                   className="flex flex-col justify-between border p-4 rounded hover:bg-gray-100 transition duration-300 ease-in-out"
                 >
-
                   <div>
                     {/* plan image */}
                     <img
