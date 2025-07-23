@@ -1,5 +1,5 @@
 import React from 'react';
-import { MapPinIcon, PhoneIcon, MailIcon, InstagramIcon, FacebookIcon, TwitterIcon } from 'lucide-react';
+import { MapPinIcon, PhoneIcon, MailIcon, InstagramIcon, Ghost } from 'lucide-react';
 export const Footer = () => {
   return <footer className="bg-black text-white pt-16 pb-8">
       <div className="container mx-auto px-4">
@@ -16,6 +16,11 @@ export const Footer = () => {
               <a href="https://www.instagram.com/connorsnowpt?igsh=MWR3ZDliNmlyZ2h4Zw==" target="_blank" className="hover:text-blue-500 transition-colors">
                 <InstagramIcon size={24} />
               </a>
+
+              <a href="https://t.snapchat.com/XwLMWefN" target="_blank" className="hover:text-blue-500 transition-colors">
+                <Ghost size={24} />
+              </a>
+
             </div>
           </div>
           <div>

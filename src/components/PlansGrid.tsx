@@ -70,36 +70,60 @@ export const PlansGrid = () => {
             />
 
             <div className="hidden md:flex gap-4">
-              <button
-                onClick={() => setFilterType("Cardio")}
-                className="p-2 lg:w-40 md:w-auto rounded-lg bg-blue-200 hover:bg-blue-400 transition ease-in-out duration-300"
-              >
-                Cardio
-              </button>
-              <button
-                onClick={() => setFilterType("Chest")}
-                className="p-2 lg:w-40 md:w-auto rounded-lg bg-blue-200 hover:bg-blue-400 transition ease-in-out duration-300"
-              >
-                Chest
-              </button>
-              <button
-                onClick={() => setFilterType("Back")}
-                className="p-2 lg:w-40 md:w-auto rounded-lg bg-blue-200 hover:bg-blue-400 transition ease-in-out duration-300"
-              >
-                Back
-              </button>
-              <button
-                onClick={() => setFilterType("Legs")}
-                className="p-2 lg:w-40 md:w-auto rounded-lg bg-blue-200 hover:bg-blue-400 transition ease-in-out duration-300"
-              >
-                Legs
-              </button>
-              <button
-                onClick={() => setFilterType("Nutrition")}
-                className="p-2 lg:w-40 md:w-auto rounded-lg bg-blue-200 hover:bg-blue-400 transition ease-in-out duration-300"
-              >
-                Nutrition
-              </button>
+            <button
+              onClick={() => {
+                setFilterType("Cardio");
+              }}
+              className={`p-2 lg:w-40 md:w-auto rounded-lg transition ease-in-out duration-300 ${
+                (filterType === "Cardio" ) ? "text-white bg-blue-600 hover:bg-blue-700" : "bg-blue-200 hover:bg-blue-400"
+              }`}
+            >
+              Cardio
+            </button>
+
+            <button
+              onClick={() => {
+                setFilterType("Chest");
+              }}
+              className={`p-2 lg:w-40 md:w-auto rounded-lg transition ease-in-out duration-300 ${
+                (filterType === "Chest" ) ? "text-white bg-blue-600 hover:bg-blue-700" : "bg-blue-200 hover:bg-blue-400"
+              }`}
+            >
+              Chest
+            </button>
+
+            <button
+              onClick={() => {
+                setFilterType("Back");
+              }}
+              className={`p-2 lg:w-40 md:w-auto rounded-lg transition ease-in-out duration-300 ${
+                (filterType === "Back" ) ? "text-white bg-blue-600 hover:bg-blue-700" : "bg-blue-200 hover:bg-blue-400"
+              }`}
+            >
+              Back
+            </button>
+
+            <button
+              onClick={() => {
+                setFilterType("Legs");
+              }}
+              className={`p-2 lg:w-40 md:w-auto rounded-lg transition ease-in-out duration-300 ${
+                (filterType === "Legs" ) ? "text-white bg-blue-600 hover:bg-blue-700" : "bg-blue-200 hover:bg-blue-400"
+              }`}
+            >
+              Legs
+            </button>
+
+            <button
+              onClick={() => {
+                setFilterType("Nutrition");
+              }}
+              className={`p-2 lg:w-40 md:w-auto rounded-lg transition ease-in-out duration-300 ${
+                (filterType === "Nutrition" ) ? "text-white bg-blue-600 hover:bg-blue-700" : "bg-blue-200 hover:bg-blue-400"
+              }`}
+            >
+              Nutrition
+            </button>
 
               <button
                 onClick={() => {
@@ -107,7 +131,7 @@ export const PlansGrid = () => {
                   setFilterType(""); // Reset filterType
                   setSearchedItem("");
                 }}
-                className="p-2 rounded-lg bg-red-200 hover:bg-red-400 text-red-800 transition ease-in-out duration-300"
+                className="lg:w-40 md:w-auto p-2 rounded-lg bg-red-200 hover:bg-red-400 text-red-800 transition ease-in-out duration-300"
               >
                 Clear Filters
               </button>
