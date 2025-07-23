@@ -9,6 +9,7 @@ export const PlansGrid = () => {
   const [loading, setLoading] = useState(true);
   const [searchItem, setSearchedItem] = useState("");
   const [filteredItems, setFilteredItems] = useState([]); 
+  const [filterType, setFilterType] = useState(""); //button filtering
 
   useEffect(() => {
     fetch("https://connorsnowpt.onrender.com/api/workout-plans")
@@ -57,109 +58,146 @@ export const PlansGrid = () => {
 
   return (
     <>
-      <div className="bg-gray-200 px-4 md:px-20 py-4">
-        <div className="flex flex-wrap items-center gap-4">
-          <input
-            className="rounded-lg p-2 w-full sm:w-64"
-            type="text"
-            value={searchItem}
-            onChange={handleInputChange}
-            placeholder="Search..."
-          />
+      <div className="bg-white">
+        <div className="flex flex-wrap items-center gap-4 bg-gray-200 py-4">
+          <div className="px-20 flex gap-4">
+            <input
+              className="rounded-lg p-2 w-full sm:w-64"
+              type="text"
+              value={searchItem}
+              onChange={handleInputChange}
+              placeholder="Search..."
+            />
 
-          <div className="hidden md:flex gap-4">
-            <button className="p-2 lg:w-40 md:w-auto rounded-lg bg-blue-200 hover:bg-blue-400 transition ease-in-out duration-300">
-              Cardio
-            </button>
-            <button className="p-2 lg:w-40 md:w-auto rounded-lg bg-blue-200 hover:bg-blue-400 transition ease-in-out duration-300">
-              Chest
-            </button>
-            <button className="p-2 lg:w-40 md:w-auto rounded-lg bg-blue-200 hover:bg-blue-400 transition ease-in-out duration-300">
-              Back
-            </button>
-            <button className="p-2 lg:w-40 md:w-auto rounded-lg bg-blue-200 hover:bg-blue-400 transition ease-in-out duration-300">
-              Legs
-            </button>
-            <button className="p-2 lg:w-40 md:w-auto rounded-lg bg-blue-200 hover:bg-blue-400 transition ease-in-out duration-300">
-              Nutrition
-            </button>
+            <div className="hidden md:flex gap-4">
+              <button
+                onClick={() => setFilterType("Cardio")}
+                className="p-2 lg:w-40 md:w-auto rounded-lg bg-blue-200 hover:bg-blue-400 transition ease-in-out duration-300"
+              >
+                Cardio
+              </button>
+              <button
+                onClick={() => setFilterType("Chest")}
+                className="p-2 lg:w-40 md:w-auto rounded-lg bg-blue-200 hover:bg-blue-400 transition ease-in-out duration-300"
+              >
+                Chest
+              </button>
+              <button
+                onClick={() => setFilterType("Back")}
+                className="p-2 lg:w-40 md:w-auto rounded-lg bg-blue-200 hover:bg-blue-400 transition ease-in-out duration-300"
+              >
+                Back
+              </button>
+              <button
+                onClick={() => setFilterType("Legs")}
+                className="p-2 lg:w-40 md:w-auto rounded-lg bg-blue-200 hover:bg-blue-400 transition ease-in-out duration-300"
+              >
+                Legs
+              </button>
+              <button
+                onClick={() => setFilterType("Nutrition")}
+                className="p-2 lg:w-40 md:w-auto rounded-lg bg-blue-200 hover:bg-blue-400 transition ease-in-out duration-300"
+              >
+                Nutrition
+              </button>
+
+              <button
+                onClick={() => {
+                  setFilteredItems([]); // Clear filtered items
+                  setFilterType(""); // Reset filterType
+                  setSearchedItem("");
+                }}
+                className="p-2 rounded-lg bg-red-200 hover:bg-red-400 text-red-800 transition ease-in-out duration-300"
+              >
+                Clear Filters
+              </button>
+            </div>
           </div>
+
+          {/* Main Plan Grid - White Background */}
+          <section>
+            <div className="bg-white px-20 p-4">
+              {searchItem && // If the searchItem has been set, show the number of matching results and plans
+                (filteredItems.length > 0 ? (
+                  <p className="text-gray-700 mb-4">
+                    Showing {filteredItems.length} matching plans
+                  </p>
+                ) : (
+                  // <p className="text-gray-500 mb-4">No plans match your search.</p>
+                  <p className="text-gray-500 mb-4">
+                    Nothing found for "{searchItem}"
+                  </p>
+                ))}
+
+              <div className="flex flex-col justify-between md:grid grid-cols-1 md:grid-cols-3 gap-4">
+                {plans
+                  .filter(
+                    (
+                      plan //If filter has been applied, conver the plan input to lowercase and see if it is in the searchItem
+                    ) =>
+                      plan.plan_name
+                        .toLowerCase()
+                        .includes(searchItem.toLowerCase())
+                  )
+
+                  .filter((plan) =>
+                    filterType ? plan.plan_type === filterType : true
+                  )
+
+                  .map((plan) => (
+                    <div
+                      key={plan.plan_id}
+                      className="flex flex-col justify-between border p-4 rounded hover:bg-gray-100 transition duration-300 ease-in-out"
+                    >
+                      <div>
+                        {/* plan image */}
+                        <img
+                          src={`data:image/jpeg;base64,${plan.plan_image}`}
+                          className="w-full h-48 object-cover rounded mb-4"
+                        />
+
+                        <h2 className="text-xl font-bold underline">
+                          {plan.plan_name}
+                        </h2>
+                        <p className="text-gray-600 mb-2">
+                          {plan.plan_description}
+                        </p>
+                        <div className="flex justify-between">
+                          <p className="font-bold">
+                            Type:{" "}
+                            <span className="text-blue-600">
+                              {plan.plan_type}
+                            </span>
+                          </p>
+                          <p className="font-bold">
+                            Pages:{" "}
+                            <span className="text-blue-600">
+                              {plan.plan_pages}
+                            </span>
+                          </p>
+                        </div>
+
+                        <p className="text-green-600 font-semibold mt-14">
+                          £{plan.plan_price}
+                        </p>
+                      </div>
+
+                      {/* Button at the bottom */}
+                      <a
+                        href={plan.plan_stripe_link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-4 w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 hover:font-bold transition duration-300 ease-in-out text-center block"
+                      >
+                        Purchase & Download
+                      </a>
+                    </div>
+                  ))}
+              </div>
+            </div>
+          </section>
         </div>
       </div>
-
-      {/* Main Plan Grid - White Background */}
-      <section>
-        <div className="bg-white p-4 px-4 md:px-20">
-
-        {searchItem && ( // If the searchItem has been set, show the number of matching results and plans
-          filteredItems.length > 0 ? (
-            <p className="text-gray-700 mb-4">
-              Showing {filteredItems.length} matching plans
-            </p>
-          ) : (
-            // <p className="text-gray-500 mb-4">No plans match your search.</p> 
-            <p className="text-gray-500 mb-4">Nothing found for "{searchItem}"</p>
-          )
-        )}
-
-          <div className="flex flex-col justify-between md:grid grid-cols-1 md:grid-cols-3 gap-4">
-            {plans
-              .filter(
-                (
-                  plan //If filter has been applied, conver the plan input to lowercase and see if it is in the searchItem
-                ) =>
-                  plan.plan_name
-                    .toLowerCase()
-                    .includes(searchItem.toLowerCase())
-              )
-              .map((plan) => (
-                <div
-                  key={plan.plan_id}
-                  className="flex flex-col justify-between border p-4 rounded hover:bg-gray-100 transition duration-300 ease-in-out"
-                >
-                  <div>
-                    {/* plan image */}
-                    <img
-                      src={`data:image/jpeg;base64,${plan.plan_image}`}
-                      className="w-full h-48 object-cover rounded mb-4"
-                    />
-
-                    <h2 className="text-xl font-bold underline">
-                      {plan.plan_name}
-                    </h2>
-                    <p className="text-gray-600 mb-2">
-                      {plan.plan_description}
-                    </p>
-                    <div className="flex justify-between">
-                      <p className="font-bold">
-                        Type:{" "}
-                        <span className="text-blue-600">{plan.plan_type}</span>
-                      </p>
-                      <p className="font-bold">
-                        Pages:{" "}
-                        <span className="text-blue-600">{plan.plan_pages}</span>
-                      </p>
-                    </div>
-
-                    <p className="text-green-600 font-semibold mt-14">
-                      £{plan.plan_price}
-                    </p>
-                  </div>
-
-                  {/* Button at the bottom */}
-                  <a
-                    href={plan.plan_stripe_link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-4 w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 hover:font-bold transition duration-300 ease-in-out text-center block"
-                  >
-                    Purchase & Download
-                  </a>
-                </div>
-              ))}
-          </div>
-        </div>
-      </section>
     </>
   );
-};
+}
