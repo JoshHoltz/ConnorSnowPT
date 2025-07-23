@@ -97,7 +97,8 @@ export const PlansGrid = () => {
               Showing {filteredItems.length} matching plans
             </p>
           ) : (
-            <p className="text-gray-500 mb-4">No plans match your search.</p>
+            // <p className="text-gray-500 mb-4">No plans match your search.</p> 
+            <p className="text-gray-500 mb-4">Nothing found for "{searchItem}"</p>
           )
         )}
 
