@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { WorkoutSplitTable } from "../../components/client/WorkoutSplit";
 
-
 function getToken() {
   const user_id = sessionStorage.getItem('user_id');
   const user_username = sessionStorage.getItem('user_username');
@@ -18,18 +17,24 @@ export const WorkoutSplit = () => {
 
   useEffect(() => {
     const token = getToken();
-
     const params = new URLSearchParams(location.search);
     const idFromUrl = params.get('id');
 
     if (!token) {
       navigate('/forbidden', { replace: true });
-      return; 
+      return;
     }
 
-    if (!idFromUrl && token?.user_id) {
+    if (!idFromUrl) {
       navigate(`/client/workouts?id=${token.user_id}`, { replace: true });
+      return;
     }
+
+    if (idFromUrl !== token.user_id) {
+      navigate('/forbidden', { replace: true });
+      return;
+    }
+
   }, [location, navigate]);
 
   return (
