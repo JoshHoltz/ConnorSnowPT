@@ -47,8 +47,10 @@ export default function LoginForm() {
 
       if (token.isAdmin === "Y") {
         navigate("/admin/home");
+        window.location.reload();
       } else {
         navigate(`/client/home?id=${token.user_id}`);
+        window.location.reload(); // Reload the page to ensure the new token is applied
       }
     } else {
       alert("Login failed. Please check your username and password.");

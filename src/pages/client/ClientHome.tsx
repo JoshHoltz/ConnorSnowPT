@@ -34,6 +34,7 @@ export const ClientHome = () => {
 
     if (clientId !== token.user_id) {
       navigate('/forbidden', { replace: true });
+      window.location.reload(); // Reload the page to ensure the new token is applied
       return;
     }
 

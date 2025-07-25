@@ -22,6 +22,7 @@ export const AdminWorkout = () => {
 
     if (!token || token.isAdmin !== "Y") {
       navigate('/forbidden', { replace: true });
+      window.location.reload(); 
     }
   }, [navigate]);
 

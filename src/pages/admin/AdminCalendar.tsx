@@ -20,6 +20,7 @@ export const AdminCalendar = () => {
 
     if (!token || token.isAdmin !== "Y") {
       navigate('/forbidden', { replace: true });
+      window.location.reload(); 
     }
   }, [navigate]);
 

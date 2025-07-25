@@ -32,6 +32,7 @@ export const WorkoutSplit = () => {
 
     if (idFromUrl !== token.user_id) {
       navigate('/forbidden', { replace: true });
+      window.location.reload(); 
       return;
     }
 
