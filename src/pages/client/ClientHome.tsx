@@ -24,6 +24,7 @@ export const ClientHome = () => {
 
     if (!token) {
       navigate('/forbidden', { replace: true });
+      window.location.reload(); 
       return;
     }
 

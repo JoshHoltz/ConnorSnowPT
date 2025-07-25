@@ -22,6 +22,7 @@ export const WorkoutSplit = () => {
 
     if (!token) {
       navigate('/forbidden', { replace: true });
+      window.location.reload();
       return;
     }
 
