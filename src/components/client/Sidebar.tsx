@@ -66,7 +66,7 @@ export const Sidebar = () => {
 
             <ul className="flex flex-col gap-2 px-4 list-none mb-4">
               <li>
-                <NavButton href="/" icon={<LogOut />} text="Logout" />
+                <NavButton href="/client/Logout" icon={<LogOut />} text="Logout" />
               </li>
             </ul>
           </nav>

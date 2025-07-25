@@ -80,7 +80,7 @@ export const Sidebar = () => {
                 />
               </li>
               <li>
-                <NavButton href="/" icon={<LogOut />} text="Logout" />
+                <NavButton href="/admin/Logout" icon={<LogOut />} text="Logout" />
               </li>
             </ul>
           </nav>

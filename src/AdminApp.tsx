@@ -9,6 +9,7 @@ import { AdminPlans } from './pages/admin/AdminPlans'
 import { AdminAnalytics } from './pages/admin/AdminAnalytics';
 import { AdminCalendar } from './pages/admin/AdminCalendar';
 import { AdminWorkout } from './pages/admin/AdminAssignWorkout'
+import { Logout } from './pages/admin/Logout'
  
 export function AdminApp() {
   return (
@@ -24,7 +25,8 @@ export function AdminApp() {
             <Route path="/admin/AdminPlans" element={<AdminPlans />} />
             <Route path="/admin/analytics" element={<AdminAnalytics />} />
             <Route path="/admin/calendar" element={<AdminCalendar />} />
-<Route path="/admin/AssignWorkout" element={<AdminWorkout />} />
+            <Route path="/admin/AssignWorkout" element={<AdminWorkout />} />
+            <Route path="/admin/logout" element={<Logout />} />
           </Routes>
         </main>
       </div>
