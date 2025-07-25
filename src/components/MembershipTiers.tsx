@@ -3,6 +3,24 @@ import { CheckIcon, XIcon } from 'lucide-react';
 import Skeleton from 'react-loading-skeleton' // REF (Skeleton Loading): https://www.npmjs.com/package/react-loading-skeleton
 import 'react-loading-skeleton/dist/skeleton.css'
 
+{/* //////////////////////////////////////////////////////////////////////////////
+
+* Using Consts
+    1. packages and setPackages, used to fetch the membership packages data from the API
+    2. loading and setLoading, used to show the skeleton effect while the data is being fetched
+
+* Using useEffect
+    1. useEffect changes state once the API call has been fetched
+    2. Once the data has been fetched the:
+        - setPackages is called and the packages is passed into the state as an array
+        - setLoading is set to false to stop the skeleton effect (Boolean then set to false)
+
+* Map
+    1. {packages.map(pkg => ( ... ))} is used to loop through each fetched package
+    2. Each package is then displayed according to the defined layout. 
+    Note: package is set to pkg so it is handled in the jsx
+  
+////////////////////////////////////////////////////////////////////////////// */}
 
 export const MembershipTiers = () => {
   const [packages, setPackages] = useState([]);

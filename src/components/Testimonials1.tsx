@@ -4,6 +4,24 @@ import Skeleton from 'react-loading-skeleton' // REF (Skeleton Loading): https:/
 import 'react-loading-skeleton/dist/skeleton.css'
 import { data } from "react-router-dom";
 
+{/* /////////////////////////////////////////////////////////////////////////////
+
+* Using Consts
+    1. testionals and setPackages, used to fetch the testimonials data from the API
+    2. loading and setLoading, used to show the skeleton effect while the data is being fetched
+
+* Using useEffect
+    1. useEffect changes state once the API call has been fetched
+    2. Once the data has been fetched the:
+        - setPackages is called and the data is passed into the state as an array
+        - setLoading is set to false to stop the skeleton effect 
+
+* Array
+    1. The array is used to map (loop) through each fetched testimonial
+    2. Each testimonial is then diplayed according to the card layout 
+  
+///////////////////////////////////////////////////////////////////////////// */}
+
 export const Testimonials1 = () => {
   const [testimonals, setPackages] = useState([]);
   const [loading, setLoading] = useState(true);

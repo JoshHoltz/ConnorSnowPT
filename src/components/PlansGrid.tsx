@@ -4,6 +4,33 @@ import "react-loading-skeleton/dist/skeleton.css";
 
 // REF (Filtering with an API and UseEffect): https://dev.to/alais29dev/building-a-real-time-search-filter-in-react-a-step-by-step-guide-3lmm
 
+{/* /////////////////////////////////////////////////////////////////////////////
+
+* Using Consts
+    1. plans and setPackages, are an array which will be be filled by the data from the API backend call
+    2. Loading and setLoading, uses the Skeleton effect to show the loading effect while the data is being fetched by the API call. (Boolean Value)
+    3. searchItem and setSearchedItem is used to store the search input from the user 
+    4. filteredItems and setFilteredItems is used to store the filtered results based on the selected searchItem
+    5. filterType and setFilterType is used to store the type of plan selected by the user if that be Cardio, Chest ect. 
+
+* Use Effect & Functions
+    1. The use effect is a hook that changes the state once the API call has been made and the data has been fetched
+    2. Once the data has been fetched it:
+        - Passes the data into the plans array (plans, setPackages)
+        - Sets the filteredItems to the same data (so it can be filetered later if selected)
+        - Booolean value of setLoading set to false to remove the sekelton effect 
+
+  Handle Input Change
+      1. This function is used to update the searchItem state once the user has inputed the search input
+      2. Here we get the value (setSearchedItem) from the search field and then set of the setFilteredItems function off with the value input 
+      3. The function then uses then calls the data and then uses .filter(plan) to filter and limit the results 
+
+
+* If Loading
+    1. If loading is true then the skeleton effect is shown while the data is being fetched
+
+////////////////////////////////////////////////////////////////////////////// */}
+
 export const PlansGrid = () => {
   const [plans, setPackages] = useState([]);
   const [loading, setLoading] = useState(true);

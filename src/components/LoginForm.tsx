@@ -4,6 +4,54 @@ import HCaptcha from "@hcaptcha/react-hcaptcha";
 
 // REF (Logging In and Session Tokens): https://www.digitalocean.com/community/tutorials/how-to-add-login-authentication-to-react-applications
 
+{/* //////////////////////////////////////////////////////////////////////////////
+
+* Async Login Function
+    Note: Async is a function that can perform an asynchronous (waited) operation till a operation or button is pressed / a promised is fulfilled
+    1. This async function checks a login user creds that is fetched from the API
+    2. Method is is POST for secure transmission of data rather than GET
+    3. Headers has to be set to json so the API can read it and interpret the entered data from the user
+    4. argument 'credentials' is passed as the object request 
+
+* Sucessfull Login (setToken)
+    1. If the login is sucessful the setToken then is called (if (token?.success) is true)
+    2. This function sets out setItem that stores information in the session storage:
+        - user_id, user_username, isAdmin
+    3. This then can work out if the user is admin or not and will hold the lgoin data in the session 
+    4. This session storage is then used at two other functions:
+        - getToken() to get the user_id and user_username
+        - setToken() to set the user_id and user_username (as described above)
+
+    Satisfying the Token
+    Before the user can call the login function they must satisfy what a token is:
+    1. The user must enter a username and password
+    2. The user must complete the captcha (hCaptcha) to ensure the user is human
+    3. if this is met call the loginUser function.
+    
+
+* Getting Entered Login Information from Form & Using Consts
+    1. username and setUsername is used to capture the username input from the form setUsername(e.target.value)
+    2. password and setPassword is used to capture the password input from the form setPassword(e.target.value)
+    3. navigate is used to redirect the user once the login is sucessful
+    
+* Captcha
+    Note: Captcha (added for layer of security)
+    1. captchaToken and setCaptchaToken is used to hold to see if the captcha has been compleated
+    2. captchaRef is used to reference the captcha, for example if it needs to reset
+    3. if (!captchaToken) is false it will alert the user to compleate the capture before they can move on
+
+* Token Validation
+    1. If the token is sucessful and the user has matched a database entry:
+    2. Set the token and append the login information to session
+
+    3. 
+    a. if the token is also Admin so the value is === "Y" send the user to the admin portal OR
+    b. anything else send to the client home page with the user token id parsed to the URL to get to the correct client page by ID
+
+
+////////////////////////////////////////////////////////////////////////////// */}
+
+
 async function loginUser(credentials) {
   return fetch("https://connorsnowpt.onrender.com/api/login-user", {
     method: "POST",
