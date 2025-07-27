@@ -15,8 +15,8 @@ export const ClientWelcome = ({ clientId }: { clientId: string | null }) => {
       .catch((err) => console.error(err));
   }, [clientId]);
 
-    if (!client) {
-            return (
+  if (!client) {
+    return (
       <section className="text-white p-4 mt-10 md:mt-0">
         <p className="text-white">Loading client...</p>
       </section>
@@ -25,17 +25,14 @@ export const ClientWelcome = ({ clientId }: { clientId: string | null }) => {
 
   return (
     <section className="text-white p-4 mt-10 md:mt-0">
-      <div className="px-2 text-black bg-gray-800">
+            <div className="bg-gradient-to-r from-gray-700 to-gray-600 rounded-t-lg shadow-sm h-2 relative overflow-hidden text-white" />
+
+      <div className="px-2 text-black bg-gray-800 rounded-b-md">
         <h1 className="text-white p-4 font-bold text-2xl">
           {client
             ? `${client.client_firstname} ${client.client_lastname}`
             : "Loading client..."}
         </h1>
-      </div>
-      <div className="hidden md:flex px-4 w-full bg-gray-600 justify-between">
-        <p className="flex justify-between p-2 font-semibold">Goal: {client.client_goal}</p>
-        <p className="flex justify-between p-2 font-semibold">Contact: {client.client_preferred_contact}</p>
-        <p className="flex justify-between p-2 font-semibold">Plan: {client.client_plan_type}</p>
       </div>
     </section>
   );

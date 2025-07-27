@@ -4,6 +4,7 @@ import { ClientWelcome } from '../../components/client/ClientWelcome'
 import { PRs } from '../../components/client/PRs'
 import { UpcomingWorkout } from '../../components/client/UpcomingWorkout'
 import { MotivationMessage } from '../../components/client/Motivation'
+import { ClientDetails } from '../../components/client/ClientDetails'
 
 function getToken() {
   const user_id = sessionStorage.getItem('user_id')
@@ -42,13 +43,19 @@ export const ClientHome = () => {
   }, [clientId, navigate])
 
   return (
+    <div className="px-4 py-4">
     <div className="mb-4 text-black">
       <ClientWelcome clientId={clientId} />
-      <MotivationMessage />
+      <div className="flex">
+        <ClientDetails clientId={clientId} />
+        <MotivationMessage />
+      </div>
       <div className='flex'>
         <UpcomingWorkout />
         <PRs clientId={clientId} />
       </div>
     </div>
+    </div>
+
   )
 }

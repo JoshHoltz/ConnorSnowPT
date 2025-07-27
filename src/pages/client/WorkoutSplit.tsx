@@ -40,7 +40,7 @@ export const WorkoutSplit = () => {
   }, [location, navigate]);
 
   return (
-    <div className="mb-4 text-black">
+    <div className="px-4 py-4 mb-4 text-black">
       <WorkoutSplitTable />
     </div>
   );

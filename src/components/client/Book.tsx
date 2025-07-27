@@ -2,7 +2,7 @@ import React from "react";
 
 export const Calendar = () => {
   return (
-    <div>
+    <div className="px-4 py-4">
       <h1 className="py-4 hidden md:flex text-2xl font-bold text-white px-8 w-full bg-gray-800">
         Book in With Connor
       </h1>

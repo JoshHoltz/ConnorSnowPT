@@ -10,7 +10,7 @@ export function ClientApp() {
     <BrowserRouter>
       <div className="flex min-h-screen bg-white">
         <Sidebar />
-        <main className="flex-grow p-4">
+        <main className="flex-grow bg-gray-100">
           <Routes>
             <Route path="/client/home" element={<ClientHome />} />
             <Route path="client/booking" element={<Booking />} />
