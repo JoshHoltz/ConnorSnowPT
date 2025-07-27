@@ -49,8 +49,8 @@ export const UpcomingWorkout = () => {
       {/* <h1 className="py-4 hidden md:flex text-2xl font-bold text-white px-8 bg-gray-800">
         Your Upcoming Workout
       </h1> */}
-      <div className="mt-10 md:mt-0 bg-white rounded-t-lg ">
-        <div className="p-4 mt-10 md:mt-0 text-white">
+      <div className="md:mt-0 bg-white rounded-t-lg ">
+        <div className="p-4 md:mt-0 text-white">
           {workouts.map((workout) => {
             const exerciseNames = [
               "upcoming_workout_e_one_name",
@@ -66,7 +66,7 @@ export const UpcomingWorkout = () => {
                 <div className="text-black px-4">
                   <div className="flex justify-between">
                   <h1 className="mb-2 text-lg font-bold">Upcoming Workout</h1>
-                  <a className="text-blue-600 hover:underline" href="/client/workouts">All Workouts</a>
+                  <a className="text-blue-600 hover:underline" href="/client/workouts">All Splits</a>
                   </div>
                   <div className="flex">
                     <DumbbellIcon className="bg-blue-200 text-blue-900" />

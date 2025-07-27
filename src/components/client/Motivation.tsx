@@ -16,7 +16,7 @@ export const MotivationMessage = () => {
   }, []);
 
   return (
-    <div className="px-4 py-4 text-white w-3/4">
+    <div className="px-4 md:py-4 text-white w-full md:w-3/4">
       <div className="bg-gradient-to-r from-gray-800 to-gray-700 rounded-xl shadow-sm p-4 md:p-6 h-full relative overflow-hidden">
         <div className="absolute top-2 text-white/20">
           {/* REF (Chainging the Opacity): https://tailwindcss.com/docs/color */}

@@ -27,7 +27,7 @@ export const ClientDetails = ({ clientId }: { clientId: string | null }) => {
   }
 
   return (
-    <section className="px-4 py-4 w-1/2 text-black mt-10 md:mt-0">
+    <section className="px-4 py-4 w-full md:w-1/2 text-black mt-0 md:mt-0">
       <div className="bg-white rounded-xl shadow-sm p-4 md:p-6 h-full relative overflow-hidden text-black">
         <div className="absolute top-0 left-0 w-20 md:w-24 h-16 md:h-24 bg-white/20 rounded-br-full"></div>
 
