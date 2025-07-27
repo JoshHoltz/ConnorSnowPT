@@ -49,13 +49,12 @@ export const AdminAssignWorkout = ({ clientId }) => {
 
       <div className="mt-4 gap-4 md:flex flex-wrap">
         {completeWorkouts.map((workout, dayIndex) => (
-<form
-  key={dayIndex}
-  className="border-2 bg-white md:w-[32%] mb-6 min-h-[500px]"
-  method="POST"
-  action="https://connorsnowpt.com/api/insert-a-client-split"
->
-
+          <form
+            key={dayIndex}
+            className="border-2 bg-white md:w-[32%] mb-6 min-h-[500px]"
+            method="POST"
+            action="https://connor-snow-pt-bdd7a068ad9e.herokuapp.com/api/insert-a-client-split"
+          >
             <div className="bg-gray-600 p-4 flex justify-between text-black">
               <input
                 name="upcoming_workout_split_name"

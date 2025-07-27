@@ -123,6 +123,22 @@ export const WorkoutSplitTable = () => {
                       workout.upcoming_workout_e_four_how_to,
                       `${workout.idupcoming_workouts}_4`
                     )}
+                  {workout.upcoming_workout_e_five_name &&
+                    renderExerciseRow(
+                      workout.upcoming_workout_e_five_name,
+                      workout.upcoming_workout_e_five_sets,
+                      workout.upcoming_workout_e_five_reps,
+                      workout.upcoming_workout_e_five_how_to,
+                      `${workout.idupcoming_workouts}_5`
+                    )}
+                   {workout.upcoming_workout_e_six_name &&
+                    renderExerciseRow(
+                      workout.upcoming_workout_e_six_name,
+                      workout.upcoming_workout_e_six_sets,
+                      workout.upcoming_workout_e_six_reps,
+                      workout.upcoming_workout_e_six_how_to,
+                      `${workout.idupcoming_workouts}_6`
+                    )}
                 </tbody>
               </table>
             </div>
