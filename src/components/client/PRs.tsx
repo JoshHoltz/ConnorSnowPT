@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import { Trophy } from "lucide-react";
+import Skeleton from 'react-loading-skeleton' 
 
 export const PRs = ({ clientId }: { clientId: string | null }) => {
   const [client, setClient] = useState<any>(null);
   const [edit, setEdit] = useState(false);
+  const [loading, setLoading] = useState(true);
+  
 
   useEffect(() => {
     if (!clientId) return;
@@ -11,10 +14,19 @@ export const PRs = ({ clientId }: { clientId: string | null }) => {
     fetch(`https://connorsnowpt.onrender.com/api/client-by-id/${clientId}`)
       .then((res) => (res.ok ? res.json() : Promise.reject("Failed to fetch client")))
       .then(setClient)
-      .catch(console.error);
+      .catch(console.error)
+      .finally(() => setLoading(false))
   }, [clientId]);
 
   if (!client) return <p className="text-white p-4 mt-10 md:mt-0">Loading client...</p>;
+
+  if (loading) {
+    return (
+      <div className="px-4 py-4 w-1/2">
+        <Skeleton height={400}/>
+      </div>
+    )
+  }
 
   return (
     <section className="text-black p-4 md:mt-0 w-full md:w-1/2">

@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { QuoteIcon } from "lucide-react";
+import Skeleton from 'react-loading-skeleton' 
 
 export const MotivationMessage = () => {
   const [message, setMessage] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch("https://connorsnowpt.onrender.com/api/motivation-message")
@@ -12,8 +14,17 @@ export const MotivationMessage = () => {
           setMessage(data[0]);
         }
       })
+      .finally(() => setLoading(false))
       .catch((err) => console.error(err));
   }, []);
+
+  if (loading) {
+    return (
+      <div className="px-4 py-4 w-full">
+        <Skeleton height={300}/>
+      </div>
+    )
+  }
 
   return (
     <div className="px-4 md:py-4 text-white w-full md:w-3/4">

@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
+import Skeleton from 'react-loading-skeleton' 
 
 export const ClientWelcome = ({ clientId }: { clientId: string | null }) => {
   const [client, setClient] = useState(null);
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     if (!clientId) return;
@@ -11,9 +13,23 @@ export const ClientWelcome = ({ clientId }: { clientId: string | null }) => {
       .then((res) =>
         res.ok ? res.json() : Promise.reject("Failed to fetch client")
       )
-      .then(setClient)
-      .catch((err) => console.error(err));
+      .then((data) => {
+        setClient(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error(err);
+        setLoading(false);
+      });
   }, [clientId]);
+
+    if (loading) {
+    return (
+      <div className="px-4 py-4">
+        <Skeleton height={75} />
+      </div>
+    )
+  }
 
   if (!client) {
     return (

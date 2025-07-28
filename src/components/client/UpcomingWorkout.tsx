@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { DumbbellIcon } from "lucide-react";
+import Skeleton from 'react-loading-skeleton' 
 
 export const UpcomingWorkout = () => {
   const [searchParams] = useSearchParams();
   const clientId = searchParams.get("id");
   const [workouts, setWorkouts] = useState([]);
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     if (!clientId) return;
@@ -13,8 +15,17 @@ export const UpcomingWorkout = () => {
     fetch(`https://connorsnowpt.onrender.com/api/upcoming-workouts/${clientId}`)
       .then((res) => res.json())
       .then((data) => setWorkouts(data || []))
-      .catch(() => setWorkouts([]));
+      .catch(() => setWorkouts([]))
+      .finally(() => setLoading(false))
   }, [clientId]);
+
+  if (loading) {
+    return (
+      <div className="px-4 py-4 w-1/2">
+        <Skeleton height={400}/>
+      </div>
+    )
+  }
 
   if (!clientId) return <p>Loading client ID...</p>;
 

@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { UserIcon, TargetIcon, PhoneIcon, CrownIcon } from "lucide-react";
+import Skeleton from 'react-loading-skeleton' 
 
 export const ClientDetails = ({ clientId }: { clientId: string | null }) => {
   const [client, setClient] = useState<any>(null);
   const [edit, setEdit] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!clientId) return;
@@ -11,8 +13,17 @@ export const ClientDetails = ({ clientId }: { clientId: string | null }) => {
     fetch(`https://connorsnowpt.onrender.com/api/client-by-id/${clientId}`)
       .then((res) => (res.ok ? res.json() : Promise.reject("Failed to fetch")))
       .then(setClient)
-      .catch(console.error);
+      .catch(console.error)
+      .finally(() => setLoading(false))
   }, [clientId]);
+
+  if (loading) {
+    return (
+    <div className="w-1/2 px-4 py-4">
+        <Skeleton height={300} />
+    </div>
+    )
+  }
 
   if (!client) return <p>Loading client...</p>;
 
