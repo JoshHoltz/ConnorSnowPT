@@ -18,8 +18,6 @@ export const PRs = ({ clientId }: { clientId: string | null }) => {
       .finally(() => setLoading(false))
   }, [clientId]);
 
-  if (!client) return <p className="text-white p-4 mt-10 md:mt-0">Loading client...</p>;
-
   if (loading) {
     return (
       <div className="px-4 py-4 w-1/2">
@@ -27,6 +25,8 @@ export const PRs = ({ clientId }: { clientId: string | null }) => {
       </div>
     )
   }
+
+    if (!client) return <p className="text-white p-4 mt-10 md:mt-0">Loading client...</p>;
 
   return (
     <section className="text-black p-4 md:mt-0 w-full md:w-1/2">
