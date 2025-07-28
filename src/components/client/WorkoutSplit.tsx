@@ -1,22 +1,39 @@
 import { useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import Skeleton from 'react-loading-skeleton' 
 
 export const WorkoutSplitTable = () => {
   const [searchParams] = useSearchParams();
   const clientId = searchParams.get("id");
   const [workouts, setWorkouts] = useState([]);
   const [visibleHowTo, setVisibleHowTo] = useState({});
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!clientId) return;
     fetch(`https://connorsnowpt.onrender.com/api/workout-split/${clientId}`)
       .then((res) => res.json())
-      .then((data) => setWorkouts(data || []));
+      .then((data) => setWorkouts(data || []))
+      .finally(() => setLoading(false));
   }, [clientId]);
 
   const toggleHowTo = (id) => {
     setVisibleHowTo((prev) => ({ ...prev, [id]: !prev[id] }));
   };
+
+  if (loading) {
+    return (
+      <div className="px-4 py-4">
+        <Skeleton height={100} />
+
+        <div className="mt-4 grid grid-cols-3 gap-4 rounded-lg">
+          {[...Array(3)].map((_, index) => (
+            <Skeleton key={index} height={600} />
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   const renderExerciseRow = (exercise, sets, reps, howTo, id) => (
     <>
