@@ -167,7 +167,7 @@ export const PlansGrid = () => {
 
           {/* Main Plan Grid - White Background */}
           <section>
-            <div className="bg-white px-20 p-4">
+            <div className="bg-white px-6 md:px-20 p-4">
               {searchItem && // If the searchItem has been set, show the number of matching results and plans
                 (filteredItems.length > 0 ? (
                   <p className="text-gray-700 mb-4">
