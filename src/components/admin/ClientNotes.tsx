@@ -32,7 +32,7 @@ export const ClientNotes = ({ clientId }: { clientId: string | null }) => {
       </div>
         <div className="bg-gray-300 p-4">
             <form
-            action="https://connorsnowpt.onrender.com/api/insert-client-note"
+            action="https://www.connorsnowpt.com/api/insert-client-note"
             method="POST"
             className="flex flex-col gap-4"
             >
