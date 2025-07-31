@@ -27,7 +27,7 @@ export const AdminWorkout = () => {
   }, [navigate]);
 
   return (
-    <div className="mb-4 text-black">
+    <div className="text-black">
       <p className="hidden md:flex text-black px-8"></p>
       <div className="p-4 mt-10 md:mt-0">
         <AdminAssignWorkout clientId={clientId} />

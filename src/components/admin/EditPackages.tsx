@@ -17,7 +17,7 @@ export const AdminMembershipTiers = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 ">
           {packages.map(pkg => (
                         <form
-            action="https://connorsnowpt.onrender.com/api/insert-package-change"
+            action="https://www.connorsnowpt.com/api/insert-package-change"
             method="POST"
             className="flex flex-col gap-4"
             >

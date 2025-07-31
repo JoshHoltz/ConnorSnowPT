@@ -14,7 +14,7 @@ import { Logout } from './pages/admin/Logout'
 export function AdminApp() {
   return (
     <BrowserRouter>
-      <div className="flex min-h-screen bg-white">
+      <div className="flex min-h-screen bg-gray-100">
         <Sidebar />
         <main className="flex-grow p-4">
           <Routes>

@@ -24,53 +24,55 @@ export const AdminAssignWorkout = ({ clientId }) => {
       .catch(() => setWorkouts([]));
   }, [clientId]);
 
-  if (!clientId) return <p>Loading client ID...</p>;
+  if (!clientId) return <p className="text-red-500">Loading client ID...</p>;
 
   const emptyDayWorkout = {
     upcoming_workout_split_name: "",
     upcoming_workout_date: "",
     idupcoming_workouts: null,
-    exercises: [
-      { name: "", sets: "", reps: "", howTo: "" },
-      { name: "", sets: "", reps: "", howTo: "" },
-      { name: "", sets: "", reps: "", howTo: "" },
-      { name: "", sets: "", reps: "", howTo: "" },
-    ],
+    exercises: Array(6).fill({ name: "", sets: "", reps: "", howTo: "" }),
   };
 
-  // Always render 3 workout forms
-  const completeWorkouts = [0, 1, 2].map((i) => workouts[i] || { ...emptyDayWorkout });
+  const completeWorkouts = [0, 1, 2].map(
+    (i) => workouts[i] || { ...emptyDayWorkout }
+  );
 
   return (
     <div className="px-4 py-4 mb-4 text-black md:w-full w-full mt-10 md:mt-0">
-      <h1 className="py-4 hidden md:flex text-2xl font-bold text-white px-8 bg-gray-800">
-        Your Clients Workout Split
+      <h1 className="py-4 hidden md:flex text-2xl font-bold text-white px-8 bg-gray-800 rounded-t-2xl">
+        Your Client's Workout Split
       </h1>
 
-      <div className="mt-4 gap-4 md:flex flex-wrap">
+      <div className="mt-4 gap-6 md:flex flex-wrap">
         {completeWorkouts.map((workout, dayIndex) => (
           <form
             key={dayIndex}
-            className="border-2 bg-white md:w-[32%] mb-6 min-h-[500px]"
+            className="rounded-2xl overflow-hidden shadow-m bg-white transitioxn-transform hover:scale-[1.02] md:w-[32%] w-full mb-6"
             method="POST"
             action="https://www.connorsnowpt.com/api/insert-a-client-split"
           >
-            <div className="bg-gray-600 p-4 flex justify-between text-black">
-              <input
-                name="upcoming_workout_split_name"
-                defaultValue={workout.upcoming_workout_split_name}
-                className="text-l"
-                placeholder={`Workout Split Name Day ${dayIndex + 1}`}
-              />
-              <input
-                name="upcoming_workout_date"
-                defaultValue={
-                  workout.upcoming_workout_date ||
-                  new Date().toISOString().split("T")[0]
-                }
-                className="text-l text-black"
-                type="date"
-              />
+            <div className="flex flex-col">
+              <div className="bg-gray-900 text-black">
+                <div className="bg-gray-900 p-6">
+                  <h2 className="text-xl font-bold uppercase"></h2>
+                  <input
+                    name="upcoming_workout_split_name"
+                    defaultValue={workout.upcoming_workout_split_name}
+                    placeholder={`Workout Name Day ${dayIndex + 1}`}
+                    className="text-lg font-semibold w-full mr-2 p-1"
+                  />
+                  <input
+                    name="upcoming_workout_date"
+                    type="date"
+                    defaultValue={
+                      workout.upcoming_workout_date ||
+                      new Date().toISOString().split("T")[0]
+                    }
+                    className="rounded p-1 text-sm"
+                  />
+                </div>
+              </div>
+              <div className="flex justify-between items-center"></div>
               {workout.idupcoming_workouts && (
                 <input
                   type="hidden"
@@ -82,51 +84,55 @@ export const AdminAssignWorkout = ({ clientId }) => {
               <input type="hidden" name="day" value={dayIndex + 1} />
             </div>
 
-            <table className="px-2 py-2 text-black border-2 w-full">
-              <thead>
+            <table className="table-auto w-full text-sm text-left">
+              <thead className="bg-gray-100 text-gray-700">
                 <tr>
-                  <th className="border-2">Exercise</th>
-                  <th className="border-2">No. of Sets</th>
-                  <th className="border-2">No. of Reps</th>
-                  <th className="border-2">How To</th>
+                  <th className="p-2">Exercise</th>
+                  <th className="p-2">Sets</th>
+                  <th className="p-2">Reps</th>
+                  <th className="p-2">How To</th>
                 </tr>
               </thead>
-              <tbody className="border-2 text-center">
+              <tbody className="text-gray-800 text-sm">
                 {workout.exercises.map((ex, exIndex) => (
-                  <tr key={exIndex}>
-                    <td className="border-2">
+                  <tr key={exIndex} className="hover:bg-gray-200">
+                    <td className="border-b p-2">
                       <input
-                        className="border-2 w-full"
                         name={`exercises[${exIndex}][name]`}
                         defaultValue={ex.name}
+                        className="w-full p-1 rounded h-12"
                       />
                     </td>
-                    <td className="border-2">
+                    <td className="border-b p-2">
                       <input
-                        className="border-2 w-full"
                         name={`exercises[${exIndex}][sets]`}
                         defaultValue={ex.sets}
+                        className="w-full p-1 rounded h-12"
                       />
                     </td>
-                    <td className="border-2">
+                    <td className="border-b p-2">
                       <input
-                        className="border-2 w-full"
                         name={`exercises[${exIndex}][reps]`}
                         defaultValue={ex.reps}
+                        className="w-full p-1 rounded h-12"
                       />
                     </td>
-                    <td className="border-2">
+                    <td className="border-b p-2">
                       <input
-                        className="border-2 w-full"
                         name={`exercises[${exIndex}][howTo]`}
                         defaultValue={ex.howTo}
+                        className="w-full p-1 rounded h-12"
                       />
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
-            <button type="submit" className="p-2 m-4 bg-blue-600 text-white">
+
+            <button
+              type="submit"
+              className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded w-full"
+            >
               Save Workout Day {dayIndex + 1}
             </button>
           </form>
