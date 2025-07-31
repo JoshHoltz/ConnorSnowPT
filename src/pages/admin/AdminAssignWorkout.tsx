@@ -8,7 +8,7 @@ function getToken() {
   const isAdmin = sessionStorage.getItem('isAdmin'); 
   if (user_id && user_username && isAdmin) {
     return { user_id, user_username, isAdmin };
-  }
+  } 
   return null;
 }
 
