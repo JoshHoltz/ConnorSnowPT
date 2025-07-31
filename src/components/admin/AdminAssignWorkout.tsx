@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 
 export const AdminAssignWorkout = ({ clientId }) => {
   const [workouts, setWorkouts] = useState([]);
-  const [success, setSuccess ] = useState([false])
 
   useEffect(() => {
     if (!clientId) return;

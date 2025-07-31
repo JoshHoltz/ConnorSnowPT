@@ -407,7 +407,7 @@ console.log("Workout object:", workout);
         ]
       );
     }
-    // res.json({ success: true });
+    res.json({ success: true });
 
   } catch (err) {
   console.error("Workout save error:", err);
