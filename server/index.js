@@ -375,7 +375,7 @@ console.log("Workout object:", workout);
         ]
       );
     }
-    res.redirect(`/client/${clientId}`);
+    res.json({ success: true });
 
   } catch (err) {
   console.error("Workout save error:", err);
