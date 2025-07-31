@@ -269,9 +269,9 @@ app.post("/api/insert-a-client-split", async (req, res) => {
 
     const exercises = req.body.exercises || [];
 
-    const mapIndexToSuffix = ["one", "two", "three", "four"];
+    const mapIndexToSuffix = ["one", "two", "three", "four", "five", "six"];
 
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < 6; i++) {
       const ex = exercises[i] || {};
       const suffix = mapIndexToSuffix[i];
       workout[`upcoming_workout_e_${suffix}_name`] = ex.name || "";
@@ -304,7 +304,15 @@ console.log("Workout object:", workout);
           upcoming_workout_e_four_name = ?,
           upcoming_workout_e_four_sets = ?,
           upcoming_workout_e_four_reps = ?,
-          upcoming_workout_e_four_how_to = ?
+          upcoming_workout_e_four_how_to = ?,
+          upcoming_workout_e_five_name = ?,
+          upcoming_workout_e_five_sets = ?,
+          upcoming_workout_e_five_reps = ?,
+          upcoming_workout_e_five_how_to = ?,
+          upcoming_workout_e_six_name = ?,
+          upcoming_workout_e_six_sets = ?,
+          upcoming_workout_e_six_reps = ?,
+          upcoming_workout_e_six_how_to = ?
         WHERE idupcoming_workouts = ?`,
         [
           workout.upcoming_workout_split_name,
@@ -325,6 +333,14 @@ console.log("Workout object:", workout);
           workout.upcoming_workout_e_four_sets,
           workout.upcoming_workout_e_four_reps,
           workout.upcoming_workout_e_four_how_to,
+          workout.upcoming_workout_e_five_name,
+          workout.upcoming_workout_e_five_sets,
+          workout.upcoming_workout_e_five_reps,
+          workout.upcoming_workout_e_five_how_to,
+          workout.upcoming_workout_e_six_name,
+          workout.upcoming_workout_e_six_sets,
+          workout.upcoming_workout_e_six_reps,
+          workout.upcoming_workout_e_six_how_to,
           workout.idupcoming_workouts,
         ]
       );
@@ -350,8 +366,16 @@ console.log("Workout object:", workout);
           upcoming_workout_e_four_name,
           upcoming_workout_e_four_sets,
           upcoming_workout_e_four_reps,
-          upcoming_workout_e_four_how_to
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+          upcoming_workout_e_four_how_to,
+          upcoming_workout_e_five_name,
+          upcoming_workout_e_five_sets,
+          upcoming_workout_e_five_reps,
+          upcoming_workout_e_five_how_to,
+          upcoming_workout_e_six_name,
+          upcoming_workout_e_six_sets,
+          upcoming_workout_e_six_reps,
+          upcoming_workout_e_six_how_to
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
         [
           clientId,
           workout.upcoming_workout_split_name,
@@ -372,10 +396,18 @@ console.log("Workout object:", workout);
           workout.upcoming_workout_e_four_sets,
           workout.upcoming_workout_e_four_reps,
           workout.upcoming_workout_e_four_how_to,
+          workout.upcoming_workout_e_five_name,
+          workout.upcoming_workout_e_five_sets,
+          workout.upcoming_workout_e_five_reps,
+          workout.upcoming_workout_e_five_how_to,
+          workout.upcoming_workout_e_six_name,
+          workout.upcoming_workout_e_six_sets,
+          workout.upcoming_workout_e_six_reps,
+          workout.upcoming_workout_e_six_how_to,
         ]
       );
     }
-    res.json({ success: true });
+    // res.json({ success: true });
 
   } catch (err) {
   console.error("Workout save error:", err);
