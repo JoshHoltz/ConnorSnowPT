@@ -3,6 +3,8 @@ import Select from "react-select";
 
 export const AdminAssignWorkout = ({ clientId }) => {
   const [workouts, setWorkouts] = useState([]);
+  const [options, setOptions] = useState([]);
+  const [selectedExercise, setSelectedExercise] = useState(null);
 
   useEffect(() => {
     if (!clientId) return;
@@ -113,19 +115,21 @@ export const AdminAssignWorkout = ({ clientId }) => {
                 {workout.exercises.map((ex, exIndex) => (
                   <tr key={exIndex} className="hover:bg-gray-200">
                     <td className="border-b p-2">
-                      {/* <input
+                      <input
                         name={`exercises[${exIndex}][name]`}
                         defaultValue={ex.name}
                         className="w-full p-1 rounded h-12"
-                      /> */}
+                      />
+                    {/* <td className="border-b p-2">
                       <Select
                         name={`exercises[${exIndex}][name]`}
                         options={options}
-                        defaultValue={{ label: ex.name, value: ex.name }}
-                        className="w-full mt-2"
+                        defaultValue={options.find((opt) => opt.value === ex.name)}
+                        className="w-full rounded"
+                        placeholder="Select an exercise"
                         isClearable
-                        placeholder="Select Exercise"
                       />
+                    </td> */}
                     </td>
                     <td className="border-b p-2">
                       <input
