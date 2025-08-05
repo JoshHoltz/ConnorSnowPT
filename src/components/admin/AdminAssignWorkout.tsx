@@ -4,7 +4,6 @@ import Select from "react-select";
 export const AdminAssignWorkout = ({ clientId }) => {
   const [workouts, setWorkouts] = useState([]);
   const [options, setOptions] = useState([]);
-  const [selectedExercise, setSelectedExercise] = useState(null);
 
   useEffect(() => {
     if (!clientId) return;
@@ -120,16 +119,18 @@ export const AdminAssignWorkout = ({ clientId }) => {
                         defaultValue={ex.name}
                         className="w-full p-1 rounded h-12"
                       />
-                    {/* <td className="border-b p-2">
-                      <Select
+                    <td className="border-b p-2">
+                      {/* <Select
                         name={`exercises[${exIndex}][name]`}
                         options={options}
-                        defaultValue={options.find((opt) => opt.value === ex.name)}
+                        defaultValue={options.find(
+                          (option) => option.value === ex.name
+                        )}
                         className="w-full rounded"
                         placeholder="Select an exercise"
                         isClearable
-                      />
-                    </td> */}
+                      /> */}
+                    </td>
                     </td>
                     <td className="border-b p-2">
                       <input
