@@ -137,6 +137,17 @@ app.get('/api/motivation-message', async (req, res) => {
   }
 });
 
+// Get all exercies from the exercise table
+app.get('/api/exercises', async (req, res) => {
+  try {
+    const [rows] = await pool.query('SELECT * FROM exercises');
+    res.json(rows);
+  } catch (err) {
+    console.error('Error on /exercises:', err);
+    res.status(500).json({ error: 'Failed to fetch exercises', details: err.message });
+  }
+});
+
 // Inserting frontend to the DB
 // REF (Formatting of Insertion): https://stackoverflow.com/questions/56034455/how-to-send-json-data-from-react-to-node-js-express-server
 // REF (Status Messages): https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status

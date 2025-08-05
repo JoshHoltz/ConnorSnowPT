@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Select from "react-select";
 
 export const AdminAssignWorkout = ({ clientId }) => {
   const [workouts, setWorkouts] = useState([]);
@@ -23,6 +24,21 @@ export const AdminAssignWorkout = ({ clientId }) => {
       })
       .catch(() => setWorkouts([]));
   }, [clientId]);
+
+  //get all exercies from the exercise api
+  useEffect(() => {
+    fetch("https://connorsnowpt.onrender.com/api/exercises")
+      .then((res) => res.json())
+      .then((data) => {
+        const options = data.map((exercise) => ({
+          value: exercise.exercise_name,
+          label: exercise.exercise_name,
+        }));
+        setOptions(options);
+      })
+      .catch(() => setOptions([]));
+  }, []);
+
 
   if (!clientId) return <p className="text-red-500">Loading client ID...</p>;
 
@@ -97,10 +113,18 @@ export const AdminAssignWorkout = ({ clientId }) => {
                 {workout.exercises.map((ex, exIndex) => (
                   <tr key={exIndex} className="hover:bg-gray-200">
                     <td className="border-b p-2">
-                      <input
+                      {/* <input
                         name={`exercises[${exIndex}][name]`}
                         defaultValue={ex.name}
                         className="w-full p-1 rounded h-12"
+                      /> */}
+                      <Select
+                        name={`exercises[${exIndex}][name]`}
+                        options={options}
+                        defaultValue={{ label: ex.name, value: ex.name }}
+                        className="w-full mt-2"
+                        isClearable
+                        placeholder="Select Exercise"
                       />
                     </td>
                     <td className="border-b p-2">
