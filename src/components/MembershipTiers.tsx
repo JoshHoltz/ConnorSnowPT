@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { CheckIcon, XIcon } from 'lucide-react';  
 import Skeleton from 'react-loading-skeleton' // REF (Skeleton Loading): https://www.npmjs.com/package/react-loading-skeleton
-import 'react-loading-skeleton/dist/skeleton.css'
+import { Fade } from 'react-awesome-reveal'; // REF (Fade): https://www.youtube.com/watch?v=K1qKbZqBh0w&ab_channel=CoderTrinh
 
 {/* //////////////////////////////////////////////////////////////////////////////
 
@@ -64,7 +64,6 @@ useEffect(() => {
   return (
     <section className="bg-white py-20 h-100vh">
       <div className="container mx-auto px-6">
-
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 ">
           {packages.map(pkg => (
             <div

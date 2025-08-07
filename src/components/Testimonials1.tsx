@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Star } from "lucide-react";
 import Skeleton from 'react-loading-skeleton' // REF (Skeleton Loading): https://www.npmjs.com/package/react-loading-skeleton
 import 'react-loading-skeleton/dist/skeleton.css'
-import { data } from "react-router-dom";
 
 {/* /////////////////////////////////////////////////////////////////////////////
 

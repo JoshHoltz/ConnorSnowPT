@@ -1,18 +1,24 @@
 import React from "react";
+import { Fade } from "react-awesome-reveal";
+
 export const CTA2 = () => {
   return (
     <section className="bg-black text-white py-20 md:mt-20">
       <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-center">
         {/* Text Section */}
         <div className="w-full md:w-3/4 space-y-8 position-relative ">
+                            <Fade duration={600} direction="down">
           <h1 className="text-3xl md:text-5xl lg:text-6xl font-extrabold leading-tight">
             Transform Your Life With <span className="text-blue-600">Expert</span> Personal Training
           </h1>
           <p>
             Get ready to transform your life with personalised expoert training designed to help you achive your fitness goals. Start your journey today!
           </p>
+          </Fade>
 
+        
           <div className="flex flex-wrap gap-4">
+            <Fade duration={600} direction="up">
             <a href="/plans"><button className="bg-blue-600 hover:bg-blue-700 transition px-6 py-3 font-bold flex items-start gap-2">
               Plans
             </button>
@@ -23,6 +29,7 @@ export const CTA2 = () => {
                Packages
             </button>
             </a>
+            </Fade>
           </div>
         </div>
 

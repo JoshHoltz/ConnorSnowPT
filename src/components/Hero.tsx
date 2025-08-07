@@ -1,4 +1,5 @@
 import { ArrowRightIcon } from 'lucide-react';
+import { Fade } from 'react-awesome-reveal';
 
 export const Hero = () => {
   return (
@@ -6,14 +7,17 @@ export const Hero = () => {
       <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-center">
         {/* Text Section */}
         <div className="w-full md:w-1/2 space-y-8 position-relative ">
+        <Fade duration={600} direction="down"> 
           <h1 className="text-3xl md:text-5xl lg:text-6xl font-extrabold leading-tight">
             A WORKOUT PLAN, TAILORED TO <span className="text-blue-600">YOU</span>
           </h1>
           <p className='pr-2'>
             Ready to take your fitness to the next level? Whether you're looking to build strength and endurence, lose weight, or simply enhance your overall well-being, my personalised traning programs and packages are designed to help you succeed.
           </p>
+          </Fade>
 
           {/* REF: https://devdojo.com/tailwindcss/buttons#_ */}
+          <Fade duration={600} direction="up">
           <div className="flex gap-4">
 <a href="/packages" className=" px-6 py-3 flex flex-row overflow-hidden relative group cursor-pointer border font-medium border-blue-600 text-blue-600 text-white">
     <span className="absolute w-64 h-0 transition-all duration-300 origin-center rotate-45 -translate-x-20 bg-blue-600 top-1/2 group-hover:h-64 group-hover:-translate-y-32 ease"></span>
@@ -27,6 +31,7 @@ export const Hero = () => {
             </button>
             </a>
           </div>
+          </Fade>
         </div>
 
         <div className="w-full md:w-1/2 mt-10 md:mt-0">
@@ -38,36 +43,6 @@ export const Hero = () => {
             />
             <div className="absolute inset-0 border-4 border-blue-600 pointer-events-none"></div>
           </div>
-          
-          {/* <h1>Insert User</h1>
-          <form action="https://connorsnowpt.onrender.com/api/insert-user" method="POST" className="mt-4"> to look at: https://react.dev/reference/react-dom/components/form
-            <input
-              type="text"
-              name="user_firstname"
-              placeholder="Enter your name"
-              className="text-black w-full p-2 mt-4 border border-blue-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
-            />
-            <input
-              type="text"
-              name="user_lastname"
-              placeholder="Enter your last name"
-              className=" text-black w-full p-2 mt-4 border border-blue-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
-            />
-            <input
-              type="password"
-              name="user_password"
-              placeholder="Enter your password"
-              className="text-black w-full p-2 mt-4 border border-blue-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
-            />
-            <button
-              type="submit"
-              className="mt-4 px-6 py-3 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700 transition duration-300"
-            >
-              Submit
-            </button>
-          </form> */}
-          
-
         </div>
       </div>
     </section>
