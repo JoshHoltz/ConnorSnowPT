@@ -1,5 +1,12 @@
 import { ArrowRightIcon } from 'lucide-react';
 import { Fade } from 'react-awesome-reveal';
+import party from "party-js"; //REF (Party.js): https://party.js.org/docs
+
+const partyHover = (e) => {
+  party.confetti(e.currentTarget, {
+    count: party.variation.range(10, 20),
+    size: party.variation.range(0.5, 1),})
+};
 
 export const Hero = () => {
   return (
@@ -21,7 +28,7 @@ export const Hero = () => {
           <div className="flex gap-4">
 <a href="/packages" className=" px-6 py-3 flex flex-row overflow-hidden relative group cursor-pointer border font-medium border-blue-600 text-blue-600 text-white">
     <span className="absolute w-64 h-0 transition-all duration-300 origin-center rotate-45 -translate-x-20 bg-blue-600 top-1/2 group-hover:h-64 group-hover:-translate-y-32 ease"></span>
-    <span className="relative flex flex-row text-blue-600 transition duration-300 group-hover:text-white ease">Start Your Journey<ArrowRightIcon/></span>
+    <span onMouseEnter={partyHover} className="relative flex flex-row text-blue-600 transition duration-300 group-hover:text-white ease">Start Your Journey<ArrowRightIcon/></span>
 </a>
             
 
