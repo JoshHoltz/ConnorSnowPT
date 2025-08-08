@@ -5,6 +5,8 @@ export const QuickLinks = () => {
   return (
     <section className=" text-white p-4 mt-10 md:mt-0">
       <div className="mb-4 px-4 text-black">
+                            <div className="bg-gradient-to-r from-gray-700 to-gray-600 rounded-t-lg shadow-sm h-2 relative overflow-hidden text-white" />
+
         <div className="hidden border-2 px-4 py-4 border-gray-800 md:flex bg-gray-800">
           <p className="p-2 rounded-lg text-white">
             <Zap />

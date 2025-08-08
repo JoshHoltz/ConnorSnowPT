@@ -23,12 +23,16 @@ export const ClientNotes = ({ clientId }: { clientId: string | null }) => {
   }
 
   return (
-    <section className="text-white p-4 md:mt-0 w-full md:w-2/3">
-      <div className="bg-gray-700 px-4 p-2">
+    <section className="text-white p-4 md:mt-0 w-full md:w-1/2">
+            <div className="bg-gradient-to-r from-gray-700 to-gray-600 rounded-t-lg shadow-sm h-2 relative overflow-hidden text-white" />
+      <div className="bg-gray-800 px-4 p-2">
+        <div className="flex justify-between">
         <h1 className="text-xl font-semibold">Client Notes</h1>
         <p className="text-sm">
           Notes for {client.client_firstname} {client.client_lastname}
         </p>
+        </div>
+
       </div>
         <div className="bg-gray-300 p-4">
             <form

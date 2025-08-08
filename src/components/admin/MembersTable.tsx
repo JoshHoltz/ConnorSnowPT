@@ -13,9 +13,10 @@ export const MembersTable = () => {
   return (
     <section className=" text-black p-4 mt-10 md:mt-0">
       <div className="mb-4 px-4 text-white">
+                    <div className="bg-gradient-to-r from-gray-700 to-gray-600 rounded-t-lg shadow-sm h-2 relative overflow-hidden text-white" />
         {/* <button className="flex justifiy-end p-2 m-2 bg-gray-500 rounded-lg hover:bg-gray-400 transition duraton-300">Add Client</button> */}
-        <table className="w-full border-collapse border-2 border-black text-left">
-          <thead className="border-2 border-black bg-gray-800">
+        <table className="w-full border-collapse border-2 border-t-0 border-black text-left">
+          <thead className="border-2 border-black border-t-0 bg-gray-800">
             <th className="p-2">Client</th>
             <th>Contact</th>
             <th>Plan</th>

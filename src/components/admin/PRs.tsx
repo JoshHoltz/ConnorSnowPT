@@ -3,6 +3,7 @@ import { Trophy } from "lucide-react"; // Ensure you have lucide-react installed
 
 export const PRs = ({ clientId }: { clientId: string | null }) => {
   const [client, setClient] = useState(null);
+    const [edit, setEdit] = useState(false);
 
   useEffect(() => {
     if (!clientId) return;
@@ -24,90 +25,119 @@ export const PRs = ({ clientId }: { clientId: string | null }) => {
   }
 
   return (
-    <section className="text-white p-4 md:mt-0 w-full md:w-1/3">
-      <div className="bg-gray-700 px-4 p-2">
-        <h1 className="text-xl font-semibold">Client Personal Records</h1>
-        <p className="text-sm">Personal Records</p>
-      </div>
+    <section className="text-black p-4 md:mt-0 w-full md:w-1/2">
+      <div className="bg-gradient-to-r from-gray-700 to-gray-600 rounded-t-lg shadow-sm h-2 relative overflow-hidden text-white" />
+      <div className="bg-white rounded-lg">
+        
+        <div className="text-white flex justify-between items-center bg-gray-800 py-4 px-4">
+          <h1 className="text-lg font-semibold flex items-center gap-2">
+            <Trophy />
+            Personal Records
+          </h1>
+          {!edit ? (
+            <button onClick={() => setEdit(true)} className="text-blue-600 hover:underline" type="button">
+              Edit
+            </button>
+          ) : (
+            <button onClick={() => setEdit(false)} className="text-red-600 hover:underline" type="button">
+              Cancel
+            </button>
+          )}
+        </div>
 
-      <div className="bg-gray-900 p-4 px-4">
-        {/* pr 1 */}
-        <div className="bg-gray-600 p-4 rounded-lg mb-4">
-          <div className="flex items-start">
-            <p className="border-2 border-white rounded-lg p-4">
-              <Trophy />
-            </p>
-            <div className="ml-4">
-              <h2 className="md:text-l font-bold sm:text-sm">{client.client_pr_name_1}:</h2>
-              <form
-                action="https://connorsnowpt.onrender.com/api/insert-client-pr-result-1"
-                method="POST"
-                className="flex"
-              >
+        {edit ? (
+          <form
+            action="https://connorsnowpt.onrender.com/api/insert-client-pr-result" //update api call
+            method="POST"
+            className="mt-4 space-y-6"
+          >
+            <input type="hidden" name="client_id" value={client.client_id} />
+
+            <div className="grid grid-cols-2 gap-4 px-4">
+              <div className="rounded-lg border-2 p-5 hover:bg-gray-200 duration-300">
+                <label htmlFor="client_bench_pr" className="block mb-1 font-medium">
+                  Bench Press PR
+                </label>
                 <input
-                  type="hidden"
-                  name="client_id"
-                  value={client.client_id}
-                />
-                <input
-                  type="text"
+                  id="client_bench_pr"
                   name="client_bench_pr"
-                  defaultValue={client.client_pr_result_1}
-                  className="w-full p-2 bg-gray-800 text-white rounded focus:outline-none focus:ring-2 focus:ring-blue-600 mb-2 md:text-2xl sm:text-sm"
+                  type="text"
+                  defaultValue={client.client_bench_pr}
+                  className="border rounded px-2 py-1 w-full"
+                  required
                 />
-                <button
-                  type="submit"
-                  className="ml-4 p-2 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700 transition duration-300"
-                >
-                  Update
-                </button>
-              </form>
-            </div>
-          </div>
-        </div>
+              </div>
 
-        {/* pr 2 */}
-        <div className="bg-gray-600 p-4 rounded-lg mb-4">
-          <div className="flex items-start">
-            <p className="border-2 border-white rounded-lg p-4">
-              <Trophy />
-            </p>
-            <div className="ml-4">
-              <h2 className="md:text-l font-bold sm:text-sm">Squat:</h2>
-              <p className="md:text-2xl sm:text-sm">{client.client_squat_pr}</p>
-            </div>
-          </div>
-        </div>
+              <div className="rounded-lg border-2 p-5 hover:bg-gray-200 duration-300">
+                <label htmlFor="client_squat_pr" className="block mb-1 font-medium">
+                  Squat PR
+                </label>
+                <input
+                  id="client_squat_pr"
+                  name="client_squat_pr"
+                  type="text"
+                  defaultValue={client.client_squat_pr}
+                  className="border rounded px-2 py-1 w-full"
+                  required
+                />
+              </div>
 
-        {/* pr 3 */}
-        <div className="bg-gray-600 p-4 rounded-lg mb-4">
-          <div className="flex items-start">
-            <p className="border-2 border-white rounded-lg p-4">
-              <Trophy />
-            </p>
-            <div className="ml-4">
-              <h2 className="md:text-l font-bold sm:text-sm">Deadlift:</h2>
-              <p className="md:text-2xl sm:text-sm">
-                {client.client_deadlift_pr}
-              </p>
-            </div>
-          </div>
-        </div>
+              <div className="rounded-lg border-2 p-5 hover:bg-gray-200 duration-300">
+                <label htmlFor="client_deadlift_pr" className="block mb-1 font-medium">
+                  Deadlift PR
+                </label>
+                <input
+                  id="client_deadlift_pr"
+                  name="client_deadlift_pr"
+                  type="text"
+                  defaultValue={client.client_deadlift_pr}
+                  className="border rounded px-2 py-1 w-full"
+                  required
+                />
+              </div>
 
-        {/* pr 4 */}
-        <div className="bg-gray-600 p-4 rounded-lg mb-4">
-          <div className="flex items-start">
-            <p className="border-2 border-white rounded-lg p-4">
-              <Trophy />
-            </p>
-            <div className="ml-4">
-              <h2 className="md:text-l font-bold sm:text-sm">5k Time:</h2>
-              <p className="md:text-2xl sm:text-sm">
-                {client.client_5k_time_pr}
-              </p>
+              <div className="rounded-lg border-2 p-5 hover:bg-gray-200 duration-300">
+                <label htmlFor="client_5k_time_pr" className="block mb-1 font-medium">
+                  5k PR
+                </label>
+                <input
+                  id="client_5k_time_pr"
+                  name="client_5k_time_pr"
+                  type="text"
+                  defaultValue={client.client_5k_time_pr}
+                  className="border rounded px-2 py-1 w-full"
+                  required
+                />
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+            >
+              Submit
+            </button>
+          </form>
+        ) : (
+          <div className="mt-2 grid grid-cols-2 gap-4 px-4 py-4">
+            <div className="rounded-lg border-2 p-5 hover:bg-gray-200 duration-300">
+              <p>Bench Press PR</p>
+              <p>{client.client_bench_pr || "N/A"}</p>
+            </div>
+            <div className="rounded-lg border-2 p-5 hover:bg-gray-200 duration-300">
+              <p>Squat PR</p>
+              <p>{client.client_squat_pr || "N/A"}</p>
+            </div>
+            <div className="rounded-lg border-2 p-5 hover:bg-gray-200 duration-300">
+              <p>Deadlift PR</p>
+              <p>{client.client_deadlift_pr || "N/A"}</p>
+            </div>
+            <div className="rounded-lg border-2 p-5 hover:bg-gray-200 duration-300">
+              <p>5k PR</p>
+              <p>{client.client_5k_time_pr || "N/A"}</p>
             </div>
           </div>
-        </div>
+        )}
       </div>
     </section>
   );
