@@ -441,6 +441,28 @@ console.log("Workout object:", workout);
   });
 }
 });
+
+// insert a client body weight
+app.use('/api/insert-client-body-weight', express.urlencoded());
+app.post('/api/insert-client-body-weight', async (req, res) => {
+  console.log('Received request to insert client body weight:', req.body);
+
+  const client_id = Number(req.body.client_id);
+  const body_weight = Number(req.body.body_weight); 
+  const submitted_date = req.body.submitted_date || new Date().toISOString().split("T")[0];
+
+  if (!client_id || !body_weight) {
+    return res.status(400).json({ error: 'All fields are required' });
+  }
+
+  console.log('Inserting to client_id', client_id);
+  console.log('Inserting body_weight', body_weight);
+
+  const sql = 'INSERT INTO body_weights (client_id, body_weight, submitted_date) VALUES (?, ?, ?)';
+  await pool.query(sql, [client_id, body_weight, submitted_date]);
+
+  res.json({ message: "Successfully inserted Client Body Weight" });
+});
 // Logging In
 
 app.use('/api/login-user', express.urlencoded());

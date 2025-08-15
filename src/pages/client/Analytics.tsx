@@ -1,5 +1,6 @@
 import React from "react";
 import { Metrics } from "../../components/client/Metrics";
+import { BodyInputs } from "../../components/client/BodyInputs";
 
 function getToken() {
   const user_id = sessionStorage.getItem("user_id");
@@ -15,13 +16,13 @@ export const Analytics = () => {
   const clientId = token ? token.user_id : null;
 
   return (
-    <div className="text-black px-4 py-4">
-      <h1 className="text-2xl font-bold mb-4">Client Analytics</h1>
-      {clientId ? (
+    <div className="text-black px-4 py-4 flex">
+        <div className="mb-6 px-4 py-4 w-1/3">
+            <BodyInputs />
+        </div>
+      <div className="md:w-full w-1/2">
         <Metrics clientId={clientId} />
-      ) : (
-        <p className="text-red-500">No client ID found in session.</p>
-      )}
+      </div>
     </div>
   );
 };
