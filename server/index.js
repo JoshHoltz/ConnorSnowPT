@@ -148,6 +148,18 @@ app.get('/api/exercises', async (req, res) => {
   }
 });
 
+// Get all body weights from the body_weights table by client_id
+app.get('/api/body-weights/:clientId', async (req, res) => {
+  const clientId = req.params.clientId;
+  try {
+    const [rows] = await pool.query('SELECT * FROM body_weights WHERE client_id = ?', [clientId]);
+    res.json(rows);
+  } catch (err) {
+    console.error(`Error on /body-weights/${clientId}:`, err);
+    res.status(500).json({ error: 'Failed to fetch body weights', details: err.message });
+  }
+});
+
 // Inserting frontend to the DB
 // REF (Formatting of Insertion): https://stackoverflow.com/questions/56034455/how-to-send-json-data-from-react-to-node-js-express-server
 // REF (Status Messages): https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status
