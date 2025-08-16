@@ -21,11 +21,11 @@ useEffect(() => {
 
   if (loading) return <Skeleton count={1} />;
 
-  const clientBMI = bmiMeasurement ; 
+  const clientBMI = bmiMeasurement; 
   const maxBMI = 40;
 
   const data = {
-    labels: ["BMI Categories", "Client BMI"],
+    labels: ["Underweight", "Healthy", "Overweight", "Obese"],
     datasets: [
       {
         label: "BMI Categories",

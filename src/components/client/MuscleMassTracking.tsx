@@ -19,9 +19,7 @@ export const MuscleMassTracking = ({ clientId }: { clientId: string }) => {
 
   return (
     <div>
-      <h2>Muscle Mass Tracking</h2>
-      <CircularProgressbar value={20} maxValue={100} text="Muscle Mass" />
-      <p>Current Muscle Mass: {muscleMass} kg</p>
+      <CircularProgressbar value={muscleMass} maxValue={100} text={`${muscleMass}%`} />
     </div>
   );
 }

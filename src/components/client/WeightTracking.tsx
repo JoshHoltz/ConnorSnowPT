@@ -28,7 +28,7 @@ export const WeightTracking = ({ clientId }: { clientId: string | null }) => {
 
     // Body Weight Over Time Line Chart
     <>
-    <div className="p-4 flex">
+    <div className="p-4 h-auto">
       <h2 className="text-lg font-bold mb-2">Body Weight Over Time</h2>
       <Line
         data={{
@@ -41,7 +41,9 @@ export const WeightTracking = ({ clientId }: { clientId: string | null }) => {
               borderColor: "rgba(75, 192, 192, 1)",
               backgroundColor: "rgba(75, 192, 192, 0.2)",
               fill: true,
-            },
+              tension: 0.4, // create a curve effect REF: https://www.chartjs.org/docs/latest/charts/line.html
+              pointBorderWidth: 3
+            }
           ],
         }}
       />

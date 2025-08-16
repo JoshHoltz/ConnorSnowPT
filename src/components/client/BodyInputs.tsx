@@ -40,6 +40,8 @@ export const BodyInputs = () => {
           Submit
         </button>
       </form>
+
+      
     </div>
   );
 };

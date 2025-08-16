@@ -36,13 +36,13 @@ export const Analytics = () => {
         {/* Bottom row: Split half for BMI and additional metrics */}
         <div className="flex flex-col md:flex-row gap-4">
           <div className="w-full md:w-1/2 bg-white rounded-xl shadow p-4">
+            <h2 className="text-lg font-bold mb-2">Body Mass Index</h2>
             <BMITracking clientId={clientId} />
           </div>
 
           <div className="w-full md:w-1/2 bg-white rounded-xl shadow p-4">
             <h2 className="text-lg font-bold mb-2">Muscle Mass</h2>
             <MuscleMassTracking clientId={clientId} />
-            <p>More analytics can be added here.</p>
           </div>
         </div>
       </div>
