@@ -172,6 +172,17 @@ app.get('/api/client-bmi/:clientId', async (req, res) => {
   }
 });
 
+// Get client muscle mass by client_id limit 1 from muscle_mass_measurements table
+app.get('/api/client-muscle-mass/:clientId', async (req, res) => {
+  const clientId = req.params.clientId;
+  try {
+    const [rows] = await pool.query('SELECT * FROM muscle_mass_measurements WHERE client_id = ? ORDER BY submitted_date DESC LIMIT 1', [clientId]);
+    res.json(rows[0]);
+  } catch (err) {
+    console.error(`Error on /client-muscle-mass/${clientId}:`, err);
+    res.status(500).json({ error: 'Failed to fetch client muscle mass', details: err.message });
+  }
+});
 
 // Inserting frontend to the DB
 // REF (Formatting of Insertion): https://stackoverflow.com/questions/56034455/how-to-send-json-data-from-react-to-node-js-express-server

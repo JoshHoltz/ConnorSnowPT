@@ -2,6 +2,7 @@ import React from "react";
 import { WeightTracking } from "../../components/client/WeightTracking";
 import { BMITracking } from "../../components/client/BMITracking";
 import { BodyInputs } from "../../components/client/BodyInputs";
+import { MuscleMassTracking } from "../../components/client/MuscleMassTracking";
 
 function getToken() {
   const user_id = sessionStorage.getItem("user_id");
@@ -39,8 +40,8 @@ export const Analytics = () => {
           </div>
 
           <div className="w-full md:w-1/2 bg-white rounded-xl shadow p-4">
-            <h2 className="text-lg font-bold mb-2">Additional Metrics</h2>
-            {/* Placeholder for additional metrics or charts */}
+            <h2 className="text-lg font-bold mb-2">Muscle Mass</h2>
+            <MuscleMassTracking clientId={clientId} />
             <p>More analytics can be added here.</p>
           </div>
         </div>
