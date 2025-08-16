@@ -160,6 +160,19 @@ app.get('/api/body-weights/:clientId', async (req, res) => {
   }
 });
 
+// Get client body weight by client_id limit 1 from bmi_measurements table
+app.get('/api/client-bmi/:clientId', async (req, res) => {
+  const clientId = req.params.clientId;
+  try {
+    const [rows] = await pool.query('SELECT * FROM bmi_measurements WHERE client_id = ? ORDER BY submitted_date DESC LIMIT 1', [clientId]);
+    res.json(rows[0]);
+  } catch (err) {
+    console.error(`Error on /client-body-weight/${clientId}:`, err);
+    res.status(500).json({ error: 'Failed to fetch client body weight', details: err.message });
+  }
+});
+
+
 // Inserting frontend to the DB
 // REF (Formatting of Insertion): https://stackoverflow.com/questions/56034455/how-to-send-json-data-from-react-to-node-js-express-server
 // REF (Status Messages): https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status

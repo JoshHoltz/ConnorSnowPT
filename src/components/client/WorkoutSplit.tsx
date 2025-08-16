@@ -20,7 +20,7 @@ export const WorkoutSplitTable = () => {
   const toggleHowTo = (id) => {
     setVisibleHowTo((prev) => ({ ...prev, [id]: !prev[id] }));
   };
-
+  
   if (loading) {
     return (
       <div className="px-4 py-4">

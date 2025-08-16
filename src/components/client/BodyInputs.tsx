@@ -13,7 +13,7 @@ export const BodyInputs = () => {
     <div className="bg-white w-full p-4 rounded shadow">
       <h1 className="font-bold">Update Body Measurements</h1>
 
-      <form onSubmit={handleSubmit} className="mt-4">
+      <form onSubmit="" className="mt-4">
         <input type="hidden" name="client_id" value={getToken()?.user_id} />
 
         <input

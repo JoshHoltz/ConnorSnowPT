@@ -6,7 +6,7 @@ import { Line } from "react-chartjs-2";
 // REF ( Chart,js Docs): https://www.chartjs.org/docs/latest/getting-started/
 
 
-export const Metrics = ({ clientId }: { clientId: string | null }) => {
+export const WeightTracking = ({ clientId }: { clientId: string | null }) => {
   const [metrics, setMetrics] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -25,7 +25,10 @@ export const Metrics = ({ clientId }: { clientId: string | null }) => {
   if (loading) return <Skeleton count={5} />;
 
   return (
-    <div className="p-4">
+
+    // Body Weight Over Time Line Chart
+    <>
+    <div className="p-4 flex">
       <h2 className="text-lg font-bold mb-2">Body Weight Over Time</h2>
       <Line
         data={{
@@ -43,5 +46,6 @@ export const Metrics = ({ clientId }: { clientId: string | null }) => {
         }}
       />
     </div>
+    </>
   );
 };
