@@ -21,7 +21,7 @@ useEffect(() => {
 
   if (loading) return <Skeleton count={1} />;
 
-  const clientBMI = bmiMeasurement ?? 27; // fallback
+  const clientBMI = bmiMeasurement ; 
   const maxBMI = 40;
 
   const data = {
