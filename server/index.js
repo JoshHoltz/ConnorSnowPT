@@ -4,6 +4,9 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { pool } from './db.js';
 
+const POSTHOG_PROJECT_ID = 83713;
+const POSTHOG_API_KEY = 'phx_X1NQ1gB1ipVUJhvPtBpsoLNjCdroOjwxdv0Sj3JJK6XX29i';
+
 const app = express();
 const port = process.env.PORT || 4000;
 
@@ -525,6 +528,35 @@ app.post('/api/login-user', async (req, res) => {
   }
 });
 
+// PostHog API Fetch 
+app.get("/posthog-query", async (req, res) => {
+  const url = `https://eu.posthog.com/api/projects/${POSTHOG_PROJECT_ID}/query/`;
+  const headers = {
+    "Content-Type": "application/json",
+    "Authorization": `Bearer ${POSTHOG_API_KEY}`
+  };
+
+  const payload = {
+    query: {
+      kind: "HogQLQuery",
+      query: "select * from events where matchesAction('Clicked \"Start Your Journey\"')"
+    }
+  };
+
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers,
+      body: JSON.stringify(payload)
+    });
+
+    const data = await response.json();
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 app.get('/{*splat}', async (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'dist', 'index.html'));
 });
@@ -532,3 +564,4 @@ app.get('/{*splat}', async (req, res) => {
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
+
