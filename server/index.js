@@ -529,7 +529,8 @@ app.post('/api/login-user', async (req, res) => {
 });
 
 // PostHog API Fetch 
-app.get("/posthog-query", async (req, res) => {
+// Fetching the traffic that interact with the "Start Your Journey" CTA
+app.get("/api/posthog-homepage-cta-clicks", async (req, res) => {
   const url = `https://eu.posthog.com/api/projects/${POSTHOG_PROJECT_ID}/query/`;
   const headers = {
     "Content-Type": "application/json",
@@ -541,6 +542,35 @@ app.get("/posthog-query", async (req, res) => {
       kind: "HogQLQuery",
       query: "select * from events where matchesAction('Clicked \"Start Your Journey\"')"
     }
+  };
+
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers,
+      body: JSON.stringify(payload)
+    });
+
+    const data = await response.json();
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Fetch Total Web Connections for 1 Week Display
+
+app.get("/api/posthog-web-connections", async (req, res) => {
+  const url = `https://eu.posthog.com/api/projects/${POSTHOG_PROJECT_ID}/query/`;
+  const headers = {
+    "Content-Type": "application/json",
+    "Authorization": `Bearer ${POSTHOG_API_KEY}`
+  };
+
+  const payload = {
+    query: {
+      kind: "HogQLQuery",
+      query: "WITH arrayJoin(arrayMap(i -> toDate(toString(addDays(today(), -i))), range(7))) AS date SELECT date countIf(toDate(toString(timestamp)) = date AND event = '$pageview') AS pageviews FROM events WHERE timestamp >= now() - INTERVAL 7 DAY GROUP BY date ORDER BY date ASC')"}
   };
 
   try {
