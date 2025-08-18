@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { WebTraffic } from "../../components/admin/WebTraffic";
 import { HomepageCTAClicks } from "../../components/admin/HomePageCTAClicks";
+import { CheckoutCTAClicks } from "../../components/admin/CheckoutCTAClicks";
 
 function getToken() {
   const user_id = sessionStorage.getItem('user_id');
@@ -41,7 +42,7 @@ export const AdminAnalytics = () => {
             <HomepageCTAClicks />
           </div>
           <div className="bg-white p-4 rounded-lg shadow flex-1">
-            <HomepageCTAClicks />
+            <CheckoutCTAClicks />
           </div>
         </div>
 

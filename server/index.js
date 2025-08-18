@@ -587,6 +587,42 @@ app.get("/api/posthog-checkout-clicks", async (req, res) => {
   }
 });
 
+// Fetch the Average Rating of the PT
+app.get("/api/posthog-average-rating", async (req, res) => {
+  const url = `https://eu.posthog.com/api/projects/${POSTHOG_PROJECT_ID}/query/`;
+  const headers = {
+    "Content-Type": "application/json",
+    "Authorization": `Bearer ${POSTHOG_API_KEY}`
+  };
+
+  const payload = {
+    query: {
+      kind: "HogQLQuery",
+      query: `SELECT AVG(toInt(getSurveyResponse(0, '524090f3-c82c-4ded-80e6-f7e010aa9f3f'))) AS average_recommendation
+              FROM events
+              WHERE event = 'survey sent'
+                AND properties.$survey_id = '0198bdae-1adc-0000-ed33-26ade301f5e8'
+                AND (
+                    NOT JSONHas(properties, '$survey_completed')
+                    OR JSONExtractBool(properties, '$survey_completed') = true
+                )`,
+    },
+  };
+
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers,
+      body: JSON.stringify(payload)
+    });
+
+    const data = await response.json();
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // Fetch Total Web Connections for 1 Week Display
 
 app.get("/api/posthog-web-connections", async (req, res) => {
