@@ -238,7 +238,7 @@ export const PlansGrid = () => {
                         href={plan.plan_stripe_link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="mt-4 w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 hover:font-bold transition duration-300 ease-in-out text-center block"
+                        className="plan-purchase mt-4 w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 hover:font-bold transition duration-300 ease-in-out text-center block"
                       >
                         Purchase & Download
                       </a>

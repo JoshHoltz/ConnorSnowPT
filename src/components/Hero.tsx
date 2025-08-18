@@ -26,9 +26,9 @@ export const Hero = () => {
           {/* REF: https://devdojo.com/tailwindcss/buttons#_ */}
           <Fade duration={600} direction="up">
           <div className="flex gap-4">
-<a href="/packages" className=" px-6 py-3 flex flex-row overflow-hidden relative group cursor-pointer border font-medium border-blue-600 text-blue-600 text-white">
+<a href="/packages" className="homepage-cta px-6 py-3 flex flex-row overflow-hidden relative group cursor-pointer border font-medium border-blue-600 text-blue-600 text-white">
     <span className="absolute w-64 h-0 transition-all duration-300 origin-center rotate-45 -translate-x-20 bg-blue-600 top-1/2 group-hover:h-64 group-hover:-translate-y-32 ease"></span>
-    <span onMouseEnter={partyHover} className="homepage-cta relative flex flex-row text-blue-600 transition duration-300 group-hover:text-white ease">Start Your Journey<ArrowRightIcon/></span>
+    <span onMouseEnter={partyHover} className="relative flex flex-row text-blue-600 transition duration-300 group-hover:text-white ease">Start Your Journey<ArrowRightIcon/></span>
 </a>
             
 
