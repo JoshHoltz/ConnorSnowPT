@@ -570,7 +570,16 @@ app.get("/api/posthog-web-connections", async (req, res) => {
   const payload = {
     query: {
       kind: "HogQLQuery",
-      query: "WITH arrayJoin(arrayMap(i -> toDate(toString(addDays(today(), -i))), range(7))) AS date SELECT date countIf(toDate(toString(timestamp)) = date AND event = '$pageview') AS pageviews FROM events WHERE timestamp >= now() - INTERVAL 7 DAY GROUP BY date ORDER BY date ASC')"}
+      query: `SELECT 
+              toDate(timestamp) AS date,
+              count() AS pageviews
+              FROM events
+          WHERE 
+            event = '$pageview'
+            AND timestamp >= now() - INTERVAL 7 DAY
+          GROUP BY date
+          ORDER BY date ASC`,
+    },
   };
 
   try {
