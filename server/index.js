@@ -540,7 +540,7 @@ app.get("/api/posthog-homepage-cta-clicks", async (req, res) => {
   const payload = {
     query: {
       kind: "HogQLQuery",
-      query: "select * from events where matchesAction('Clicked \"Start Your Journey\"')"
+      query: "SELECT count() AS click_count FROM events WHERE matchesAction('Clicked \"Start Your Journey\"')"
     }
   };
 
