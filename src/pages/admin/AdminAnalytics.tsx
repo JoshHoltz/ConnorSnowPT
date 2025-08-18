@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { WebTraffic } from "../../components/admin/WebTraffic";
 import { HomepageCTAClicks } from "../../components/admin/HomePageCTAClicks";
 import { CheckoutCTAClicks } from "../../components/admin/CheckoutCTAClicks";
+import { AverageRating } from "../../components/admin/AverageRating";
+import { FocusAreas } from "../../components/admin/FocusAreas";
 
 function getToken() {
   const user_id = sessionStorage.getItem('user_id');
@@ -48,9 +50,15 @@ export const AdminAnalytics = () => {
 
         {/* Other Analytics Yet to Do */}
         <div className="flex flex-col gap-4 w-3/4">
-          <div className="bg-white p-4 rounded-lg shadow flex-1">
-            <WebTraffic />
+        <div className="flex gap-4">
+          <div className="bg-white p-4 rounded-lg shadow flex-1 w-1/2">
+            <AverageRating />
           </div>
+          <div className="bg-white p-4 rounded-lg shadow flex-1">
+            <FocusAreas />
+          </div>
+        </div>
+
           <div className="bg-white p-4 rounded-lg shadow flex-1">
             <WebTraffic />
           </div>

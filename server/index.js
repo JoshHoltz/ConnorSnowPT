@@ -623,6 +623,35 @@ app.get("/api/posthog-average-rating", async (req, res) => {
   }
 });
 
+// Fetch the Focus Areas of Clients
+app.get("/api/posthog-client-focus-areas", async (req, res) => {
+  const url = `https://eu.posthog.com/api/projects/${POSTHOG_PROJECT_ID}/query/`;
+  const headers = {
+    "Content-Type": "application/json",
+    "Authorization": `Bearer ${POSTHOG_API_KEY}`
+  };
+
+  const payload = {
+    query: {
+      kind: "HogQLQuery",
+      query: "SELECT getSurveyResponse(0, '9c9cd452-d456-492e-b402-a439c17ac461') AS focus_area, COUNT(*) AS response_count FROM events WHERE event = 'survey sent' AND properties.$survey_id = '0198bea4-f36e-0000-a88f-ee590a48e8c3' AND ( NOT JSONHas(properties, '$survey_completed') OR JSONExtractBool(properties, '$survey_completed') = true ) GROUP BY focus_area ORDER BY response_count DESC"
+    }
+  };
+
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers,
+      body: JSON.stringify(payload)
+    });
+
+    const data = await response.json();
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // Fetch Total Web Connections for 1 Week Display
 
 app.get("/api/posthog-web-connections", async (req, res) => {
