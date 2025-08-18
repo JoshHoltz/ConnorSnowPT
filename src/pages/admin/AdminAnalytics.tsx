@@ -28,7 +28,7 @@ export const AdminAnalytics = () => {
   }, [navigate]);
 
   return (
-    <div className="h-screen p-4 bg-gray-100 flex flex-col gap-4">
+    <div className="h-screen p-2 bg-gray-100 flex flex-col gap-4">
       
       {/* Web Traffic */}
       <div className="bg-white p-4 rounded-lg shadow h-1/3">
@@ -48,7 +48,6 @@ export const AdminAnalytics = () => {
           </div>
         </div>
 
-        {/* Other Analytics Yet to Do */}
         <div className="flex flex-col gap-4 w-3/4">
         <div className="flex gap-4">
           <div className="bg-white p-4 rounded-lg shadow flex-1 w-1/2">

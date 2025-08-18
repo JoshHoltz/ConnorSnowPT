@@ -19,7 +19,7 @@ export const WebTraffic = () => {
 
   return (
     <div className="h-full text-black flex flex-col">
-      <h1 className="text-xl font-bold text-black mb-2">Web Traffic (7 Day Overview)</h1>
+      <h1 className="text-sm font-bold text-black">Web Traffic (7 Day Overview)</h1>
       <div className="flex-1">
         <Line
           data={{

@@ -13,8 +13,8 @@ export const CheckoutCTAClicks = () => {
   }, []);
 
   return (
-    <div className="bg-white px-4 py-4 rounded-lg h-1/2">
-      <h1 className="text-center text-xl font-bold text-black px-8">Checkout Clicks</h1>
+    <div className="bg-white px-4 rounded-lg h-1/2">
+      <h1 className="text-sm font-bold text-black">Checkout Clicks</h1>
         <CircularProgressbar className='h-52 pt-2' value={clicks} maxValue={5} text={`${clicks}`} />
     </div>
   );
