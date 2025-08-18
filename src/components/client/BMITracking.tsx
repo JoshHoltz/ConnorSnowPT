@@ -29,7 +29,7 @@ useEffect(() => {
     datasets: [
       {
         label: "BMI Categories",
-        data: [18.5, 6.5, 5, 10], // example category sizes
+        data: [18.5, 6.5, 5, 10], // to reflect bmi poportions 
         backgroundColor: [
           "rgba(255, 99, 132, 0.6)", // Underweight
           "rgba(54, 162, 235, 0.6)", // Healthy

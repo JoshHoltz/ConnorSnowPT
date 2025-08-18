@@ -12,6 +12,9 @@ function getToken() {
 }
 
 export const AdminAnalytics = () => {
+  // fetch analytics data from the server
+
+
   const navigate = useNavigate();
 
   useEffect(() => {
