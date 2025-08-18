@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { WebTraffic } from "../../components/admin/WebTraffic";
+import { HomepageCTAClicks } from "../../components/admin/HomePageCTAClicks";
 
 function getToken() {
   const user_id = sessionStorage.getItem('user_id');
@@ -26,21 +27,32 @@ export const AdminAnalytics = () => {
   return (
     <div className="h-screen p-4 bg-gray-100 flex flex-col gap-4">
       
-      {/* Top full-width chart, 1/3 of viewport height */}
+      {/* Web Traffic */}
       <div className="bg-white p-4 rounded-lg shadow h-1/3">
         <WebTraffic />
       </div>
 
-      {/* Bottom section: smaller widgets, 2/3 of viewport height */}
+      {/* Bottom section */}
+
+      {/* CTA Clicking */}
       <div className="flex gap-4 h-2/3">
-        <div className="bg-white p-4 rounded-lg shadow flex-1">
-          <WebTraffic />
+        <div className="flex flex-col gap-4 w-1/4">
+          <div className="bg-white p-4 rounded-lg shadow flex-1">
+            <HomepageCTAClicks />
+          </div>
+          <div className="bg-white p-4 rounded-lg shadow flex-1">
+            <HomepageCTAClicks />
+          </div>
         </div>
-        <div className="bg-white p-4 rounded-lg shadow flex-1">
-          <WebTraffic />
-        </div>
-        <div className="bg-white p-4 rounded-lg shadow flex-1">
-          <WebTraffic />
+
+        {/* Other Analytics Yet to Do */}
+        <div className="flex flex-col gap-4 w-3/4">
+          <div className="bg-white p-4 rounded-lg shadow flex-1">
+            <WebTraffic />
+          </div>
+          <div className="bg-white p-4 rounded-lg shadow flex-1">
+            <WebTraffic />
+          </div>
         </div>
       </div>
     </div>

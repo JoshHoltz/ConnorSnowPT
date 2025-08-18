@@ -558,6 +558,35 @@ app.get("/api/posthog-homepage-cta-clicks", async (req, res) => {
   }
 });
 
+// Fetching the traffic that interact with the Packages Checkout Button
+app.get("/api/posthog-checkout-clicks", async (req, res) => {
+  const url = `https://eu.posthog.com/api/projects/${POSTHOG_PROJECT_ID}/query/`;
+  const headers = {
+    "Content-Type": "application/json",
+    "Authorization": `Bearer ${POSTHOG_API_KEY}`
+  };
+
+  const payload = {
+    query: {
+      kind: "HogQLQuery",
+      query: "SELECT count() AS click_count FROM events WHERE matchesAction('Initiated Plan Purchase')"
+    }
+  };
+
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers,
+      body: JSON.stringify(payload)
+    });
+
+    const data = await response.json();
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // Fetch Total Web Connections for 1 Week Display
 
 app.get("/api/posthog-web-connections", async (req, res) => {
