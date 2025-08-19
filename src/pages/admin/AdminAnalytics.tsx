@@ -5,6 +5,7 @@ import { HomepageCTAClicks } from "../../components/admin/HomePageCTAClicks";
 import { CheckoutCTAClicks } from "../../components/admin/CheckoutCTAClicks";
 import { AverageRating } from "../../components/admin/AverageRating";
 import { FocusAreas } from "../../components/admin/FocusAreas";
+import { StripeAnalytics } from "../../components/admin/StripeAnalytics";
 
 function getToken() {
   const user_id = sessionStorage.getItem('user_id');
@@ -59,7 +60,7 @@ export const AdminAnalytics = () => {
         </div>
 
           <div className="bg-white p-4 rounded-lg shadow flex-1">
-            <WebTraffic />
+            <StripeAnalytics />
           </div>
         </div>
       </div>

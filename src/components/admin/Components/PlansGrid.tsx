@@ -11,7 +11,7 @@ export const AdminPlansGrid = () => {
 
   return (
     <section>
-      <div className="bg-white p-4 px-4 md:px-8">
+      <div className="p-4 px-4 md:px-8">
         <div className="flex flex-col justify-between md:grid grid-cols-1 md:grid-cols-3 gap-4">
           {plans.map((plan) => (
             <form
@@ -22,7 +22,7 @@ export const AdminPlansGrid = () => {
             >
               <div
                 key={plan.plan_id}
-                className="flex flex-col justify-between border p-4 rounded hover:bg-gray-100 transition duration-300 ease-in-out"
+                className="flex flex-col justify-between bg-white border p-4 rounded hover:shadow-lg transition duration-300 ease-in-out"
               >
                 <div>
                   <input type="hidden" name="plan_id" value={plan.plan_id} />
