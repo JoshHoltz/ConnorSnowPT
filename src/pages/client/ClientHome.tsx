@@ -46,12 +46,12 @@ export const ClientHome = () => {
       <div className="mb-4 text-black">
         <ClientWelcome clientId={clientId} />
 
-        <div className="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
+        <div className="flex flex-col space-y-4 md:flex-row md:space-x-4 md:space-y-0">
           <ClientDetails clientId={clientId} />
           <MotivationMessage />
         </div>
 
-        <div className="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0 mt-4">
+        <div className="mt-4 flex flex-col space-y-4 md:flex-row md:space-x-4 md:space-y-0">
           <UpcomingWorkout />
           <PRs clientId={clientId} />
         </div>

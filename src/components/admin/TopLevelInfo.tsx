@@ -3,40 +3,39 @@ import { Link } from "react-router-dom";
 
 export const TopLevelInfo = () => {
   return (
-    <section className=" text-white p-4 mt-10 md:mt-0">
-      <div className="px-4 container mx-auto flex flex-col md:flex-row items-center justify-center gap-4">
+    <section className="mt-10 p-4 text-white md:mt-0">
+      <div className="container mx-auto flex flex-col items-center justify-center gap-4 px-4 md:flex-row">
         {/* 3 Top Level Info Bar */}
-        
-        
-        <div className="flex flex-col md:flex-row w-full">
-          <div className="bg-gray-800 w-full md:w-full rounded-t-lg">
-              <div className="bg-gradient-to-r from-gray-700 to-gray-600 rounded-t-lg shadow-sm h-2 relative overflow-hidden text-white" />
+
+        <div className="flex w-full flex-col md:flex-row">
+          <div className="w-full rounded-t-lg bg-gray-800 md:w-full">
+            <div className="relative h-2 overflow-hidden rounded-t-lg bg-gradient-to-r from-gray-700 to-gray-600 text-white shadow-sm" />
 
             <div className="p-4">
               <div className="flex items-start">
-                <p className="border-2 border-white rounded-lg p-4">
+                <p className="rounded-lg border-2 border-white p-4">
                   <UserRound />
                 </p>
-                                  <div className="ml-4">
+                <div className="ml-4">
                   <h2 className="text-xl font-bold">Total Clients:</h2>
                   <p className="text-2xl">150</p>
                 </div>
               </div>
             </div>
             <Link to="../admin/AdminClients">
-              <button className="text-left w-full bg-gray-600 mt-4 p-4 cursor-pointer hover:bg-gray-500 transiton duration-300">
+              <button className="transiton mt-4 w-full cursor-pointer bg-gray-600 p-4 text-left duration-300 hover:bg-gray-500">
                 View Total Clients
               </button>
             </Link>
           </div>
         </div>
 
-        <div className="flex flex-col md:flex-row w-full">
-          <div className="bg-gray-800 w-full md:w-full rounded-t-lg">
-                          <div className="bg-gradient-to-r from-gray-700 to-gray-600 rounded-t-lg shadow-sm h-2 relative overflow-hidden text-white" />
+        <div className="flex w-full flex-col md:flex-row">
+          <div className="w-full rounded-t-lg bg-gray-800 md:w-full">
+            <div className="relative h-2 overflow-hidden rounded-t-lg bg-gradient-to-r from-gray-700 to-gray-600 text-white shadow-sm" />
             <div className="p-4">
               <div className="flex items-start">
-                <p className="border-2 border-white rounded-lg p-4">
+                <p className="rounded-lg border-2 border-white p-4">
                   <Globe />
                 </p>
 
@@ -47,19 +46,19 @@ export const TopLevelInfo = () => {
               </div>
             </div>
             <Link to="../admin/AdminClients">
-              <button className="text-left w-full bg-gray-600 mt-4 p-4 cursor-pointer hover:bg-gray-500 transiton duration-300">
+              <button className="transiton mt-4 w-full cursor-pointer bg-gray-600 p-4 text-left duration-300 hover:bg-gray-500">
                 View Total Clients
               </button>
             </Link>
           </div>
         </div>
 
-        <div className="flex flex-col md:flex-row w-full">
-          <div className="bg-gray-800 w-full md:w-full rounded-t-lg">
-              <div className="bg-gradient-to-r from-gray-700 to-gray-600 rounded-t-lg shadow-sm h-2 relative overflow-hidden text-white" />
+        <div className="flex w-full flex-col md:flex-row">
+          <div className="w-full rounded-t-lg bg-gray-800 md:w-full">
+            <div className="relative h-2 overflow-hidden rounded-t-lg bg-gradient-to-r from-gray-700 to-gray-600 text-white shadow-sm" />
             <div className="p-4">
               <div className="flex items-start">
-                <p className="border-2 border-white rounded-lg p-4">
+                <p className="rounded-lg border-2 border-white p-4">
                   <Send />
                 </p>
 
@@ -70,7 +69,7 @@ export const TopLevelInfo = () => {
               </div>
             </div>
             <Link to="../admin/AdminMessages">
-              <button className="text-left w-full bg-gray-600 mt-4 p-4 cursor-pointer hover:bg-gray-500 transiton duration-300">
+              <button className="transiton mt-4 w-full cursor-pointer bg-gray-600 p-4 text-left duration-300 hover:bg-gray-500">
                 View Messages
               </button>
             </Link>

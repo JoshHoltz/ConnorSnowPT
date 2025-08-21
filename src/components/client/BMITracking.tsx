@@ -9,19 +9,18 @@ export const BMITracking = ({ clientId }: { clientId: string }) => {
   const [bmiMeasurement, setBMIMeasurement] = useState(0);
   const [loading, setLoading] = useState(true);
 
-useEffect(() => {
-  if (!clientId) return;
+  useEffect(() => {
+    if (!clientId) return;
 
-  fetch(`https://connorsnowpt.onrender.com/api/client-bmi/${clientId}`)
-    .then(res => res.json())
-    .then(data => setBMIMeasurement(data.bmi_measurement))
-    .finally(() => setLoading(false));
-}, [clientId]);
-
+    fetch(`https://connorsnowpt.onrender.com/api/client-bmi/${clientId}`)
+      .then((res) => res.json())
+      .then((data) => setBMIMeasurement(data.bmi_measurement))
+      .finally(() => setLoading(false));
+  }, [clientId]);
 
   if (loading) return <Skeleton count={1} />;
 
-  const clientBMI = bmiMeasurement; 
+  const clientBMI = bmiMeasurement;
   const maxBMI = 40;
 
   const data = {
@@ -29,7 +28,7 @@ useEffect(() => {
     datasets: [
       {
         label: "BMI Categories",
-        data: [18.5, 6.5, 5, 10], // to reflect bmi poportions 
+        data: [18.5, 6.5, 5, 10], // to reflect bmi poportions
         backgroundColor: [
           "rgba(255, 99, 132, 0.6)", // Underweight
           "rgba(54, 162, 235, 0.6)", // Healthy

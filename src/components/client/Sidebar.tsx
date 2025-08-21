@@ -19,16 +19,16 @@ export const Sidebar = () => {
   return (
     <>
       {/* Desktop Sidebar */}
-      <section className="hidden md:flex bg-gray-900 text-white md:w-64 flex-col">
-        <div className="flex flex-col h-screen">
-          <div className="py-10 bg-gray-900 p-4">
-            <h1 className="text-2xl font-bold px-2">
+      <section className="hidden flex-col bg-gray-900 text-white md:flex md:w-64">
+        <div className="flex h-screen flex-col">
+          <div className="bg-gray-900 p-4 py-10">
+            <h1 className="px-2 text-2xl font-bold">
               CONNOR<span className="text-blue-600">SNOW</span>
             </h1>
           </div>
 
-          <nav className="flex flex-col flex-grow">
-            <ul className="flex flex-col gap-2 mt-4">
+          <nav className="flex flex-grow flex-col">
+            <ul className="mt-4 flex flex-col gap-2">
               <li className="list-none px-4">
                 <NavButton
                   href="/client/home"
@@ -37,7 +37,11 @@ export const Sidebar = () => {
                 />
               </li>
               <li className="list-none px-4">
-                <NavButton href="/client/workouts" icon={<User />} text="Workout Split" />
+                <NavButton
+                  href="/client/workouts"
+                  icon={<User />}
+                  text="Workout Split"
+                />
               </li>
               <li className="list-none px-4">
                 <NavButton
@@ -64,9 +68,13 @@ export const Sidebar = () => {
 
             <div className="flex-grow" />
 
-            <ul className="flex flex-col gap-2 px-4 list-none mb-4">
+            <ul className="mb-4 flex list-none flex-col gap-2 px-4">
               <li>
-                <NavButton href="/client/Logout" icon={<LogOut />} text="Logout" />
+                <NavButton
+                  href="/client/Logout"
+                  icon={<LogOut />}
+                  text="Logout"
+                />
               </li>
             </ul>
           </nav>
@@ -74,7 +82,7 @@ export const Sidebar = () => {
       </section>
 
       {/* Mobile Header */}
-      <div className="fixed top-0 left-0 w-full z-50 bg-gray-900 p-4 text-white flex justify-between md:hidden">
+      <div className="fixed left-0 top-0 z-50 flex w-full justify-between bg-gray-900 p-4 text-white md:hidden">
         <h1 className="text-xl font-bold">
           CONNOR<span className="text-blue-600">SNOW</span>
         </h1>
@@ -85,7 +93,7 @@ export const Sidebar = () => {
 
       {/* Spacer to push content below fixed header */}
       {isMenuOpen && (
-        <div className="fixed top-12 left-0 w-full bg-gray-900 text-white px-4 py-4 space-y-4 z-40 md:hidden">
+        <div className="fixed left-0 top-12 z-40 w-full space-y-4 bg-gray-900 px-4 py-4 text-white md:hidden">
           <Link to="/" className="block hover:text-gray-400">
             Home
           </Link>
@@ -103,7 +111,7 @@ export const Sidebar = () => {
           </Link>
           <Link
             to="/"
-            className="block bg-blue-600 text-white hover:bg-blue-500 px-4 py-2 text-center rounded"
+            className="block rounded bg-blue-600 px-4 py-2 text-center text-white hover:bg-blue-500"
           >
             Logout
           </Link>
@@ -122,10 +130,10 @@ const NavButton = ({
   icon: JSX.Element;
   text: string;
 }) => (
-  <button className="flex w-full rounded-xl text-left hover:bg-gray-400 transition duration-300 ease-in-out">
+  <button className="flex w-full rounded-xl text-left transition duration-300 ease-in-out hover:bg-gray-400">
     <a
       href={href}
-      className="flex gap-2 text-white hover:text-black font-normal hover:font-bold py-2 px-4 w-full"
+      className="flex w-full gap-2 px-4 py-2 font-normal text-white hover:font-bold hover:text-black"
     >
       {icon}
       {text}

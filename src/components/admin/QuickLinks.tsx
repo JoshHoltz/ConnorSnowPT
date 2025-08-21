@@ -3,51 +3,63 @@ import { Link } from "react-router-dom"; //Ref (Linking To): https://www.youtube
 
 export const QuickLinks = () => {
   return (
-    <section className=" text-white p-4 mt-10 md:mt-0">
+    <section className="mt-10 p-4 text-white md:mt-0">
       <div className="mb-4 px-4 text-black">
-                            <div className="bg-gradient-to-r from-gray-700 to-gray-600 rounded-t-lg shadow-sm h-2 relative overflow-hidden text-white" />
+        <div className="relative h-2 overflow-hidden rounded-t-lg bg-gradient-to-r from-gray-700 to-gray-600 text-white shadow-sm" />
 
-        <div className="hidden border-2 px-4 py-4 border-gray-800 md:flex bg-gray-800">
-          <p className="p-2 rounded-lg text-white">
+        <div className="hidden border-2 border-gray-800 bg-gray-800 px-4 py-4 md:flex">
+          <p className="rounded-lg p-2 text-white">
             <Zap />
           </p>
 
           {/* Nav Buttons */}
-<div className="hidden md:flex justify-between gap-2 w-full text-white">
+          <div className="hidden w-full justify-between gap-2 text-white md:flex">
+            <Link
+              to="../admin/AdminClients"
+              className="transiton w-full rounded-lg bg-gray-600 p-2 duration-300 hover:bg-gray-500"
+            >
+              <button className="transiton w-full rounded-lg bg-gray-600 p-2 duration-300 hover:bg-gray-500">
+                View Clients
+              </button>
+            </Link>
 
-        <Link to="../admin/AdminClients" className="p-2 bg-gray-600  w-full rounded-lg hover:bg-gray-500 transiton duration-300">
-          <button className="p-2 bg-gray-600 w-full rounded-lg hover:bg-gray-500 transiton duration-300">
-            View Clients
-          </button>
-        </Link>
+            <Link
+              to="../admin/AdminCommunications"
+              className="transiton w-full rounded-lg bg-gray-600 p-2 duration-300 hover:bg-gray-500"
+            >
+              <button className="transiton w-full rounded-lg bg-gray-600 p-2 duration-300 hover:bg-gray-500">
+                View Messages
+              </button>
+            </Link>
 
-        <Link to="../admin/AdminCommunications" className="p-2 bg-gray-600  w-full rounded-lg hover:bg-gray-500 transiton duration-300">
-          <button className="p-2 bg-gray-600 w-full rounded-lg hover:bg-gray-500 transiton duration-300">
-            View Messages
-          </button>
-        </Link>
+            <Link
+              to="../admin/AdminPackages"
+              className="transiton w-full rounded-lg bg-gray-600 p-2 duration-300 hover:bg-gray-500"
+            >
+              <button className="transiton w-full rounded-lg bg-gray-600 p-2 duration-300 hover:bg-gray-500">
+                View Packages
+              </button>
+            </Link>
 
-        <Link to="../admin/AdminPackages" className="p-2 bg-gray-600  w-full rounded-lg hover:bg-gray-500 transiton duration-300">
-          <button className="p-2 bg-gray-600 w-full rounded-lg hover:bg-gray-500 transiton duration-300">
-            View Packages
-          </button>
-        </Link>
+            <Link
+              to="../admin/AdminPlans"
+              className="transiton w-full rounded-lg bg-gray-600 p-2 duration-300 hover:bg-gray-500"
+            >
+              <button className="transiton w-full rounded-lg bg-gray-600 p-2 duration-300 hover:bg-gray-500">
+                View Plans
+              </button>
+            </Link>
 
-        <Link to="../admin/AdminPlans" className="p-2 bg-gray-600  w-full rounded-lg hover:bg-gray-500 transiton duration-300">
-          <button className="p-2 bg-gray-600 w-full rounded-lg hover:bg-gray-500 transiton duration-300">
-            View Plans
-          </button>
-        </Link>
-
-        <Link to="../admin/analytics" className="p-2 bg-gray-600  w-full rounded-lg hover:bg-gray-500 transiton duration-300">
-          <button className="p-2 bg-gray-600 w-full rounded-lg hover:bg-gray-500 transiton duration-300">
-            View Analytics
-          </button>
-        </Link>
-
-        </div>
+            <Link
+              to="../admin/analytics"
+              className="transiton w-full rounded-lg bg-gray-600 p-2 duration-300 hover:bg-gray-500"
+            >
+              <button className="transiton w-full rounded-lg bg-gray-600 p-2 duration-300 hover:bg-gray-500">
+                View Analytics
+              </button>
+            </Link>
           </div>
-
+        </div>
       </div>
     </section>
   );

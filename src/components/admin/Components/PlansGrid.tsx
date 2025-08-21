@@ -12,7 +12,7 @@ export const AdminPlansGrid = () => {
   return (
     <section>
       <div className="p-4 px-4 md:px-8">
-        <div className="flex flex-col justify-between md:grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="flex grid-cols-1 flex-col justify-between gap-4 md:grid md:grid-cols-3">
           {plans.map((plan) => (
             <form
               key={plan.plan_id}
@@ -22,26 +22,26 @@ export const AdminPlansGrid = () => {
             >
               <div
                 key={plan.plan_id}
-                className="flex flex-col justify-between bg-white border p-4 rounded hover:shadow-lg transition duration-300 ease-in-out"
+                className="flex flex-col justify-between rounded border bg-white p-4 transition duration-300 ease-in-out hover:shadow-lg"
               >
                 <div>
                   <input type="hidden" name="plan_id" value={plan.plan_id} />
 
                   <img
                     src={`data:image/jpeg;base64,${plan.plan_image}`}
-                    className="w-full h-48 object-cover rounded mb-4"
+                    className="mb-4 h-48 w-full rounded object-cover"
                   />
 
                   <input
                     type="text"
                     name="plan_name"
-                    className="text-xl font-bold underline w-full border-2 p-2 mb-4"
+                    className="mb-4 w-full border-2 p-2 text-xl font-bold underline"
                     defaultValue={plan.plan_name}
                   />
 
                   <textarea
                     name="plan_description"
-                    className="text-gray-600 mb-2 w-full border-2 p-2 h-28"
+                    className="mb-2 h-28 w-full border-2 p-2 text-gray-600"
                     defaultValue={plan.plan_description}
                   />
 
@@ -51,7 +51,7 @@ export const AdminPlansGrid = () => {
                       <input
                         type="text"
                         name="plan_type"
-                        className="text-blue-600 font-semibold border-2 p-2 mb-4"
+                        className="mb-4 border-2 p-2 font-semibold text-blue-600"
                         defaultValue={plan.plan_type}
                       />
                     </p>
@@ -60,7 +60,7 @@ export const AdminPlansGrid = () => {
                       <input
                         type="text"
                         name="plan_pages"
-                        className="text-blue-600 font-semibold border-2 p-2 mb-4"
+                        className="mb-4 border-2 p-2 font-semibold text-blue-600"
                         defaultValue={plan.plan_pages}
                       />
                     </p>
@@ -69,13 +69,13 @@ export const AdminPlansGrid = () => {
                   <input
                     type="text"
                     name="plan_price"
-                    className="text-green-600 font-semibold mt-14 border-2 p-2 mb-4 w-full"
+                    className="mb-4 mt-14 w-full border-2 p-2 font-semibold text-green-600"
                     defaultValue={plan.plan_price}
                   />
                 </div>
 
                 {/* Button at the bottom */}
-                <button className="mt-4 w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 hover:font-bold transition duration-300 ease-in-out">
+                <button className="mt-4 w-full rounded bg-blue-500 py-2 text-white transition duration-300 ease-in-out hover:bg-blue-600 hover:font-bold">
                   Save & Update
                 </button>
               </div>

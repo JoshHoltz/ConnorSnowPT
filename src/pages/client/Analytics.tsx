@@ -18,30 +18,30 @@ export const Analytics = () => {
   const clientId = token ? token.user_id : null;
 
   return (
-    <div className="flex flex-col md:flex-row text-black px-4 py-4 gap-4">
+    <div className="flex flex-col gap-4 px-4 py-4 text-black md:flex-row">
       {/* 1/3 of screen */}
-      <div className="w-full md:w-1/3 bg-white rounded-xl shadow p-4 mt-16 md:mt-0">
+      <div className="mt-16 w-full rounded-xl bg-white p-4 shadow md:mt-0 md:w-1/3">
         <BodyInputs clientId={clientId} />
       </div>
 
       {/* 2/3 of screen */}
-      <div className="w-full md:w-2/3 flex flex-col gap-4">
+      <div className="flex w-full flex-col gap-4 md:w-2/3">
         {/* Top row: Weight Tracking */}
-        <div className="bg-white rounded-xl shadow p-4 w-full max-h-110">
+        <div className="max-h-110 w-full rounded-xl bg-white p-4 shadow">
           <div className="h-auto">
             <WeightTracking clientId={clientId} />
           </div>
         </div>
 
         {/* Bottom row: Split half for BMI and additional metrics */}
-        <div className="flex flex-col md:flex-row gap-4">
-          <div className="w-full md:w-1/2 bg-white rounded-xl shadow p-4">
-            <h2 className="text-lg font-bold mb-2">Body Mass Index</h2>
+        <div className="flex flex-col gap-4 md:flex-row">
+          <div className="w-full rounded-xl bg-white p-4 shadow md:w-1/2">
+            <h2 className="mb-2 text-lg font-bold">Body Mass Index</h2>
             <BMITracking clientId={clientId} />
           </div>
 
-          <div className="w-full md:w-1/2 bg-white rounded-xl shadow p-4">
-            <h2 className="text-lg font-bold mb-2">Muscle Mass</h2>
+          <div className="w-full rounded-xl bg-white p-4 shadow md:w-1/2">
+            <h2 className="mb-2 text-lg font-bold">Muscle Mass</h2>
             <MuscleMassTracking clientId={clientId} />
           </div>
         </div>

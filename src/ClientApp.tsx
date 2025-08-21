@@ -1,10 +1,10 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import { Sidebar } from './components/client/Sidebar'
-import { ClientHome } from './pages/client/ClientHome'
-import { Booking } from './pages/client/Booking'
-import { WorkoutSplit } from './pages/client/WorkoutSplit'
-import { Analytics } from './pages/client/Analytics'
-import { Logout } from './pages/client/Logout'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Sidebar } from "./components/client/Sidebar";
+import { ClientHome } from "./pages/client/ClientHome";
+import { Booking } from "./pages/client/Booking";
+import { WorkoutSplit } from "./pages/client/WorkoutSplit";
+import { Analytics } from "./pages/client/Analytics";
+import { Logout } from "./pages/client/Logout";
 
 export function ClientApp() {
   return (
@@ -22,5 +22,5 @@ export function ClientApp() {
         </main>
       </div>
     </BrowserRouter>
-  )
+  );
 }

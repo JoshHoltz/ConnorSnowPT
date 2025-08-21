@@ -3,8 +3,8 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { WorkoutSplitTable } from "../../components/client/WorkoutSplit";
 
 function getToken() {
-  const user_id = sessionStorage.getItem('user_id');
-  const user_username = sessionStorage.getItem('user_username');
+  const user_id = sessionStorage.getItem("user_id");
+  const user_username = sessionStorage.getItem("user_username");
   if (user_id && user_username) {
     return { user_id, user_username };
   }
@@ -18,10 +18,10 @@ export const WorkoutSplit = () => {
   useEffect(() => {
     const token = getToken();
     const params = new URLSearchParams(location.search);
-    const idFromUrl = params.get('id');
+    const idFromUrl = params.get("id");
 
     if (!token) {
-      navigate('/forbidden', { replace: true });
+      navigate("/forbidden", { replace: true });
       window.location.reload();
       return;
     }
@@ -32,15 +32,14 @@ export const WorkoutSplit = () => {
     }
 
     if (idFromUrl !== token.user_id) {
-      navigate('/forbidden', { replace: true });
-      window.location.reload(); 
+      navigate("/forbidden", { replace: true });
+      window.location.reload();
       return;
     }
-
   }, [location, navigate]);
 
   return (
-    <div className="px-4 py-4 mb-4 text-black">
+    <div className="mb-4 px-4 py-4 text-black">
       <WorkoutSplitTable />
     </div>
   );

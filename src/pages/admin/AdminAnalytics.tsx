@@ -8,9 +8,9 @@ import { FocusAreas } from "../../components/admin/FocusAreas";
 import { StripeAnalytics } from "../../components/admin/StripeAnalytics";
 
 function getToken() {
-  const user_id = sessionStorage.getItem('user_id');
-  const user_username = sessionStorage.getItem('user_username');
-  const isAdmin = sessionStorage.getItem('isAdmin'); 
+  const user_id = sessionStorage.getItem("user_id");
+  const user_username = sessionStorage.getItem("user_username");
+  const isAdmin = sessionStorage.getItem("isAdmin");
   if (user_id && user_username && isAdmin) {
     return { user_id, user_username, isAdmin };
   }
@@ -23,43 +23,42 @@ export const AdminAnalytics = () => {
   useEffect(() => {
     const token = getToken();
     if (!token || token.isAdmin !== "Y") {
-      navigate('/forbidden', { replace: true });
-      window.location.reload(); 
+      navigate("/forbidden", { replace: true });
+      window.location.reload();
     }
   }, [navigate]);
 
   return (
-    <div className="h-screen p-2 bg-gray-100 flex flex-col gap-4">
-      
+    <div className="flex h-screen flex-col gap-4 bg-gray-100 p-2">
       {/* Web Traffic */}
-      <div className="bg-white p-4 rounded-lg shadow h-1/3">
+      <div className="h-1/3 rounded-lg bg-white p-4 shadow">
         <WebTraffic />
       </div>
 
       {/* Bottom section */}
 
       {/* CTA Clicking */}
-      <div className="flex gap-4 h-2/3">
-        <div className="flex flex-col gap-4 w-1/4">
-          <div className="bg-white p-4 rounded-lg shadow flex-1">
+      <div className="flex h-2/3 gap-4">
+        <div className="flex w-1/4 flex-col gap-4">
+          <div className="flex-1 rounded-lg bg-white p-4 shadow">
             <HomepageCTAClicks />
           </div>
-          <div className="bg-white p-4 rounded-lg shadow flex-1">
+          <div className="flex-1 rounded-lg bg-white p-4 shadow">
             <CheckoutCTAClicks />
           </div>
         </div>
 
-        <div className="flex flex-col gap-4 w-3/4">
-        <div className="flex gap-4">
-          <div className="bg-white p-4 rounded-lg shadow flex-1 w-1/2">
-            <AverageRating />
+        <div className="flex w-3/4 flex-col gap-4">
+          <div className="flex gap-4">
+            <div className="w-1/2 flex-1 rounded-lg bg-white p-4 shadow">
+              <AverageRating />
+            </div>
+            <div className="flex-1 rounded-lg bg-white p-4 shadow">
+              <FocusAreas />
+            </div>
           </div>
-          <div className="bg-white p-4 rounded-lg shadow flex-1">
-            <FocusAreas />
-          </div>
-        </div>
 
-          <div className="bg-white p-4 rounded-lg shadow flex-1">
+          <div className="flex-1 rounded-lg bg-white p-4 shadow">
             <StripeAnalytics />
           </div>
         </div>

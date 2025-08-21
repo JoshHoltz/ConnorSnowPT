@@ -4,13 +4,13 @@
 import OverviewComponent from "./Components/Overview";
 import MetricsComponent from "./Components/Metrics";
 import ActivityComponent from "./Components/Activity";
-import AccountComponent from "./Components/Account.tsx";    
+import AccountComponent from "./Components/Account.tsx";
 
 import { useEffect, useState } from "react";
 
 export const ClientMetrics = ({ clientId }: { clientId: string | null }) => {
   const [client, setClient] = useState(null);
-  const [activeTab, setActiveTab] = useState("overview"); 
+  const [activeTab, setActiveTab] = useState("overview");
 
   useEffect(() => {
     if (!clientId) return;
@@ -18,7 +18,7 @@ export const ClientMetrics = ({ clientId }: { clientId: string | null }) => {
 
     fetch(`https://connorsnowpt.onrender.com/api/client-by-id/${clientId}`)
       .then((res) =>
-        res.ok ? res.json() : Promise.reject("Failed to fetch client")
+        res.ok ? res.json() : Promise.reject("Failed to fetch client"),
       )
       .then(setClient)
       .catch((err) => console.error(err));
@@ -26,17 +26,17 @@ export const ClientMetrics = ({ clientId }: { clientId: string | null }) => {
 
   if (!client) {
     return (
-      <section className=" text-black p-4 mt-10 md:mt-0">
+      <section className="mt-10 p-4 text-black md:mt-0">
         <p className="text-black">Loading client metrics...</p>
       </section>
     );
   }
 
   return (
-    <section className="p-4 mt-10 md:mt-0">
+    <section className="mt-10 p-4 md:mt-0">
       <div className="">
-        <div className="bg-gradient-to-r from-gray-700 to-gray-600 rounded-t-lg shadow-sm h-2 relative overflow-hidden text-white" />
-        <div className="tab-buttons p-2 px-4 bg-gray-800 text-white flex gap-4">
+        <div className="relative h-2 overflow-hidden rounded-t-lg bg-gradient-to-r from-gray-700 to-gray-600 text-white shadow-sm" />
+        <div className="tab-buttons flex gap-4 bg-gray-800 p-2 px-4 text-white">
           <button
             onClick={() => setActiveTab("overview")}
             className={activeTab === "overview" ? "font-bold underline" : ""}
@@ -55,7 +55,7 @@ export const ClientMetrics = ({ clientId }: { clientId: string | null }) => {
           >
             Activity
           </button>
-                    <button
+          <button
             onClick={() => setActiveTab("account")}
             className={activeTab === "account" ? "font-bold underline" : ""}
           >
@@ -68,7 +68,6 @@ export const ClientMetrics = ({ clientId }: { clientId: string | null }) => {
           {activeTab === "metrics" && <MetricsComponent />}
           {activeTab === "activity" && <ActivityComponent />}
           {activeTab === "account" && <AccountComponent />}
-
         </div>
       </div>
     </section>

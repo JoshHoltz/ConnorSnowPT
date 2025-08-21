@@ -12,7 +12,7 @@ import {
 ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler);
 
 export const FocusAreas = () => {
-const [chartData, setChartData] = useState<any>({ labels: [], datasets: [] });
+  const [chartData, setChartData] = useState<any>({ labels: [], datasets: [] });
 
   useEffect(() => {
     fetch("https://connorsnowpt.onrender.com/api/posthog-client-focus-areas")

@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { DumbbellIcon } from "lucide-react";
-import Skeleton from 'react-loading-skeleton' 
+import Skeleton from "react-loading-skeleton";
 
 export const UpcomingWorkout = () => {
   const [searchParams] = useSearchParams();
   const clientId = searchParams.get("id");
   const [workouts, setWorkouts] = useState([]);
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!clientId) return;
@@ -16,26 +16,26 @@ export const UpcomingWorkout = () => {
       .then((res) => res.json())
       .then((data) => setWorkouts(data || []))
       .catch(() => setWorkouts([]))
-      .finally(() => setLoading(false))
+      .finally(() => setLoading(false));
   }, [clientId]);
 
   if (loading) {
     return (
-      <div className="px-4 py-4 w-1/2">
-        <Skeleton height={400}/>
+      <div className="w-1/2 px-4 py-4">
+        <Skeleton height={400} />
       </div>
-    )
+    );
   }
 
   if (!clientId) return <p>Loading client ID...</p>;
 
   if (workouts.length === 0) {
     return (
-      <div className="px-4 py-4 mb-4 text-black w-full md:w-1/2">
-        <h1 className="py-4 md:flex text-2xl font-bold text-white px-8 bg-gray-800">
+      <div className="mb-4 w-full px-4 py-4 text-black md:w-1/2">
+        <h1 className="bg-gray-800 px-8 py-4 text-2xl font-bold text-white md:flex">
           Your Upcoming Workout
         </h1>
-        <table className="px-2 py-2 text-black border-2 w-full h-full">
+        <table className="h-full w-full border-2 px-2 py-2 text-black">
           <thead>
             <tr>
               <th className="border-2">Exercise</th>
@@ -55,13 +55,13 @@ export const UpcomingWorkout = () => {
   }
 
   return (
-    <div className="px-4 py-4 mb-4 text-black md:w-1/2 w-full">
+    <div className="mb-4 w-full px-4 py-4 text-black md:w-1/2">
       {/* <div className="bg-gradient-to-r from-gray-700 to-gray-600 rounded-t-lg shadow-sm h-2 relative overflow-hidden text-white" /> */}
       {/* <h1 className="py-4 hidden md:flex text-2xl font-bold text-white px-8 bg-gray-800">
         Your Upcoming Workout
       </h1> */}
-      <div className="md:mt-0 bg-white rounded-t-lg ">
-        <div className="p-4 md:mt-0 text-white">
+      <div className="rounded-t-lg bg-white md:mt-0">
+        <div className="p-4 text-white md:mt-0">
           {workouts.map((workout) => {
             const exerciseNames = [
               "upcoming_workout_e_one_name",
@@ -74,37 +74,42 @@ export const UpcomingWorkout = () => {
 
             return (
               <div key={workout.idupcoming_workouts} className="mb-4">
-                <div className="text-black px-4">
+                <div className="px-4 text-black">
                   <div className="flex justify-between">
-                  <h1 className="mb-2 text-lg font-bold">Upcoming Workout</h1>
-                  <a className="text-blue-600 hover:underline" href="/client/workouts">All Splits</a>
+                    <h1 className="mb-2 text-lg font-bold">Upcoming Workout</h1>
+                    <a
+                      className="text-blue-600 hover:underline"
+                      href="/client/workouts"
+                    >
+                      All Splits
+                    </a>
                   </div>
                   <div className="flex">
                     <DumbbellIcon className="bg-blue-200 text-blue-900" />
-                    <h1 className="text-lg ml-4">
+                    <h1 className="ml-4 text-lg">
                       {workout.upcoming_workout_split_name}
                     </h1>
                   </div>
-                  <h1 className="text-lg ml-10">
+                  <h1 className="ml-10 text-lg">
                     {workout.upcoming_workout_date}
                   </h1>
                 </div>
 
-                <div className="bg-black rounded-lg h-2 m-4" />
+                <div className="m-4 h-2 rounded-lg bg-black" />
 
-                <div className="text-black px-4">
+                <div className="px-4 text-black">
                   {exerciseNames.map(
                     (field, index) =>
                       workout[field] && (
                         <div
                           key={index}
-                          className="bg-gray-200 rounded-lg hover:bg-gray-400 duration-300 mb-4"
+                          className="mb-4 rounded-lg bg-gray-200 duration-300 hover:bg-gray-400"
                         >
-                          <h1 className="text-lg p-4">
+                          <h1 className="p-4 text-lg">
                             {index + 1}. {workout[field]}
                           </h1>
                         </div>
-                      )
+                      ),
                   )}
                 </div>
               </div>

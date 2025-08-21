@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import Skeleton from 'react-loading-skeleton' 
+import Skeleton from "react-loading-skeleton";
 
 export const ClientWelcome = ({ clientId }: { clientId: string | null }) => {
   const [client, setClient] = useState(null);
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!clientId) return;
@@ -11,7 +11,7 @@ export const ClientWelcome = ({ clientId }: { clientId: string | null }) => {
 
     fetch(`https://connorsnowpt.onrender.com/api/client-by-id/${clientId}`)
       .then((res) =>
-        res.ok ? res.json() : Promise.reject("Failed to fetch client")
+        res.ok ? res.json() : Promise.reject("Failed to fetch client"),
       )
       .then((data) => {
         setClient(data);
@@ -23,28 +23,28 @@ export const ClientWelcome = ({ clientId }: { clientId: string | null }) => {
       });
   }, [clientId]);
 
-    if (loading) {
+  if (loading) {
     return (
       <div className="px-4 py-4">
         <Skeleton height={75} />
       </div>
-    )
+    );
   }
 
   if (!client) {
     return (
-      <section className="text-white p-4 mt-10 md:mt-0">
+      <section className="mt-10 p-4 text-white md:mt-0">
         <p className="text-white">Loading client...</p>
       </section>
     );
   }
 
   return (
-    <section className="text-white p-4 mt-10 md:mt-0">
-            <div className="bg-gradient-to-r from-gray-700 to-gray-600 rounded-t-lg shadow-sm h-2 relative overflow-hidden text-white" />
+    <section className="mt-10 p-4 text-white md:mt-0">
+      <div className="relative h-2 overflow-hidden rounded-t-lg bg-gradient-to-r from-gray-700 to-gray-600 text-white shadow-sm" />
 
-      <div className="px-2 text-black bg-gray-800 rounded-b-md">
-        <h1 className="text-white p-4 font-bold text-2xl">
+      <div className="rounded-b-md bg-gray-800 px-2 text-black">
+        <h1 className="p-4 text-2xl font-bold text-white">
           {client
             ? `${client.client_firstname} ${client.client_lastname}`
             : "Loading client..."}

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { UserIcon, TargetIcon, PhoneIcon, CrownIcon } from "lucide-react";
-import Skeleton from 'react-loading-skeleton' 
+import Skeleton from "react-loading-skeleton";
 
 export const ClientDetails = ({ clientId }: { clientId: string | null }) => {
   const [client, setClient] = useState<any>(null);
@@ -14,22 +14,22 @@ export const ClientDetails = ({ clientId }: { clientId: string | null }) => {
       .then((res) => (res.ok ? res.json() : Promise.reject("Failed to fetch")))
       .then(setClient)
       .catch(console.error)
-      .finally(() => setLoading(false))
+      .finally(() => setLoading(false));
   }, [clientId]);
 
   if (loading) {
     return (
-    <div className="w-1/2 px-4 py-4">
+      <div className="w-1/2 px-4 py-4">
         <Skeleton height={300} />
-    </div>
-    )
+      </div>
+    );
   }
 
   if (!client) return <p>Loading client...</p>;
 
   return (
-    <section className="p-4 w-full md:w-1/2 text-black">
-      <div className="bg-white rounded-xl shadow-sm p-6 relative overflow-hidden">
+    <section className="w-full p-4 text-black md:w-1/2">
+      <div className="relative overflow-hidden rounded-xl bg-white p-6 shadow-sm">
         <div className="flex justify-between">
           <h1 className="text-lg font-bold">Client Information</h1>
           {!edit ? (
@@ -65,14 +65,14 @@ export const ClientDetails = ({ clientId }: { clientId: string | null }) => {
                 type="text"
                 name="client_firstname"
                 defaultValue={client.client_firstname}
-                className="border rounded px-2 py-1 w-1/2"
+                className="w-1/2 rounded border px-2 py-1"
                 required
               />
               <input
                 type="text"
                 name="client_lastname"
                 defaultValue={client.client_lastname}
-                className="border rounded px-2 py-1 w-1/2"
+                className="w-1/2 rounded border px-2 py-1"
                 required
               />
             </div>
@@ -83,7 +83,7 @@ export const ClientDetails = ({ clientId }: { clientId: string | null }) => {
                 type="text"
                 name="client_goal"
                 defaultValue={client.client_goal}
-                className="border rounded px-2 py-1 w-full"
+                className="w-full rounded border px-2 py-1"
                 required
               />
             </div>
@@ -94,7 +94,7 @@ export const ClientDetails = ({ clientId }: { clientId: string | null }) => {
                 type="text"
                 name="client_preferred_contact"
                 defaultValue={client.client_preferred_contact}
-                className="border rounded px-2 py-1 w-full"
+                className="w-full rounded border px-2 py-1"
                 required
               />
             </div>
@@ -106,13 +106,13 @@ export const ClientDetails = ({ clientId }: { clientId: string | null }) => {
 
             <button
               type="submit"
-              className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+              className="w-full rounded bg-blue-600 py-2 text-white hover:bg-blue-700"
             >
               Submit
             </button>
           </form>
         ) : (
-          <div className="space-y-4 mt-4">
+          <div className="mt-4 space-y-4">
             <div className="flex items-center space-x-2">
               <UserIcon />
               <p>

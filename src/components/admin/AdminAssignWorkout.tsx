@@ -40,7 +40,6 @@ export const AdminAssignWorkout = ({ clientId }) => {
       .catch(() => setOptions([]));
   }, []);
 
-
   if (!clientId) return <p className="text-red-500">Loading client ID...</p>;
 
   const emptyDayWorkout = {
@@ -51,20 +50,20 @@ export const AdminAssignWorkout = ({ clientId }) => {
   };
 
   const completeWorkouts = [0, 1, 2].map(
-    (i) => workouts[i] || { ...emptyDayWorkout }
+    (i) => workouts[i] || { ...emptyDayWorkout },
   );
 
   return (
-    <div className="px-4 py-4 mb-4 text-black md:w-full w-full mt-10 md:mt-0">
-      <h1 className="py-4 hidden md:flex text-2xl font-bold text-white px-8 bg-gray-800 rounded-t-2xl">
+    <div className="mb-4 mt-10 w-full px-4 py-4 text-black md:mt-0 md:w-full">
+      <h1 className="hidden rounded-t-2xl bg-gray-800 px-8 py-4 text-2xl font-bold text-white md:flex">
         Your Client's Workout Split
       </h1>
 
-      <div className="mt-4 gap-6 md:flex flex-wrap">
+      <div className="mt-4 flex-wrap gap-6 md:flex">
         {completeWorkouts.map((workout, dayIndex) => (
           <form
             key={dayIndex}
-            className="rounded-2xl overflow-hidden shadow-m bg-white transitioxn-transform hover:scale-[1.02] md:w-[32%] w-full mb-6"
+            className="shadow-m transitioxn-transform mb-6 w-full overflow-hidden rounded-2xl bg-white hover:scale-[1.02] md:w-[32%]"
             method="POST"
             action="https://www.connorsnowpt.com/api/insert-a-client-split"
           >
@@ -76,7 +75,7 @@ export const AdminAssignWorkout = ({ clientId }) => {
                     name="upcoming_workout_split_name"
                     defaultValue={workout.upcoming_workout_split_name}
                     placeholder={`Workout Name Day ${dayIndex + 1}`}
-                    className="text-lg font-semibold w-full mr-2 p-1"
+                    className="mr-2 w-full p-1 text-lg font-semibold"
                   />
                   <input
                     name="upcoming_workout_date"
@@ -89,7 +88,7 @@ export const AdminAssignWorkout = ({ clientId }) => {
                   />
                 </div>
               </div>
-              <div className="flex justify-between items-center"></div>
+              <div className="flex items-center justify-between"></div>
               {workout.idupcoming_workouts && (
                 <input
                   type="hidden"
@@ -101,7 +100,7 @@ export const AdminAssignWorkout = ({ clientId }) => {
               <input type="hidden" name="day" value={dayIndex + 1} />
             </div>
 
-            <table className="table-auto w-full text-sm text-left">
+            <table className="w-full table-auto text-left text-sm">
               <thead className="bg-gray-100 text-gray-700">
                 <tr>
                   <th className="p-2">Exercise</th>
@@ -110,17 +109,17 @@ export const AdminAssignWorkout = ({ clientId }) => {
                   <th className="p-2">How To</th>
                 </tr>
               </thead>
-              <tbody className="text-gray-800 text-sm">
+              <tbody className="text-sm text-gray-800">
                 {workout.exercises.map((ex, exIndex) => (
                   <tr key={exIndex} className="hover:bg-gray-200">
                     <td className="border-b p-2">
                       <input
                         name={`exercises[${exIndex}][name]`}
                         defaultValue={ex.name}
-                        className="w-full p-1 rounded h-12"
+                        className="h-12 w-full rounded p-1"
                       />
-                    <td className="border-b p-2">
-                      {/* <Select
+                      <td className="border-b p-2">
+                        {/* <Select
                         name={`exercises[${exIndex}][name]`}
                         options={options}
                         defaultValue={options.find(
@@ -130,27 +129,27 @@ export const AdminAssignWorkout = ({ clientId }) => {
                         placeholder="Select an exercise"
                         isClearable
                       /> */}
-                    </td>
+                      </td>
                     </td>
                     <td className="border-b p-2">
                       <input
                         name={`exercises[${exIndex}][sets]`}
                         defaultValue={ex.sets}
-                        className="w-full p-1 rounded h-12"
+                        className="h-12 w-full rounded p-1"
                       />
                     </td>
                     <td className="border-b p-2">
                       <input
                         name={`exercises[${exIndex}][reps]`}
                         defaultValue={ex.reps}
-                        className="w-full p-1 rounded h-12"
+                        className="h-12 w-full rounded p-1"
                       />
                     </td>
                     <td className="border-b p-2">
                       <input
                         name={`exercises[${exIndex}][howTo]`}
                         defaultValue={ex.howTo}
-                        className="w-full p-1 rounded h-12"
+                        className="h-12 w-full rounded p-1"
                       />
                     </td>
                   </tr>
@@ -160,7 +159,7 @@ export const AdminAssignWorkout = ({ clientId }) => {
 
             <button
               type="submit"
-              className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded w-full"
+              className="w-full rounded bg-blue-600 px-4 py-2 font-medium text-white hover:bg-blue-700"
             >
               Save Workout Day {dayIndex + 1}
             </button>

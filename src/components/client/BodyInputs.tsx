@@ -6,11 +6,9 @@ function getToken() {
   return null;
 }
 
-
-
 export const BodyInputs = () => {
   return (
-    <div className="bg-white w-full p-4 rounded shadow">
+    <div className="w-full rounded bg-white p-4 shadow">
       <h1 className="font-bold">Update Body Measurements</h1>
 
       <form onSubmit="" className="mt-4">
@@ -27,7 +25,7 @@ export const BodyInputs = () => {
           <input
             type="number"
             name="body_weight"
-            className="border rounded px-2 py-1 w-full"
+            className="w-full rounded border px-2 py-1"
             placeholder="Enter your current body weight"
             required
           />
@@ -35,13 +33,11 @@ export const BodyInputs = () => {
 
         <button
           type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+          className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
         >
           Submit
         </button>
       </form>
-
-      
     </div>
   );
 };

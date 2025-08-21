@@ -1,16 +1,16 @@
 // src/AdminApp.tsx
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import { AdminHome } from './pages/admin/AdminHome'
-import { Sidebar } from './components/admin/Sidebar'
-import { AdminClients } from './pages/admin/AdminClients'
-import ViewClient  from './pages/admin/ViewClient';
-import { AdminPackages } from './pages/admin/AdminPackages'
-import { AdminPlans } from './pages/admin/AdminPlans'
-import { AdminAnalytics } from './pages/admin/AdminAnalytics';
-import { AdminCalendar } from './pages/admin/AdminCalendar';
-import { AdminWorkout } from './pages/admin/AdminAssignWorkout'
-import { Logout } from './pages/admin/Logout'
- 
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AdminHome } from "./pages/admin/AdminHome";
+import { Sidebar } from "./components/admin/Sidebar";
+import { AdminClients } from "./pages/admin/AdminClients";
+import ViewClient from "./pages/admin/ViewClient";
+import { AdminPackages } from "./pages/admin/AdminPackages";
+import { AdminPlans } from "./pages/admin/AdminPlans";
+import { AdminAnalytics } from "./pages/admin/AdminAnalytics";
+import { AdminCalendar } from "./pages/admin/AdminCalendar";
+import { AdminWorkout } from "./pages/admin/AdminAssignWorkout";
+import { Logout } from "./pages/admin/Logout";
+
 export function AdminApp() {
   return (
     <BrowserRouter>
@@ -31,5 +31,5 @@ export function AdminApp() {
         </main>
       </div>
     </BrowserRouter>
-  )
+  );
 }

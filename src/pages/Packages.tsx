@@ -1,6 +1,6 @@
-import { MembershipTiers } from '../components/MembershipTiers'
-import { CTA } from '../components/CTA'
-import { PackagesHeader } from '../components/PackagesHeader'
+import { MembershipTiers } from "../components/MembershipTiers";
+import { CTA } from "../components/CTA";
+import { PackagesHeader } from "../components/PackagesHeader";
 
 export const Packages = () => {
   return (
@@ -9,5 +9,5 @@ export const Packages = () => {
       <MembershipTiers />
       <CTA />
     </div>
-  )
-}
+  );
+};

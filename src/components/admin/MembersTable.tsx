@@ -11,12 +11,12 @@ export const MembersTable = () => {
   }, []);
 
   return (
-    <section className=" text-black p-4 mt-10 md:mt-0">
+    <section className="mt-10 p-4 text-black md:mt-0">
       <div className="mb-4 px-4 text-white">
-                    <div className="bg-gradient-to-r from-gray-700 to-gray-600 rounded-t-lg shadow-sm h-2 relative overflow-hidden text-white" />
+        <div className="relative h-2 overflow-hidden rounded-t-lg bg-gradient-to-r from-gray-700 to-gray-600 text-white shadow-sm" />
         {/* <button className="flex justifiy-end p-2 m-2 bg-gray-500 rounded-lg hover:bg-gray-400 transition duraton-300">Add Client</button> */}
         <table className="w-full border-collapse border-2 border-t-0 border-black text-left">
-          <thead className="border-2 border-black border-t-0 bg-gray-800">
+          <thead className="border-2 border-t-0 border-black bg-gray-800">
             <th className="p-2">Client</th>
             <th>Contact</th>
             <th>Plan</th>
@@ -29,8 +29,8 @@ export const MembersTable = () => {
                 key={index}
                 className={
                   index % 2 == 0
-                    ? "bg-gray-300 hover:bg-gray-400 transition duration-300"
-                    : "bg-white hover:bg-gray-400 transition duration-300"
+                    ? "bg-gray-300 transition duration-300 hover:bg-gray-400"
+                    : "bg-white transition duration-300 hover:bg-gray-400"
                 }
               >
                 {/* photo */}
@@ -39,7 +39,7 @@ export const MembersTable = () => {
                     <img
                       src="https://placehold.co/400"
                       alt="Client"
-                      className="rounded-full w-16"
+                      className="w-16 rounded-full"
                     />
                     <span>
                       {client.client_firstname} {client.client_lastname}
@@ -49,14 +49,14 @@ export const MembersTable = () => {
                 <td className="p-2">{client.client_preferred_contact}</td>
                 <td className="p-2">{client.client_plan_type}</td>
                 <td className="p-2">
-                  <button className="bg-blue-500 text-white px-4 py-2 rounded">
-                      <a href={`/admin/AssignWorkout?id=${client.client_id}`}>
+                  <button className="rounded bg-blue-500 px-4 py-2 text-white">
+                    <a href={`/admin/AssignWorkout?id=${client.client_id}`}>
                       Assign
                     </a>
                   </button>
                 </td>
                 <td className="p-2">
-                  <button className="bg-yellow-500 text-white px-4 py-2 rounded">
+                  <button className="rounded bg-yellow-500 px-4 py-2 text-white">
                     <a href={`/admin/ViewClient?id=${client.client_id}`}>
                       Edit
                     </a>

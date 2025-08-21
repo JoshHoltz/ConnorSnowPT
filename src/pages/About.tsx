@@ -1,8 +1,8 @@
 // import React from 'react'
-import { CTA2 } from '../components/CTA2'
-import { Meet } from '../components/Meet'
-import { Approach } from '../components/Approach'
-import { CTA } from '../components/CTA'
+import { CTA2 } from "../components/CTA2";
+import { Meet } from "../components/Meet";
+import { Approach } from "../components/Approach";
+import { CTA } from "../components/CTA";
 export const About = () => {
   return (
     <>
@@ -11,5 +11,5 @@ export const About = () => {
       <Approach />
       <CTA />
     </>
-  )
-}
+  );
+};

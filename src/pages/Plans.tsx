@@ -1,6 +1,5 @@
-import React from 'react'
-import { PlansGrid } from '../components/PlansGrid'
-import { TrainingGuideHeader } from '../components/TrainingGuideHeader'
+import { PlansGrid } from "../components/PlansGrid";
+import { TrainingGuideHeader } from "../components/TrainingGuideHeader";
 
 export const Plans = () => {
   return (
@@ -8,5 +7,5 @@ export const Plans = () => {
       <TrainingGuideHeader />
       <PlansGrid />
     </div>
-  )
-}
+  );
+};

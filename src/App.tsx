@@ -1,18 +1,18 @@
 // import React from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import { Header } from './components/Header'
-import { Footer } from './components/Footer'
-import { Home } from './pages/Home'
-import { About } from './pages/About'
-import { Packages } from './pages/Packages'
-import { Contact } from './pages/Contact'
-import { Login } from './pages/Login'
-import { Plans } from './pages/Plans'
-import { Forbidden } from './pages/Forbidden'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Header } from "./components/Header";
+import { Footer } from "./components/Footer";
+import { Home } from "./pages/Home";
+import { About } from "./pages/About";
+import { Packages } from "./pages/Packages";
+import { Contact } from "./pages/Contact";
+import { Login } from "./pages/Login";
+import { Plans } from "./pages/Plans";
+import { Forbidden } from "./pages/Forbidden";
 export function App() {
   return (
     <BrowserRouter>
-      <div className="flex flex-col min-h-screen w-full bg-gray-50">
+      <div className="flex min-h-screen w-full flex-col bg-gray-50">
         <Header />
         <main className="flex-grow">
           <Routes>
@@ -28,5 +28,5 @@ export function App() {
         <Footer />
       </div>
     </BrowserRouter>
-  )
+  );
 }

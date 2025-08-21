@@ -3,7 +3,7 @@ import { Calendar } from "../../components/client/Book";
 
 export const Booking = () => {
   return (
-    <div className="text-black px-4 py-4">
+    <div className="px-4 py-4 text-black">
       <Calendar />
     </div>
   );
