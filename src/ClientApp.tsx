@@ -4,7 +4,7 @@ import { ClientHome } from "./pages/client/ClientHome";
 import { Booking } from "./pages/client/Booking";
 import { WorkoutSplit } from "./pages/client/WorkoutSplit";
 import { Analytics } from "./pages/client/Analytics";
-import { Logout } from "./pages/client/Logout";
+import { Logout } from "./pages/client/Logout.tsx";
 
 export function ClientApp() {
   return (

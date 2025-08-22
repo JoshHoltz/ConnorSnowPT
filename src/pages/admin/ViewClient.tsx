@@ -3,7 +3,7 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import { ClientOverview } from "../../components/admin/ClientOverview";
 import { ClientMetrics } from "../../components/admin/ClientMetrics";
 import { ClientNotes } from "../../components/admin/ClientNotes";
-import { PRs } from "../../components/admin/PRs";
+import { PRs } from "../../components/admin/PRs.tsx";
 
 function getToken() {
   const user_id = sessionStorage.getItem("user_id");

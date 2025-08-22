@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { TopLevelInfo } from "../../components/admin/TopLevelInfo";
 import { QuickLinks } from "../../components/admin/QuickLinks";
-import { Calendar } from "../../components/admin/Calendar";
+import { Calendar } from "../../components/admin/Calendar.tsx";
 
 function getToken() {
   const user_id = sessionStorage.getItem("user_id");

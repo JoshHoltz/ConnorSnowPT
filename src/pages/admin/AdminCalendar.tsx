@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Calendar } from "../../components/admin/Calendar";
+import { Calendar } from "../../components/admin/Calendar.tsx";
 
 function getToken() {
   const user_id = sessionStorage.getItem("user_id");
