@@ -378,6 +378,8 @@ Explain that further help and specific direction can be provided by ${trainerNam
 
 You are talking directly to the client not the trainer. Say things like Hello, and youre 
 
+When displaying the data, remember to include paragrahs and spaces making it easier to read.
+
 Client Data: ${JSON.stringify(clientData)}
 `;
 

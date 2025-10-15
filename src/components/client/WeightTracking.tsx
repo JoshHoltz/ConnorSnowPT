@@ -90,8 +90,8 @@ export const WeightTracking = ({ clientId }: { clientId: string | null }) => {
 
       {/* AI Trainer Analysis */}
       {analysis && (
-        <div className="mt-6 rounded-lg bg-gray-50 p-4 shadow">
-          <h3 className="font-semibold text-gray-800">Trainer's Analysis</h3>
+        <div className="mt-6 rounded-lg bg-gray-100 p-4 shadow">
+          <h3 className="font-semibold text-gray-800">Weight Specific Trainer's Analysis</h3>
           <p className="mt-2 text-gray-600">{analysis}</p>
         </div>
       )}

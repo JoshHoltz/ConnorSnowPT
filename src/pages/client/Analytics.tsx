@@ -3,6 +3,7 @@ import { WeightTracking } from "../../components/client/WeightTracking";
 import { BMITracking } from "../../components/client/BMITracking";
 import { BodyInputs } from "../../components/client/BodyInputs";
 import { MuscleMassTracking } from "../../components/client/MuscleMassTracking";
+import { ClientDetailsAnalysis } from "../../components/client/ClientDetailAnalysis"
 
 function getToken() {
   const user_id = sessionStorage.getItem("user_id");
@@ -21,7 +22,7 @@ export const Analytics = () => {
     <div className="flex flex-col gap-4 px-4 py-4 text-black md:flex-row">
       {/* 1/3 of screen */}
       <div className="mt-16 w-full rounded-xl bg-white p-4 shadow md:mt-0 md:w-1/3">
-        <BodyInputs clientId={clientId} />
+        <ClientDetailsAnalysis clientId={clientId} />
       </div>
 
       {/* 2/3 of screen */}
