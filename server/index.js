@@ -4,6 +4,11 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { pool } from "./db.js";
 
+import OpenAI from "openai";
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+
+const trainerName = "Connor Snow";
+
 const POSTHOG_PROJECT_ID = 83713;
 const POSTHOG_API_KEY = "phx_X1NQ1gB1ipVUJhvPtBpsoLNjCdroOjwxdv0Sj3JJK6XX29i";
 
@@ -207,19 +212,41 @@ app.get("/api/exercises", async (req, res) => {
 });
 
 // Get all body weights from the body_weights table by client_id
+// openAI Analysis (REF: https://platform.openai.com/docs/quickstart)
 app.get("/api/body-weights/:clientId", async (req, res) => {
   const clientId = req.params.clientId;
+  const trainerName = "Connor Snow"; 
+  
   try {
     const [rows] = await pool.query(
-      "SELECT * FROM body_weights WHERE client_id = ?",
+      "SELECT * FROM body_weights WHERE client_id = ? ORDER BY submitted_date ASC",
       [clientId],
     );
-    res.json(rows);
-  } catch (err) {
-    console.error(`Error on /body-weights/${clientId}:`, err);
-    res
-      .status(500)
-      .json({ error: "Failed to fetch body weights", details: err.message });
+
+    const prompt = `
+  You are a personal trainer called ${trainerName}, and you are analysing a client's body weight over time metric. 
+  Write a short 2-3 sentence analysis of the client's body weight and progress to keep them motivated.
+  Mention if they are making good progress, or if they have slowed down a bit. 
+  If they have gained or slowed down encourage them, or ask them to talk to the trainer. 
+  Provide clear and professional advice. 
+  Here is the client's body weight data: ${JSON.stringify(rows)}
+  `;
+
+    const response = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      messages: [
+        { role: "system", content: "You are a helpful and motivational personal trainer." },
+        { role: "user", content: prompt },
+      ],
+      max_tokens: 150,
+    });
+
+    const aiMessage = response.choices[0].message.content;
+
+    res.json({ bodyWeights: rows, analysis: aiMessage });
+  } catch (error) {
+    console.error("Error generating AI analysis:", error);
+    res.status(500).json({ error: "Failed to generate AI analysis" });
   }
 });
 
