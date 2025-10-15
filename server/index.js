@@ -598,6 +598,35 @@ app.post("/api/insert-client-body-weight", async (req, res) => {
 
   res.json({ message: "Successfully inserted Client Body Weight" });
 });
+
+// insert a client details from clientdetails.tsx
+app.use("/api/insert-client-details", express.urlencoded());
+app.post("/api/insert-client-details", async (req, res) => {
+  console.log("Received request to insert client details:", req.body);
+
+  const client_id = Number(req.body.client_id);
+  const client_firstname = String(req.body.client_firstname);
+  const client_lastname = String(req.body.client_lastname);
+  const client_goal = String(req.body.client_goal);
+  const client_preferred_contact = String(req.body.client_preferred_contact);
+
+  if (!client_id || !client_firstname || !client_lastname) {
+    return res.status(400).json({ error: "All fields are required" });
+  }
+
+  const sql =
+    "UPDATE client_information SET client_firstname = ?, client_lastname = ?, client_goal = ?, client_preferred_contact = ? WHERE client_id = ?";
+  await pool.query(sql, [
+    client_firstname,
+    client_lastname,
+    client_goal,
+    client_preferred_contact,
+    client_id,
+  ]);
+
+  res.json({ message: "Successfully inserted Client Details" });
+});
+
 // Logging In
 
 app.use("/api/login-user", express.urlencoded());

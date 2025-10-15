@@ -53,7 +53,7 @@ export const ClientDetails = ({ clientId }: { clientId: string | null }) => {
 
         {edit ? (
           <form
-            action="https://connorsnowpt.onrender.com/api/" //update query
+            action="https://connorsnowpt.onrender.com/api/insert-client-details" //update query
             method="POST"
             className="mt-4 space-y-4"
           >
