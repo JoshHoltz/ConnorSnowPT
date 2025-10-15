@@ -143,7 +143,27 @@ app.get("/api/client-by-id/:id", async (req, res) => {
 // get all upcoming workouts
 app.get("/api/upcoming-workouts/:id", async (req, res) => {
   const clientId = req.params.id;
-  const trainerName = "Connor Snow"; 
+  try {
+    const [rows] = await pool.query(
+      "SELECT * FROM upcoming_workouts WHERE client_id = ? ORDER BY upcoming_workout_date ASC LIMIT 1",
+      [clientId],
+    );
+    res.json(rows);
+  } catch (err) {
+    console.error(`Error on /upcoming-workouts/${clientId}:`, err);
+    res
+      .status(500)
+      .json({
+        error: "Failed to fetch upcoming workouts",
+        details: err.message,
+      });
+  }
+});
+
+// upcoming workout AI analysis
+app.get("/api/upcoming-workouts/:id/analysis", async (req, res) => {
+  const clientId = req.params.id;
+  const trainerName = "Connor Snow";
   
   try {
     const [rows] = await pool.query(
@@ -151,7 +171,6 @@ app.get("/api/upcoming-workouts/:id", async (req, res) => {
       [clientId],
     );
 
-    // AI analysis and tips for upcoming workout
     const prompt = `
 You are a personal trainer called ${trainerName}, and you are analysing an upcoming workout for your client. 
 Analyse the workout routine and provide tips or an alternative exercise if you think it may be too hard for a particular exercise. 
@@ -170,17 +189,10 @@ Here is the client's upcoming workout data: ${JSON.stringify(rows)}
 
     const aiMessage = response.choices[0].message.content;
 
-    res.json({ 
-      upcomingWorkout: rows[0] || null, 
-      aiAnalysis: aiMessage 
-    });
-
-  } catch (err) {
-    console.error(`Error on /upcoming-workouts/${clientId}:`, err);
-    res.status(500).json({
-      error: "Failed to fetch upcoming workouts",
-      details: err.message,
-    });
+    res.json({ aiAnalysis: aiMessage }); 
+  } catch (error) {
+    console.error("Error generating AI analysis:", error);
+    res.status(500).json({ error: "Failed to generate AI analysis" });
   }
 });
 
@@ -240,7 +252,6 @@ app.get("/api/exercises", async (req, res) => {
 app.get("/api/body-weights/:clientId", async (req, res) => {
   const clientId = req.params.clientId;
   const trainerName = "Connor Snow"; 
-
   try {
     const [rows] = await pool.query(
       "SELECT * FROM body_weights WHERE client_id = ? ORDER BY submitted_date ASC",

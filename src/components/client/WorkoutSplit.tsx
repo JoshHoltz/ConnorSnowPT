@@ -8,6 +8,7 @@ export const WorkoutSplitTable = () => {
   const [workouts, setWorkouts] = useState([]);
   const [visibleHowTo, setVisibleHowTo] = useState({});
   const [loading, setLoading] = useState(true);
+  const [analysis, setAnalysis] = useState("");
 
   useEffect(() => {
     if (!clientId) return;
@@ -15,6 +16,19 @@ export const WorkoutSplitTable = () => {
       .then((res) => res.json())
       .then((data) => setWorkouts(data || []))
       .finally(() => setLoading(false));
+  }, [clientId]);
+
+  // obtain ai analysis of ucpoming workout
+  useEffect(() => {
+    if (!clientId) return;
+    fetch(`https://connorsnowpt.onrender.com/api/upcoming-workouts/${clientId}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data && data.aiAnalysis) {
+          setAnalysis(data.aiAnalysis);
+        }
+      })
+      .catch((err) => console.error("Error fetching AI analysis:", err));
   }, [clientId]);
 
   const toggleHowTo = (id) => {
@@ -164,6 +178,17 @@ export const WorkoutSplitTable = () => {
           ))
         )}
       </div>
+        
+        {/* Upcoming Workout Help AI */}
+      {analysis && (
+        <div className="mt-6 rounded-lg bg-gray-50 shadow">
+          <div className="h-2 bg-gray-700 rounded-t-lg" />
+          <div className="bg-gray-900 p-4 rounded-t-lg text-white">
+            <h2 className="text-xl font-bold uppercase">Connor's Tips for Upcoming Workout</h2>
+          </div>
+              <p className="p-4 text-gray-600">{analysis}</p>
+        </div>
+        )}
     </div>
   );
 };

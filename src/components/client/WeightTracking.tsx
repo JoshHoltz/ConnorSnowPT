@@ -38,7 +38,7 @@ export const WeightTracking = ({ clientId }: { clientId: string | null }) => {
         return res.json();
       })
       .then((data) => {
-        console.log("Received data:", data); // Debug log
+        console.log("Received data:", data); 
         setMetrics(data.bodyWeights || []);
         setAnalysis(data.analysis || "");
       })
