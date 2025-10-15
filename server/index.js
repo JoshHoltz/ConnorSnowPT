@@ -325,6 +325,81 @@ app.get("/api/client-muscle-mass/:clientId", async (req, res) => {
   }
 });
 
+// Detailed AI Analysis and review of all metrics
+app.get("/api/detailed-client-tracking/:id/analysis", async (req, res) => {
+  const clientId = req.params.id;
+  const trainerName = "Connor Snow";
+  
+  try {
+
+        const [upcomingWorkout] = await pool.query(
+      "SELECT * FROM upcoming_workouts WHERE client_id = ? ORDER BY upcoming_workout_date ASC LIMIT 1",
+      [clientId]
+    );
+
+        const [bodyWeights] = await pool.query(
+      "SELECT * FROM body_weights WHERE client_id = ? ORDER BY submitted_date ASC",
+      [clientId]
+    );
+
+        const [bmiMeasurements] = await pool.query(
+      "SELECT * FROM bmi_measurements WHERE client_id = ? ORDER BY submitted_date DESC",
+      [clientId]
+    );
+
+        const [muscleMass] = await pool.query(
+      "SELECT * FROM muscle_mass_measurements WHERE client_id = ? ORDER BY submitted_date DESC",
+      [clientId]
+    );
+
+        const clientData = {
+      upcomingWorkout: upcomingWorkout[0] || null,
+      bodyWeights,
+      bmiMeasurements,
+      muscleMass
+    };
+
+    const prompt = `
+You are a personal trainer called ${trainerName}, and you are analysing an the overall general information and statistics and trends of a client. 
+Analyse the follwoing:
+
+- workout routine, 
+- the body weight trend over time, 
+- bmi measurements
+- muscle mass measurements, 
+
+Analyse and explain:
+- what is going well
+- areas of improvement
+- overall progress
+- reccommendations
+
+Explain that further help and specific direction can be provided by ${trainerName}
+
+Client Data: ${JSON.stringify(clientData)}
+`;
+
+    const response = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      messages: [
+        { role: "system", content: "You are a helpful and motivational personal trainer." },
+        { role: "user", content: prompt },
+      ],
+      max_tokens: 500,
+    });
+
+    const aiMessage = response.choices[0].message.content;
+
+    res.json({ 
+      aiAnalysis: aiMessage,
+      data: clientData
+    }); 
+  } catch (error) {
+    console.error("Error generating AI analysis:", error);
+    res.status(500).json({ error: "Failed to generate AI analysis" });
+  }
+});
+
 // Inserting frontend to the DB
 // REF (Formatting of Insertion): https://stackoverflow.com/questions/56034455/how-to-send-json-data-from-react-to-node-js-express-server
 // REF (Status Messages): https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status

@@ -21,7 +21,9 @@ export const WorkoutSplitTable = () => {
   // obtain ai analysis of ucpoming workout
   useEffect(() => {
     if (!clientId) return;
-    fetch(`https://connorsnowpt.onrender.com/api/upcoming-workouts/${clientId}`)
+    fetch(
+      `https://connorsnowpt.onrender.com/api/upcoming-workouts/${clientId}/analysis`,
+    )
       .then((res) => res.json())
       .then((data) => {
         if (data && data.aiAnalysis) {
@@ -89,7 +91,7 @@ export const WorkoutSplitTable = () => {
 
   return (
     <div className="mb-4 mt-10 w-full px-4 py-4 text-black md:mt-0 md:w-full">
-      <h1 className="hidden rounded-t-2xl bg-gray-800 px-8 py-4 text-2xl font-bold text-white md:flex">
+      <h1 className="hidden rounded-2xl bg-gray-800 px-8 py-4 text-2xl font-bold text-white md:flex">
         Your Week Workout Split
       </h1>
 
@@ -178,17 +180,17 @@ export const WorkoutSplitTable = () => {
           ))
         )}
       </div>
-        
-        {/* Upcoming Workout Help AI */}
-      {analysis && (
-        <div className="mt-6 rounded-lg bg-gray-50 shadow">
-          <div className="h-2 bg-gray-700 rounded-t-lg" />
-          <div className="bg-gray-900 p-4 rounded-t-lg text-white">
-            <h2 className="text-xl font-bold uppercase">Connor's Tips for Upcoming Workout</h2>
-          </div>
-              <p className="p-4 text-gray-600">{analysis}</p>
+
+      {/* Upcoming Workout Help AI */}
+      <div className="mt-6 overflow-hidden rounded-lg bg-gray-50 shadow hover:scale-[1.02]">
+        <div className="h-2 bg-gray-700" />
+        <div className="bg-gray-900 p-4 text-white">
+          <h2 className="text-xl font-bold uppercase">
+            Connor's Tips for Upcoming Workout
+          </h2>
         </div>
-        )}
+        <p className="p-4 text-gray-600">{analysis}</p>
+      </div>
     </div>
   );
 };
