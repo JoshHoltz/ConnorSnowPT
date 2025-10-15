@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import ReactMarkdown from "react-markdown";
+import ReactMarkdown from "react-markdown"; // REF: https://stackoverflow.com/questions/31875748/how-do-i-render-markdown-from-a-react-component
 
 export const ClientDetailsAnalysis = ({ clientId }) => {
   const [analysis, setAnalysis] = useState<string | null>(null);
