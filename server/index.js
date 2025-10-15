@@ -143,22 +143,21 @@ app.get("/api/client-by-id/:id", async (req, res) => {
 // get all upcoming workouts
 app.get("/api/upcoming-workouts/:id", async (req, res) => {
   const clientId = req.params.id;
+  const trainerName = "Connor Snow"; 
+  
   try {
     const [rows] = await pool.query(
       "SELECT * FROM upcoming_workouts WHERE client_id = ? ORDER BY upcoming_workout_date ASC LIMIT 1",
       [clientId],
     );
-    res.json(rows);
-  } catch (err) {
 
-  // AI analysis and tips for upcoming workout
-
-  const prompt = `
-  You are a personal trainer called ${trainerName}, and you are analysing an upcoming workout
-  for my client. Analyse the workout routine and provide tips or an alternative exericise if you think it may be too hard 
-  for a particular exercise. 
-  Here is the client's upcoming workout data: ${JSON.stringify(rows)} 
-  `;
+    // AI analysis and tips for upcoming workout
+    const prompt = `
+You are a personal trainer called ${trainerName}, and you are analysing an upcoming workout for your client. 
+Analyse the workout routine and provide tips or an alternative exercise if you think it may be too hard for a particular exercise. 
+Keep it brief - 2-3 sentences.
+Here is the client's upcoming workout data: ${JSON.stringify(rows)}
+`;
 
     const response = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
@@ -170,17 +169,19 @@ app.get("/api/upcoming-workouts/:id", async (req, res) => {
     });
 
     const aiMessage = response.choices[0].message.content;
-    console.error(`Error on /upcoming-workouts/${clientId}:`, err);
 
-    res
-      .status(500)
-      .json({
-        error: "Failed to fetch upcoming workouts",
-        details: err.message,
-        aiAnalysis: aiMessage,
-      });
+    res.json({ 
+      upcomingWorkout: rows[0] || null, 
+      aiAnalysis: aiMessage 
+    });
+
+  } catch (err) {
+    console.error(`Error on /upcoming-workouts/${clientId}:`, err);
+    res.status(500).json({
+      error: "Failed to fetch upcoming workouts",
+      details: err.message,
+    });
   }
-  
 });
 
 // get all upcoming workouts
