@@ -376,6 +376,8 @@ Analyse and explain:
 
 Explain that further help and specific direction can be provided by ${trainerName}
 
+You are talking directly to the client not the trainer. Say things like Hello, and youre 
+
 Client Data: ${JSON.stringify(clientData)}
 `;
 
