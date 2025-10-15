@@ -150,14 +150,37 @@ app.get("/api/upcoming-workouts/:id", async (req, res) => {
     );
     res.json(rows);
   } catch (err) {
+
+  // AI analysis and tips for upcoming workout
+
+  const prompt = `
+  You are a personal trainer called ${trainerName}, and you are analysing an upcoming workout
+  for my client. Analyse the workout routine and provide tips or an alternative exericise if you think it may be too hard 
+  for a particular exercise. 
+  Here is the client's upcoming workout data: ${JSON.stringify(rows)} 
+  `;
+
+    const response = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      messages: [
+        { role: "system", content: "You are a helpful and motivational personal trainer." },
+        { role: "user", content: prompt },
+      ],
+      max_tokens: 150,
+    });
+
+    const aiMessage = response.choices[0].message.content;
     console.error(`Error on /upcoming-workouts/${clientId}:`, err);
+
     res
       .status(500)
       .json({
         error: "Failed to fetch upcoming workouts",
         details: err.message,
+        aiAnalysis: aiMessage,
       });
   }
+  
 });
 
 // get all upcoming workouts
@@ -216,7 +239,7 @@ app.get("/api/exercises", async (req, res) => {
 app.get("/api/body-weights/:clientId", async (req, res) => {
   const clientId = req.params.clientId;
   const trainerName = "Connor Snow"; 
-  
+
   try {
     const [rows] = await pool.query(
       "SELECT * FROM body_weights WHERE client_id = ? ORDER BY submitted_date ASC",
