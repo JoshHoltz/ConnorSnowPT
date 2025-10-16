@@ -745,7 +745,8 @@ app.post("/api/insert-a-client-split", async (req, res) => {
 });
 
 // insert a client body weight
-app.use("/api/insert-client-body-weight", express.urlencoded());
+app.use("/api/insert-client-body-weight", express.json());
+
 app.post("/api/insert-client-body-weight", async (req, res) => {
   console.log("Received request to insert client body weight:", req.body);
 
@@ -762,7 +763,7 @@ app.post("/api/insert-client-body-weight", async (req, res) => {
   console.log("Inserting body_weight", body_weight);
 
   const sql =
-    "INSERT INTO body_weights (client_id, body_weight, submitted_date) VALUES (?, ?, ?)";
+    "INSERT INTO body_weights (client_id, submitted_weight, submitted_date) VALUES (?, ?, ?)";
   await pool.query(sql, [client_id, body_weight, submitted_date]);
 
   res.json({ message: "Successfully inserted Client Body Weight" });
