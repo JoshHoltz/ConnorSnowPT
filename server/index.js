@@ -504,7 +504,7 @@ app.post("/api/insert-plan-change", async (req, res) => {
   const plan_description = String(req.body.plan_description);
   const plan_pages = Number(req.body.plan_pages);
   const plan_price = String(req.body.plan_price);
-  const plan_stripe_link = String(req.body.plan_stripe_link)
+  const plan_stripe_link = String(req.body.plan_stripe_link);
 
   if (
     !plan_id ||
@@ -525,8 +525,8 @@ app.post("/api/insert-plan-change", async (req, res) => {
     plan_description,
     plan_pages,
     plan_price,
-    plan_id,
     plan_stripe_link,
+    plan_id,
   ]);
   res.json({ message: "Successfully inserted plan change" });
 });
