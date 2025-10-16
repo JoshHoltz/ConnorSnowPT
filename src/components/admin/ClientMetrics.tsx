@@ -35,7 +35,7 @@ export const ClientMetrics = ({ clientId }: { clientId: string | null }) => {
   const tabs = [
     { id: "overview", label: "Overview" },
     { id: "metrics", label: "Metrics" },
-    { id: "activity", label: "Activity" },
+    { id: "AI Overview", label: "AI Overview" },
     { id: "account", label: "Account Settings" },
   ];
 
@@ -65,8 +65,8 @@ export const ClientMetrics = ({ clientId }: { clientId: string | null }) => {
         {/* Tab Content */}
         <div className="p-6">
           {activeTab === "overview" && <OverviewComponent />}
-          {activeTab === "metrics" && <MetricsComponent />}
-          {activeTab === "activity" && <ActivityComponent />}
+          {activeTab === "metrics" && <MetricsComponent clientId={clientId} />}
+          {activeTab === "AI Overview" && <ActivityComponent clientId={clientId} />}
           {activeTab === "account" && <AccountComponent />}
         </div>
       </div>

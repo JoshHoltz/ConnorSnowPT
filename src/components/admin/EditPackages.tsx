@@ -3,6 +3,7 @@ import { CheckIcon, XIcon } from "lucide-react";
 
 export const AdminMembershipTiers = () => {
   const [packages, setPackages] = useState([]);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   useEffect(() => {
     fetch("https://connorsnowpt.onrender.com/api/membership-packages")
@@ -14,15 +15,11 @@ export const AdminMembershipTiers = () => {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
-
-    // Convert to plain JS object
     const plainData = Object.fromEntries(formData.entries());
 
-    // Handle repeated fields (features/excludes)
     plainData.package_features = formData.getAll("package_features[]");
     plainData.package_excludes = formData.getAll("package_excludes[]");
 
-    // Send as JSON
     const response = await fetch(
       "https://connorsnowpt.onrender.com/api/insert-package-change",
       {
@@ -33,9 +30,8 @@ export const AdminMembershipTiers = () => {
     );
 
     if (response.ok) {
-      alert("Package updated successfully!");
-    } else {
-      alert("Error updating package");
+      setShowSuccess(true);
+      setTimeout(() => setShowSuccess(false), 3000);
     }
   };
 
@@ -117,6 +113,12 @@ export const AdminMembershipTiers = () => {
           ))}
         </div>
       </div>
+
+      {showSuccess && (
+        <div className="fixed top-4 right-4 bg-green-500/80 text-white px-6 py-3 rounded-lg shadow-lg">
+          ✓ Membership tier updated successfully!
+        </div>
+      )}
     </section>
   );
 };
