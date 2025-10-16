@@ -70,7 +70,7 @@ export const AdminPlansGrid = () => {
                     Stripe Link:{" "}
                     <input
                       type="text"
-                      name="plan_name"
+                      name="plan_stripe_link"
                       className="mb-4 w-full border-2 p-2"
                       defaultValue={plan.plan_stripe_link}
                     />
