@@ -53,8 +53,38 @@ export const ClientDetails = ({ clientId }: { clientId: string | null }) => {
 
         {edit ? (
           <form
-            action="https://connorsnowpt.onrender.com/api/insert-client-details" //update query
-            method="POST"
+            onSubmit={async (e) => {
+              e.preventDefault();
+              const formData = new FormData(e.target);
+              const data = Object.fromEntries(formData);
+
+              try {
+                const response = await fetch(
+                  "https://connorsnowpt.onrender.com/api/insert-client-details",
+                  {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(data),
+                  },
+                );
+
+                if (response.ok) {
+                  setClient({
+                    ...client,
+                    client_firstname: data.client_firstname,
+                    client_lastname: data.client_lastname,
+                    client_goal: data.client_goal,
+                    client_preferred_contact: data.client_preferred_contact,
+                  });
+                  setEdit(false);
+                } else {
+                  alert("Failed to update client details");
+                }
+              } catch (error) {
+                console.error("Error:", error);
+                alert("Error updating client details");
+              }
+            }}
             className="mt-4 space-y-4"
           >
             <input type="hidden" name="client_id" value={client.client_id} />

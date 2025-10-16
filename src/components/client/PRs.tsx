@@ -57,10 +57,44 @@ export const PRs = ({ clientId }: { clientId: string | null }) => {
           )}
         </div>
 
-      {edit ? (
+        {edit ? (
           <form
-            action="https://connorsnowpt.onrender.com/api/insert-client-pr-result"
-            method="POST"
+            onSubmit={async (e) => {
+              e.preventDefault();
+              const formData = new FormData(e.target);
+              const data = Object.fromEntries(formData);
+              
+              try {
+                const response = await fetch(
+                  "https://connorsnowpt.onrender.com/api/insert-client-pr-result",
+                  {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(data),
+                  }
+                );
+                
+                if (response.ok) {
+                  setClient({
+                    ...client,
+                    client_pr_name_1: data.client_pr_name_1,
+                    client_pr_result_1: data.client_pr_result_1,
+                    client_pr_name_2: data.client_pr_name_2,
+                    client_pr_result_2: data.client_pr_result_2,
+                    client_pr_name_3: data.client_pr_name_3,
+                    client_pr_result_3: data.client_pr_result_3,
+                    client_pr_name_4: data.client_pr_name_4,
+                    client_pr_result_4: data.client_pr_result_4,
+                  });
+                  setEdit(false);
+                } else {
+                  alert("Failed to update PRs");
+                }
+              } catch (error) {
+                console.error("Error:", error);
+                alert("Error updating PRs");
+              }
+            }}
             className="mt-4 space-y-6"
           >
             <input type="hidden" name="client_id" value={client.client_id} />
