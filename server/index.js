@@ -924,15 +924,20 @@ app.post("/api/create-client", async (req, res) => {
   }
 
   try {
-    // insert client
+    // Get the next available client_information_id
+    const [maxResult] = await pool.query(
+      "SELECT MAX(client_information_id) as max_id FROM client_information"
+    );
+    const nextId = (maxResult[0]?.max_id || 0) + 1;
+
     const [clientResult] = await pool.query(
-      "INSERT INTO client_information (client_firstname, client_lastname, client_preferred_contact, client_plan_type) VALUES (?, ?, ?, ?)",
-      [client_firstname, client_lastname, client_preferred_contact, client_plan_type]
+      "INSERT INTO client_information (client_information_id, client_firstname, client_lastname, client_preferred_contact, client_plan_type) VALUES (?, ?, ?, ?, ?)",
+      [nextId, client_firstname, client_lastname, client_preferred_contact, client_plan_type]
     );
 
     const client_id = clientResult.insertId;
 
-    // insert user login
+    // Insert user login
     await pool.query(
       "INSERT INTO user_logins (user_firstname, user_lastname, user_username, user_password) VALUES (?, ?, ?, ?)",
       [client_firstname, client_lastname, user_username, user_password]
