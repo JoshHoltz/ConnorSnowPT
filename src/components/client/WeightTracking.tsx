@@ -89,7 +89,6 @@ export const WeightTracking = ({ clientId }: { clientId: string | null }) => {
       />
 
       {/* Form */}
-{/* Form */}
       <form
         onSubmit={async (e) => {
           e.preventDefault();
