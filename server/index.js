@@ -812,7 +812,7 @@ app.post("/api/insert-bmi", async (req, res) => {
 
   const sql =
     "INSERT INTO bmi_measurements (client_id, bmi_measurement, submitted_date) VALUES (?, ?, ?)";
-  await pool.query(sql, [client_id, muscle_mass, submitted_date]);
+  await pool.query(sql, [client_id, bmi_measurement, submitted_date]);
 
   res.json({ message: "Successfully inserted BMI" });
 });

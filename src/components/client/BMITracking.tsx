@@ -83,7 +83,7 @@ export const BMITracking = ({ clientId }: { clientId: string }) => {
             <input
               type="number"
               name="bmi"
-              placeholder="Enter muscle mass %"
+              placeholder="Enter bmi%"
               step="0.01"
               className="rounded border px-3 py-2"
               required
