@@ -2,10 +2,17 @@ import { useEffect, useState } from "react";
 import { UserIcon, TargetIcon, PhoneIcon, CrownIcon } from "lucide-react";
 import Skeleton from "react-loading-skeleton";
 
+function Success() {
+    <div className="fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg">
+    ✓ Client details updated successfully!
+  </div>
+}
+
 export const ClientDetails = ({ clientId }: { clientId: string | null }) => {
   const [client, setClient] = useState<any>(null);
   const [edit, setEdit] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   useEffect(() => {
     if (!clientId) return;
@@ -16,6 +23,11 @@ export const ClientDetails = ({ clientId }: { clientId: string | null }) => {
       .catch(console.error)
       .finally(() => setLoading(false));
   }, [clientId]);
+
+  const Success = () => {
+    setShowSuccess(true);
+    setTimeout(() => setShowSuccess(false), 3000);
+  };
 
   if (loading) {
     return (
@@ -77,6 +89,7 @@ export const ClientDetails = ({ clientId }: { clientId: string | null }) => {
                     client_preferred_contact: data.client_preferred_contact,
                   });
                   setEdit(false);
+                  Success();
                 } else {
                   alert("Failed to update client details");
                 }
@@ -164,6 +177,12 @@ export const ClientDetails = ({ clientId }: { clientId: string | null }) => {
           </div>
         )}
       </div>
+      
+     {showSuccess && (
+        <div className="fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg">
+          ✓ Client details updated successfully!
+        </div>
+      )}
     </section>
   );
 };
