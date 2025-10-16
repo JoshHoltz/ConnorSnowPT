@@ -432,9 +432,9 @@ app.get("/api/pr-analysis/:clientId", async (req, res) => {
     }
 
     const prompt = `
-You are a personal trainer called ${trainerName}, and you are analyzing a client's personal records (PRs) for various exercises.
+You are a personal trainer called ${trainerName}, and you are analysing a client's personal records (PRs) for various exercises.
 Write a short 2-3 sentence analysis of the client's strength performance.
-Highlight their top achievements and progress. Be encouraging and motivational.
+Highlight their top achievements and progress. Be encouraging.
 Provide clear and professional advice on how they can continue to improve.
 Here are the client's PR data: ${JSON.stringify(prResults)}
     `;
