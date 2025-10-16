@@ -793,6 +793,30 @@ app.post("/api/insert-muscle-mass", async (req, res) => {
   res.json({ message: "Successfully inserted Muscle Mass" });
 });
 
+// Insert client bmi
+app.use("/api/insert-bmi", express.json());
+app.post("/api/insert-bmi", async (req, res) => {
+  console.log("Received request to insert muscle mass:", req.body);
+
+  const client_id = Number(req.body.client_id);
+  const bmi = Number(req.body.bmi);
+  const submitted_date =
+    req.body.submitted_date || new Date().toISOString().split("T")[0];
+
+  if (!client_id || !bmi) {
+    return res.status(400).json({ error: "All fields are required" });
+  }
+
+  console.log("Inserting to client_id", client_id);
+  console.log("Inserting bmi", bmi);
+
+  const sql =
+    "INSERT INTO bmi_measurements (client_id, bmi_measurement, submitted_date) VALUES (?, ?, ?)";
+  await pool.query(sql, [client_id, muscle_mass, submitted_date]);
+
+  res.json({ message: "Successfully inserted BMI" });
+});
+
 // insert a client details from clientdetails.tsx
 app.use("/api/insert-client-details", express.urlencoded());
 app.post("/api/insert-client-details", async (req, res) => {

@@ -6,6 +6,7 @@ export const PRs = ({ clientId }: { clientId: string | null }) => {
   const [client, setClient] = useState<any>(null);
   const [edit, setEdit] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   useEffect(() => {
     if (!clientId) return;
@@ -18,6 +19,11 @@ export const PRs = ({ clientId }: { clientId: string | null }) => {
       .catch(console.error)
       .finally(() => setLoading(false));
   }, [clientId]);
+
+  const Success = () => {
+    setShowSuccess(true);
+    setTimeout(() => setShowSuccess(false), 3000);
+  };
 
   if (loading) {
     return (
@@ -87,6 +93,7 @@ export const PRs = ({ clientId }: { clientId: string | null }) => {
                     client_pr_result_4: data.client_pr_result_4,
                   });
                   setEdit(false);
+                  Success()
                 } else {
                   alert("Failed to update PRs");
                 }
@@ -213,6 +220,12 @@ export const PRs = ({ clientId }: { clientId: string | null }) => {
           </div>
         )}
       </div>
+
+     {showSuccess && (
+        <div className="fixed top-4 right-4 bg-green-500/80 text-white px-6 py-3 rounded-lg shadow-lg">
+          ✓ Client details updated successfully!
+        </div>
+      )}
     </section>
   );
 };
