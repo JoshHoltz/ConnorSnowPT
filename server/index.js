@@ -529,25 +529,53 @@ app.post("/api/insert-plan-change", async (req, res) => {
 });
 
 //api insert a client pr
-app.use("/api/insert-client-bench-pr", express.urlencoded());
+app.use("/api/insert-client-pr-result", express.urlencoded());
 
-app.post("/api/insert-client-pr-result-1", async (req, res) => {
+app.post("/api/insert-client-pr-result", async (req, res) => {
   console.log("Received request to insert client PR:", req.body);
 
   const client_id = Number(req.body.client_id);
-  const client_pr_result_1 = Number(req.body.client_pr_result_1);
+  const client_pr_name_1 = req.body.client_pr_name_1;
+  const client_pr_result_1 = req.body.client_pr_result_1;
+  const client_pr_name_2 = req.body.client_pr_name_2;
+  const client_pr_result_2 = req.body.client_pr_result_2;
+  const client_pr_name_3 = req.body.client_pr_name_3;
+  const client_pr_result_3 = req.body.client_pr_result_3;
+  const client_pr_name_4 = req.body.client_pr_name_4;
+  const client_pr_result_4 = req.body.client_pr_result_4;
 
-  if (!client_id || !client_pr_result_1) {
-    return res.status(400).json({ error: "All fields are required" });
+  if (!client_id) {
+    return res.status(400).json({ error: "Client ID is required" });
   }
 
-  console.log("Inserting to client_id", client_id);
-  console.log("Inserting client_pr_result_1", client_pr_result_1);
+  console.log("Updating client_id:", client_id);
+  console.log("PR Data:", {
+    client_pr_name_1,
+    client_pr_result_1,
+    client_pr_name_2,
+    client_pr_result_2,
+    client_pr_name_3,
+    client_pr_result_3,
+    client_pr_name_4,
+    client_pr_result_4,
+  });
 
   const sql =
-    "UPDATE client_information SET client_pr_result_1 = ? WHERE client_id = ?";
-  await pool.query(sql, [client_pr_result_1, client_id]);
-  res.json({ message: "Successfully inserted Client PR" });
+    "UPDATE client_information SET client_pr_name_1 = ?, client_pr_result_1 = ?, client_pr_name_2 = ?, client_pr_result_2 = ?, client_pr_name_3 = ?, client_pr_result_3 = ?, client_pr_name_4 = ?, client_pr_result_4 = ? WHERE client_id = ?";
+
+  await pool.query(sql, [
+    client_pr_name_1,
+    client_pr_result_1,
+    client_pr_name_2,
+    client_pr_result_2,
+    client_pr_name_3,
+    client_pr_result_3,
+    client_pr_name_4,
+    client_pr_result_4,
+    client_id,
+  ]);
+
+  res.json({ message: "Successfully updated client PRs" });
 });
 
 //inserting a client change split

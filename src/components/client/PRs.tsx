@@ -57,9 +57,9 @@ export const PRs = ({ clientId }: { clientId: string | null }) => {
           )}
         </div>
 
-        {edit ? (
+      {edit ? (
           <form
-            action="https://connorsnowpt.onrender.com/api/insert-client-pr-result" //update api call
+            action="https://connorsnowpt.onrender.com/api/insert-client-pr-result"
             method="POST"
             className="mt-4 space-y-6"
           >
@@ -67,68 +67,84 @@ export const PRs = ({ clientId }: { clientId: string | null }) => {
 
             <div className="grid grid-cols-2 gap-4 px-4">
               <div className="rounded-lg border-2 p-5 duration-300 hover:bg-gray-200">
-                <label
-                  htmlFor="client_bench_pr"
-                  className="mb-1 block font-medium"
-                >
-                  Bench Press PR
-                </label>
                 <input
-                  id="client_bench_pr"
-                  name="client_bench_pr"
+                  id="client_pr_name_1"
+                  name="client_pr_name_1"
                   type="text"
-                  defaultValue={client.client_bench_pr}
+                  placeholder="Goal name (e.g., Bench Press)"
+                  defaultValue={client.client_pr_name_1}
+                  className="mb-2 w-full rounded border px-2 py-1"
+                  required
+                />
+                <input
+                  id="client_pr_result_1"
+                  name="client_pr_result_1"
+                  type="text"
+                  placeholder="Goal result"
+                  defaultValue={client.client_pr_result_1}
                   className="w-full rounded border px-2 py-1"
                   required
                 />
               </div>
 
               <div className="rounded-lg border-2 p-5 duration-300 hover:bg-gray-200">
-                <label
-                  htmlFor="client_squat_pr"
-                  className="mb-1 block font-medium"
-                >
-                  Squat PR
-                </label>
                 <input
-                  id="client_squat_pr"
-                  name="client_squat_pr"
+                  id="client_pr_name_2"
+                  name="client_pr_name_2"
                   type="text"
-                  defaultValue={client.client_squat_pr}
+                  placeholder="Goal name (e.g., Squat)"
+                  defaultValue={client.client_pr_name_2}
+                  className="mb-2 w-full rounded border px-2 py-1"
+                  required
+                />
+                <input
+                  id="client_pr_result_2"
+                  name="client_pr_result_2"
+                  type="text"
+                  placeholder="Goal result"
+                  defaultValue={client.client_pr_result_2}
                   className="w-full rounded border px-2 py-1"
                   required
                 />
               </div>
 
               <div className="rounded-lg border-2 p-5 duration-300 hover:bg-gray-200">
-                <label
-                  htmlFor="client_deadlift_pr"
-                  className="mb-1 block font-medium"
-                >
-                  Deadlift PR
-                </label>
                 <input
-                  id="client_deadlift_pr"
-                  name="client_deadlift_pr"
+                  id="client_pr_name_3"
+                  name="client_pr_name_3"
                   type="text"
-                  defaultValue={client.client_deadlift_pr}
+                  placeholder="Goal name (e.g., Deadlift)"
+                  defaultValue={client.client_pr_name_3}
+                  className="mb-2 w-full rounded border px-2 py-1"
+                  required
+                />
+                <input
+                  id="client_pr_result_3"
+                  name="client_pr_result_3"
+                  type="text"
+                  placeholder="Goal result"
+                  defaultValue={client.client_pr_result_3}
                   className="w-full rounded border px-2 py-1"
                   required
                 />
               </div>
 
               <div className="rounded-lg border-2 p-5 duration-300 hover:bg-gray-200">
-                <label
-                  htmlFor="client_5k_time_pr"
-                  className="mb-1 block font-medium"
-                >
-                  5k PR
-                </label>
                 <input
-                  id="client_5k_time_pr"
-                  name="client_5k_time_pr"
+                  id="client_pr_name_4"
+                  name="client_pr_name_4"
                   type="text"
-                  defaultValue={client.client_5k_time_pr}
+                  placeholder="Goal name (e.g., 5K Time)"
+                  defaultValue={client.client_pr_name_4}
+                  className="mb-2 w-full rounded border px-2 py-1"
+                  required
+                />
+                <input
+                  id="client_pr_result_4"
+                  name="client_pr_result_4"
+                  type="text"
+                  placeholder="Goal result"
+                  defaultValue={client.client_pr_result_4}
                   className="w-full rounded border px-2 py-1"
                   required
                 />
@@ -145,20 +161,20 @@ export const PRs = ({ clientId }: { clientId: string | null }) => {
         ) : (
           <div className="mt-8 grid grid-cols-2 gap-4 px-4">
             <div className="rounded-lg border-2 p-5 duration-300 hover:bg-gray-200">
-              <p>Bench Press PR</p>
-              <p>{client.client_bench_pr || "N/A"}</p>
+              <p>{client.client_pr_name_1 || "Set Goal:"}</p>
+              <p>{client.client_pr_result_1 || "N/A"}</p>
             </div>
             <div className="rounded-lg border-2 p-5 duration-300 hover:bg-gray-200">
-              <p>Squat PR</p>
-              <p>{client.client_squat_pr || "N/A"}</p>
+              <p>{client.client_pr_name_2 || "Set Goal:"}</p>
+              <p>{client.client_pr_result_2 || "N/A"}</p>
             </div>
             <div className="rounded-lg border-2 p-5 duration-300 hover:bg-gray-200">
-              <p>Deadlift PR</p>
-              <p>{client.client_deadlift_pr || "N/A"}</p>
+              <p>{client.client_pr_name_3 || "Set Goal:"}</p>
+              <p>{client.client_pr_result_3 || "N/A"}</p>
             </div>
             <div className="rounded-lg border-2 p-5 duration-300 hover:bg-gray-200">
-              <p>5k PR</p>
-              <p>{client.client_5k_time_pr || "N/A"}</p>
+              <p>{client.client_pr_name_4 || "Set Goal:"}</p>
+              <p>{client.client_pr_result_4 || "N/A"}</p>
             </div>
           </div>
         )}
