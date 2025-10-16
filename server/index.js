@@ -436,6 +436,7 @@ You are a personal trainer called ${trainerName}, and you are analysing a client
 Write a short 2-3 sentence analysis of the client's strength performance.
 Highlight their top achievements and progress. Be encouraging.
 Provide clear and professional advice on how they can continue to improve.
+PRs are in kg
 Here are the client's PR data: ${JSON.stringify(prResults)}
     `;
 
