@@ -38,7 +38,7 @@ export const MuscleMassTracking = ({ clientId }: { clientId: string }) => {
 
             try {
               const response = await fetch(
-                "https://connorsnowpt.onrender.com/api/insert-client-body-weight",
+                "https://connorsnowpt.onrender.com/api/insert-muscle-mass",
                 {
                   method: "POST",
                   headers: { "Content-Type": "application/json" },
