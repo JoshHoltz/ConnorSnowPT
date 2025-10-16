@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 
 export const AdminPlansGrid = () => {
   const [plans, setPlans] = useState([]);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   useEffect(() => {
     fetch("https://connorsnowpt.onrender.com/api/workout-plans")
@@ -9,27 +10,52 @@ export const AdminPlansGrid = () => {
       .then(setPlans);
   }, []);
 
+  const showSuccessMessage = () => {
+    setShowSuccess(true);
+    setTimeout(() => setShowSuccess(false), 3000);
+  };
+
   return (
     <section>
       <div className="p-4 px-4 md:px-8">
-        <div className="flex grid-cols-1 flex-col justify-between gap-4 md:grid md:grid-cols-3">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {plans.map((plan) => (
             <form
               key={plan.plan_id}
-              action="https://connorsnowpt.onrender.com/api/insert-plan-change"
-              method="POST"
+              onSubmit={async (e) => {
+                e.preventDefault();
+                const formData = new FormData(e.target);
+                const data = Object.fromEntries(formData);
+
+                try {
+                  const response = await fetch(
+                    "https://connorsnowpt.onrender.com/api/insert-plan-change",
+                    {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify(data),
+                    }
+                  );
+
+                  if (response.ok) {
+                    showSuccessMessage();
+                  } else {
+                    console.error("Update failed:", await response.text());
+                  }
+                } catch (error) {
+                  console.error("Error updating plan:", error);
+                }
+              }}
               className="flex flex-col gap-4"
             >
-              <div
-                key={plan.plan_id}
-                className="flex flex-col justify-between rounded border bg-white p-4 transition duration-300 ease-in-out hover:shadow-lg"
-              >
+              <div className="flex flex-col justify-between rounded border bg-white p-4 transition duration-300 ease-in-out hover:shadow-lg">
                 <div>
                   <input type="hidden" name="plan_id" value={plan.plan_id} />
 
                   <img
                     src={`data:image/jpeg;base64,${plan.plan_image}`}
                     className="mb-4 h-48 w-full rounded object-cover"
+                    alt={plan.plan_name}
                   />
 
                   <input
@@ -45,13 +71,13 @@ export const AdminPlansGrid = () => {
                     defaultValue={plan.plan_description}
                   />
 
-                  <div className="flex justify-between">
+                  <div className="flex justify-between gap-2">
                     <p className="font-bold">
                       Type:{" "}
                       <input
                         type="text"
                         name="plan_type"
-                        className="mb-4 border-2 p-2 font-semibold text-blue-600"
+                        className="border-2 p-1 font-semibold text-blue-600 w-20"
                         defaultValue={plan.plan_type}
                       />
                     </p>
@@ -60,7 +86,7 @@ export const AdminPlansGrid = () => {
                       <input
                         type="text"
                         name="plan_pages"
-                        className="mb-4 border-2 p-2 font-semibold text-blue-600"
+                        className="border-2 p-1 font-semibold text-blue-600 w-20"
                         defaultValue={plan.plan_pages}
                       />
                     </p>
@@ -80,11 +106,10 @@ export const AdminPlansGrid = () => {
                 <input
                   type="text"
                   name="plan_price"
-                  className="mb-4 mt-10 w-full border-2 p-2 font-semibold text-green-600"
+                  className="mb-4 mt-6 w-full border-2 p-2 font-semibold text-green-600"
                   defaultValue={plan.plan_price}
                 />
 
-                {/* Button at the bottom */}
                 <button className="mt-4 w-full rounded bg-blue-500 py-2 text-white transition duration-300 ease-in-out hover:bg-blue-600 hover:font-bold">
                   Save & Update
                 </button>
@@ -93,6 +118,12 @@ export const AdminPlansGrid = () => {
           ))}
         </div>
       </div>
+
+      {showSuccess && (
+        <div className="fixed top-4 right-4 bg-green-500/90 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-fade-in">
+          ✓ Plan updated successfully!
+        </div>
+      )}
     </section>
   );
 };

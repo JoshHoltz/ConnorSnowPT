@@ -459,18 +459,18 @@ app.post("/api/insert-client-note", async (req, res) => {
 app.use("/api/insert-package-change", express.urlencoded());
 
 app.post("/api/insert-package-change", async (req, res) => {
-  console.log("Received request to insert package change:", req.body);
+  console.log("Received package update:", req.body);
 
   const packageId = Number(req.body.package_id);
   const packageName = String(req.body.package_name);
   const packagePrice = String(req.body.package_price);
   const packageDescription = String(req.body.package_description);
-  const featuresArray = req.body["package_features[]"]; // get the array in the same way as the other names
-  const excludesArray = req.body["package_excludes[]"]; // for both included and excluded features
+  const featuresArray = req.body.package_features || [];
+  const excludesArray = req.body.package_excludes || [];
 
   const packageFeatures = Array.isArray(featuresArray)
     ? featuresArray.join(",")
-    : featuresArray || ""; // join the array into one string seperated by commas (as in the db)
+    : featuresArray || "";
   const packageExcludes = Array.isArray(excludesArray)
     ? excludesArray.join(",")
     : excludesArray || "";
@@ -479,8 +479,12 @@ app.post("/api/insert-package-change", async (req, res) => {
     return res.status(400).json({ error: "All fields are required" });
   }
 
-  const sql =
-    " UPDATE membership_packages SET package_name = ?, package_price = ?, package_description = ?, package_features = ?, package_excludes = ? WHERE package_id = ?";
+  const sql = `
+    UPDATE membership_packages
+    SET package_name = ?, package_price = ?, package_description = ?,
+        package_features = ?, package_excludes = ?
+    WHERE package_id = ?
+  `;
 
   await pool.query(sql, [
     packageName,
@@ -490,8 +494,10 @@ app.post("/api/insert-package-change", async (req, res) => {
     packageExcludes,
     packageId,
   ]);
+
   res.json({ message: "Successfully inserted package change" });
 });
+
 
 //inserting a plan change
 app.use("/api/insert-plan-change", express.urlencoded());

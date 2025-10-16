@@ -10,20 +10,46 @@ export const AdminMembershipTiers = () => {
       .then(setPackages);
   }, []);
 
+  const handleSubmit = async (e, pkgId) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.currentTarget);
+
+    // Convert to plain JS object
+    const plainData = Object.fromEntries(formData.entries());
+
+    // Handle repeated fields (features/excludes)
+    plainData.package_features = formData.getAll("package_features[]");
+    plainData.package_excludes = formData.getAll("package_excludes[]");
+
+    // Send as JSON
+    const response = await fetch(
+      "https://connorsnowpt.onrender.com/api/insert-package-change",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(plainData),
+      }
+    );
+
+    if (response.ok) {
+      alert("Package updated successfully!");
+    } else {
+      alert("Error updating package");
+    }
+  };
+
   return (
     <section className="h-100vh py-5">
       <div className="container mx-auto px-6 py-10 md:py-2">
         <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
           {packages.map((pkg) => (
             <form
-              action="https://www.connorsnowpt.com/api/insert-package-change"
-              method="POST"
+              key={pkg.package_id}
+              onSubmit={(e) => handleSubmit(e, pkg.package_id)}
               className="flex flex-col gap-4"
             >
-              <div
-                key={pkg.package_id}
-                className="relative flex h-full flex-col border-t-4 bg-white p-8 shadow-lg transition duration-300 ease-in-out hover:bg-gray-200"
-              >
+              <div className="relative flex h-full flex-col border-t-4 bg-white p-8 shadow-lg transition duration-300 ease-in-out hover:bg-gray-200">
                 <input type="hidden" name="package_id" value={pkg.package_id} />
 
                 <input
@@ -41,6 +67,7 @@ export const AdminMembershipTiers = () => {
                     defaultValue={pkg.package_price}
                   />
                 </div>
+
                 <textarea
                   className="mb-4 border-2 p-2"
                   name="package_description"
