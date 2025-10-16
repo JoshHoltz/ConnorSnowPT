@@ -60,7 +60,7 @@ export const ClientNotes = ({ clientId }: { clientId: string | null }) => {
   };
 
   return (
-    <section className="relative w-full p-4 md:mt-0 md:w-1/2">
+    <section className="w-full p-4 md:mt-0 md:w-1/2">
       {/* Success message popup */}
       {showSuccess && (
         <div className="fixed right-4 top-4 z-50 rounded-lg bg-green-500/80 px-6 py-3 text-white shadow-lg">
@@ -69,7 +69,7 @@ export const ClientNotes = ({ clientId }: { clientId: string | null }) => {
       )}
 
       {/* Header */}
-      <div className="relative h-2 overflow-hidden rounded-t-lg bg-gradient-to-r from-gray-700 to-gray-600 text-white shadow-sm" />
+      <div className="z-0 h-2 overflow-hidden rounded-t-lg bg-gradient-to-r from-gray-700 to-gray-600 text-white shadow-sm" />
       <div className="border border-t-0 border-slate-200 bg-slate-100 p-4">
         <div className="flex items-center justify-between">
           <h1 className="text-xl font-semibold text-slate-900">Client Notes</h1>

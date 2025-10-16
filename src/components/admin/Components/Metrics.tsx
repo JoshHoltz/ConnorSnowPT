@@ -1,17 +1,20 @@
-// src/components/client/MetricsComponent.tsx
-
 import React from "react";
-import ClientProgressChart from "./ClientProgressChart";
+import { WeightTracking } from "../../client/WeightTracking";
+import { BMITracking } from "../../client/BMITracking";
+import { MuscleMassTracking } from "../../client/MuscleMassTracking";
 
-const MetricsComponent = () => {
-  // Temporary mock data
-  const labels = ["Jan", "Feb", "Mar", "Apr"];
-  const dataPoints = [75, 72, 70, 68];
-
+const MetricsComponent = ({ clientId }: { clientId: string | null }) => {
   return (
-    <div className="rounded-lg bg-gray-100 p-4 shadow-md md:max-w-[33.3333%]">
-      <h2 className="mb-4 text-xl font-bold">Metrics</h2>
-      <ClientProgressChart labels={labels} dataPoints={dataPoints} />
+    <div className="grid grid-cols-3 gap-4">
+      <div className="h-96 overflow-y-auto">
+        <WeightTracking clientId={clientId} />
+      </div>
+      <div className="h-96 overflow-y-auto">
+        <BMITracking clientId={clientId} />
+      </div>
+      <div className="h-86 overflow-y-auto">
+        <MuscleMassTracking clientId={clientId} />
+      </div>
     </div>
   );
 };

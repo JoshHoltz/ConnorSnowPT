@@ -1118,3 +1118,20 @@ app.get("/{*splat}", async (req, res) => {
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
+
+// DELETE
+app.delete("/api/delete-client/:clientId", async (req, res) => {
+  const clientId = Number(req.params.clientId);
+
+  if (!clientId) {
+    return res.status(400).json({ error: "Client ID is required" });
+  }
+
+  try {
+    await pool.query("DELETE FROM client_information WHERE client_id = ?", [clientId]);
+    res.json({ message: "Client deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting client:", error);
+    res.status(500).json({ error: "Failed to delete client" });
+  }
+});

@@ -49,6 +49,7 @@ const ClientProgressChart: React.FC<ClientProgressChartProps> = ({
 
   const options = {
     responsive: true,
+    maintainAspectRatio: true,
     plugins: {
       legend: {
         position: "top" as const,
@@ -58,9 +59,18 @@ const ClientProgressChart: React.FC<ClientProgressChartProps> = ({
         text: "Client Weight Progress",
       },
     },
+    scales: {
+      y: {
+        beginAtZero: false,
+      },
+    },
   };
 
-  return <Line data={data} options={options} />;
+  return (
+    <div style={{ position: "relative", height: "300px", width: "100%" }}>
+      <Line data={data} options={options} />
+    </div>
+  );
 };
 
 export default ClientProgressChart;

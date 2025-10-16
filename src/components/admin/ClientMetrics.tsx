@@ -67,7 +67,7 @@ export const ClientMetrics = ({ clientId }: { clientId: string | null }) => {
           {activeTab === "overview" && <OverviewComponent />}
           {activeTab === "metrics" && <MetricsComponent clientId={clientId} />}
           {activeTab === "AI Overview" && <ActivityComponent clientId={clientId} />}
-          {activeTab === "account" && <AccountComponent />}
+          {activeTab === "account" && <AccountComponent clientId={clientId} />}
         </div>
       </div>
     </section>
