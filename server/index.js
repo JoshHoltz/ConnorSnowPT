@@ -787,7 +787,7 @@ app.post("/api/insert-muscle-mass", async (req, res) => {
   console.log("Inserting muscle_mass", muscle_mass);
 
   const sql =
-    "INSERT INTO muscle_masss_measurement (client_id, muscle_mass, submitted_date) VALUES (?, ?, ?)";
+    "INSERT INTO muscle_mass_measurements (client_id, muscle_mass, submitted_date) VALUES (?, ?, ?)";
   await pool.query(sql, [client_id, muscle_mass, submitted_date]);
 
   res.json({ message: "Successfully inserted Muscle Mass" });
