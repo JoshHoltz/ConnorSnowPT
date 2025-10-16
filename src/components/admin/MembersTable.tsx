@@ -1,20 +1,28 @@
 import React, { useState, useEffect } from "react";
-import { Edit2, Dumbbell, Search, Filter } from "lucide-react";
+import { Edit2, Dumbbell, Search, Plus } from "lucide-react";
+import { AddClient } from "./AddClient";
 
 export const MembersTable = () => {
   const [clients, setClients] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [showAddClient, setShowAddClient] = useState(false);
 
-  useEffect(() => {
+  const fetchClients = () => {
     fetch("https://connorsnowpt.onrender.com/api/client-information")
       .then((res) => (res.ok ? res.json() : Promise.reject("Fetch failed")))
       .then(setClients)
       .catch((err) => console.error(err));
+  };
+
+  useEffect(() => {
+    fetchClients();
   }, []);
 
   // Filter clients based on search
-  const filteredClients = clients.filter(client =>
-    `${client.client_firstname} ${client.client_lastname}`.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredClients = clients.filter((client) =>
+    `${client.client_firstname} ${client.client_lastname}`
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -32,13 +40,20 @@ export const MembersTable = () => {
               className="w-full pl-10 pr-4 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-50"
             />
           </div>
+          <button
+            onClick={() => setShowAddClient(true)}
+            className="flex items-center gap-2 bg-blue-900 hover:bg-blue-950 text-white px-4 py-2 rounded-lg font-medium transition duration-200 shadow-md"
+          >
+            <Plus size={20} />
+            <span className="hidden sm:inline">Add Client</span>
+          </button>
         </div>
 
         {/* Table Container with Glass Effect */}
         <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-slate-100">
           {/* Table Header Gradient */}
           <div className="relative h-2 overflow-hidden rounded-t-lg bg-gradient-to-r from-gray-700 to-gray-600 text-white shadow-sm" />
-          
+
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
@@ -69,12 +84,16 @@ export const MembersTable = () => {
                           <p className="font-semibold text-slate-900">
                             {client.client_firstname} {client.client_lastname}
                           </p>
-                          <p className="text-sm text-slate-500">ID: {client.client_id}</p>
+                          <p className="text-sm text-slate-500">
+                            ID: {client.client_id}
+                          </p>
                         </div>
                       </div>
                     </td>
                     <td className="px-6 py-4">
-                      <span className="text-slate-700">{client.client_preferred_contact}</span>
+                      <span className="text-slate-700">
+                        {client.client_preferred_contact}
+                      </span>
                     </td>
                     <td className="px-6 py-4">
                       <span className="inline-block px-3 py-1 text-slate-700 font-medium">
@@ -114,15 +133,34 @@ export const MembersTable = () => {
           {/* Footer Stats */}
           <div className="bg-slate-50 px-6 py-4 border-t border-slate-100 flex justify-between items-center">
             <p className="text-sm text-slate-600">
-              Showing <span className="font-semibold text-slate-900">{filteredClients.length}</span> of <span className="font-semibold text-slate-900">{clients.length}</span> clients
+              Showing{" "}
+              <span className="font-semibold text-slate-900">
+                {filteredClients.length}
+              </span>{" "}
+              of{" "}
+              <span className="font-semibold text-slate-900">
+                {clients.length}
+              </span>{" "}
+              clients
             </p>
             <div className="flex gap-2">
-              <button className="px-3 py-1 text-sm border border-slate-200 rounded-lg hover:bg-slate-100 transition">← Prev</button>
-              <button className="px-3 py-1 text-sm border border-slate-200 rounded-lg hover:bg-slate-100 transition">Next →</button>
+              <button className="px-3 py-1 text-sm border border-slate-200 rounded-lg hover:bg-slate-100 transition">
+                ← Prev
+              </button>
+              <button className="px-3 py-1 text-sm border border-slate-200 rounded-lg hover:bg-slate-100 transition">
+                Next →
+              </button>
             </div>
           </div>
         </div>
       </div>
+
+      {showAddClient && (
+        <AddClient
+          onClose={() => setShowAddClient(false)}
+          onSuccess={() => fetchClients()}
+        />
+      )}
     </section>
   );
 };

@@ -908,6 +908,43 @@ app.post("/api/insert-client-details", async (req, res) => {
   res.json({ message: "Successfully inserted Client Details" });
 });
 
+// add user from client screen
+app.post("/api/create-client", async (req, res) => {
+  const {
+    client_firstname,
+    client_lastname,
+    client_preferred_contact,
+    client_plan_type,
+    user_username,
+    user_password,
+  } = req.body;
+
+  if (!client_firstname || !client_lastname || !user_username || !user_password) {
+    return res.status(400).json({ error: "Missing required fields" });
+  }
+
+  try {
+    // insert client
+    const [clientResult] = await pool.query(
+      "INSERT INTO client_information (client_firstname, client_lastname, client_preferred_contact, client_plan_type) VALUES (?, ?, ?, ?)",
+      [client_firstname, client_lastname, client_preferred_contact, client_plan_type]
+    );
+
+    const client_id = clientResult.insertId;
+
+    // insert user login
+    await pool.query(
+      "INSERT INTO user_logins (user_firstname, user_lastname, user_username, user_password) VALUES (?, ?, ?, ?)",
+      [client_firstname, client_lastname, user_username, user_password]
+    );
+
+    res.json({ message: "Client created successfully", client_id });
+  } catch (error) {
+    console.error("Error creating client:", error);
+    res.status(500).json({ error: "Failed to create client" });
+  }
+});
+
 // Logging In
 
 app.use("/api/login-user", express.urlencoded());
@@ -1135,3 +1172,4 @@ app.delete("/api/delete-client/:clientId", async (req, res) => {
     res.status(500).json({ error: "Failed to delete client" });
   }
 });
+

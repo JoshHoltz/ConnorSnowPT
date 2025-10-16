@@ -13,7 +13,7 @@ const AccountComponent = ({ clientId }: { clientId: string | null }) => {
 
       if (res.ok) {
         setShowDeletePopup(false);
-        window.location.href = "/";
+        window.location.href = "/admin/AdminClients";
       } else {
         setShowDeletePopup(false);
       }
