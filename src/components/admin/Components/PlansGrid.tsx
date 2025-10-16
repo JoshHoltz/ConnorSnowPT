@@ -66,13 +66,23 @@ export const AdminPlansGrid = () => {
                     </p>
                   </div>
 
-                  <input
-                    type="text"
-                    name="plan_price"
-                    className="mb-4 mt-14 w-full border-2 p-2 font-semibold text-green-600"
-                    defaultValue={plan.plan_price}
-                  />
+                  <p>
+                    Stripe Link:{" "}
+                    <input
+                      type="text"
+                      name="plan_name"
+                      className="mb-4 w-full border-2 p-2"
+                      defaultValue={plan.plan_stripe_link}
+                    />
+                  </p>
                 </div>
+
+                <input
+                  type="text"
+                  name="plan_price"
+                  className="mb-4 mt-10 w-full border-2 p-2 font-semibold text-green-600"
+                  defaultValue={plan.plan_price}
+                />
 
                 {/* Button at the bottom */}
                 <button className="mt-4 w-full rounded bg-blue-500 py-2 text-white transition duration-300 ease-in-out hover:bg-blue-600 hover:font-bold">
