@@ -7,6 +7,7 @@ export const AddClient = ({ onClose, onSuccess }: { onClose: () => void; onSucce
     client_lastname: "",
     client_preferred_contact: "",
     client_plan_type: "",
+    client_goals: "",
     user_firstname: "",
     user_lastname: "",
     user_username: "",
@@ -129,6 +130,20 @@ export const AddClient = ({ onClose, onSuccess }: { onClose: () => void; onSucce
               <option value="Premium">Premium</option>
               <option value="Elite">Elite</option>
             </select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-slate-900 mb-1">
+              Client Goals
+            </label>
+            <textarea
+              name="client_goals"
+              value={formData.client_goals}
+              onChange={handleChange}
+              placeholder="Enter client goals..."
+              className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:border-blue-900 focus:ring-2 focus:ring-blue-900 resize-none"
+              rows={3}
+            />
           </div>
 
           <hr className="my-6" />
