@@ -8,14 +8,21 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 export const BMITracking = ({ clientId }: { clientId: string }) => {
   const [bmiMeasurement, setBMIMeasurement] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [showSuccess, setShowSuccess] = useState(false);
+
+  const fetchBMI = async () => {
+    if (!clientId) return;
+    try {
+      const res = await fetch(`https://connorsnowpt.onrender.com/api/client-bmi/${clientId}`);
+      const data = await res.json();
+      setBMIMeasurement(data.bmi_measurement);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    if (!clientId) return;
-
-    fetch(`https://connorsnowpt.onrender.com/api/client-bmi/${clientId}`)
-      .then((res) => res.json())
-      .then((data) => setBMIMeasurement(data.bmi_measurement))
-      .finally(() => setLoading(false));
+    fetchBMI();
   }, [clientId]);
 
   if (loading) return <Skeleton count={1} />;
@@ -48,7 +55,7 @@ export const BMITracking = ({ clientId }: { clientId: string }) => {
 
   return (
     <>
-       <Doughnut data={data} />;
+       <Doughnut data={data} />
 
           <form
           onSubmit={async (e) => {
@@ -67,8 +74,10 @@ export const BMITracking = ({ clientId }: { clientId: string }) => {
               );
 
               if (response.ok) {
+                setShowSuccess(true);
+                setTimeout(() => setShowSuccess(false), 3000);
+                fetchBMI();
                 (e.target as HTMLFormElement).reset();
-                window.location.reload();
               } else {
                 alert("Failed to log body weight");
               }
@@ -97,6 +106,12 @@ export const BMITracking = ({ clientId }: { clientId: string }) => {
             </button>
           </div>
         </form>
+
+        {showSuccess && (
+          <div className="fixed top-4 right-4 bg-green-500/80 text-white px-6 py-3 rounded-lg shadow-lg">
+            ✓ Client details updated successfully!
+          </div>
+        )}
 
    </>
         )

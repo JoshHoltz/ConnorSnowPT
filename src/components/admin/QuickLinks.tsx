@@ -1,64 +1,43 @@
+import React from "react";
 import { Zap } from "lucide-react";
-import { Link } from "react-router-dom"; //Ref (Linking To): https://www.youtube.com/watch?v=DO-pSysGItQ&ab_channel=NetNinja
+import { Link } from "react-router-dom";
+
+type QuickLinkProps = {
+  icon: React.ReactNode;
+  label: string;
+  to: string;
+};
+
+function QuickLink({ icon, label, to }: QuickLinkProps) {
+  return (
+    <Link to={to}>
+      <button className="flex flex-col items-center justify-center p-2 rounded-md hover:bg-gray-100 transition-colors w-20">        <div className="w-9 h-9 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mb-1 shadow-sm">
+          {icon}
+        </div>
+        <span className="text-xs font-medium text-gray-700 text-center leading-tight">
+          {label}
+        </span>
+      </button>
+    </Link>
+  );
+}
 
 export const QuickLinks = () => {
   return (
-    <section className="mt-10 p-4 text-white md:mt-0">
-      <div className="mb-4 px-4 text-black">
-        <div className="relative h-2 overflow-hidden rounded-t-lg bg-gradient-to-r from-gray-700 to-gray-600 text-white shadow-sm" />
+    <section className="mt-6 px-6 py-4 md:mt-0">
+      <div className="relative h-2 overflow-hidden rounded-t-lg bg-gradient-to-r from-gray-700 to-gray-600 text-white shadow-sm" />
+      <div className="bg-white rounded-b-lg p-4 shadow-sm border border-gray-100 mb-4">
+        <h2 className="text-md font-semibold text-gray-800 mb-3 flex items-center gap-2">
+          <Zap className="text-blue-600" size={18} />
+          Quick Links
+        </h2>
 
-        <div className="hidden border-2 border-gray-800 bg-gray-800 px-4 py-4 md:flex">
-          <p className="rounded-lg p-2 text-white">
-            <Zap />
-          </p>
-
-          {/* Nav Buttons */}
-          <div className="hidden w-full justify-between gap-2 text-white md:flex">
-            <Link
-              to="../admin/AdminClients"
-              className="transiton w-full rounded-lg bg-gray-600 p-2 duration-300 hover:bg-gray-500"
-            >
-              <button className="transiton w-full rounded-lg bg-gray-600 p-2 duration-300 hover:bg-gray-500">
-                View Clients
-              </button>
-            </Link>
-
-            <Link
-              to="../admin/AdminCommunications"
-              className="transiton w-full rounded-lg bg-gray-600 p-2 duration-300 hover:bg-gray-500"
-            >
-              <button className="transiton w-full rounded-lg bg-gray-600 p-2 duration-300 hover:bg-gray-500">
-                View Messages
-              </button>
-            </Link>
-
-            <Link
-              to="../admin/AdminPackages"
-              className="transiton w-full rounded-lg bg-gray-600 p-2 duration-300 hover:bg-gray-500"
-            >
-              <button className="transiton w-full rounded-lg bg-gray-600 p-2 duration-300 hover:bg-gray-500">
-                View Packages
-              </button>
-            </Link>
-
-            <Link
-              to="../admin/AdminPlans"
-              className="transiton w-full rounded-lg bg-gray-600 p-2 duration-300 hover:bg-gray-500"
-            >
-              <button className="transiton w-full rounded-lg bg-gray-600 p-2 duration-300 hover:bg-gray-500">
-                View Plans
-              </button>
-            </Link>
-
-            <Link
-              to="../admin/analytics"
-              className="transiton w-full rounded-lg bg-gray-600 p-2 duration-300 hover:bg-gray-500"
-            >
-              <button className="transiton w-full rounded-lg bg-gray-600 p-2 duration-300 hover:bg-gray-500">
-                View Analytics
-              </button>
-            </Link>
-          </div>
+        <div className="flex overflow-x-auto gap-2 pb-1">
+          <QuickLink icon={<Zap size={16} />} label="Clients" to="../admin/AdminClients" />
+          <QuickLink icon={<Zap size={16} />} label="Messages" to="../admin/AdminCommunications" />
+          <QuickLink icon={<Zap size={16} />} label="Packages" to="../admin/AdminPackages" />
+          <QuickLink icon={<Zap size={16} />} label="Plans" to="../admin/AdminPlans" />
+          <QuickLink icon={<Zap size={16} />} label="Analytics" to="../admin/analytics" />
         </div>
       </div>
     </section>

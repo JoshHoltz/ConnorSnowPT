@@ -28,22 +28,26 @@ export const WeightTracking = ({ clientId }: { clientId: string | null }) => {
   const [metrics, setMetrics] = useState<any[]>([]);
   const [analysis, setAnalysis] = useState<string>("");
   const [loading, setLoading] = useState(true);
+  const [showSuccess, setShowSuccess] = useState(false);
+
+  const fetchWeights = async () => {
+    if (!clientId) return;
+    try {
+      const res = await fetch(`https://connorsnowpt.onrender.com/api/body-weights/${clientId}`);
+      if (!res.ok) throw new Error("Failed to fetch body weights");
+      const data = await res.json();
+      console.log("Received data:", data); 
+      setMetrics(data.bodyWeights || []);
+      setAnalysis(data.analysis || "");
+    } catch (err) {
+      console.error("Fetch error:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    if (!clientId) return;
-
-    fetch(`https://connorsnowpt.onrender.com/api/body-weights/${clientId}`)
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed to fetch body weights");
-        return res.json();
-      })
-      .then((data) => {
-        console.log("Received data:", data); 
-        setMetrics(data.bodyWeights || []);
-        setAnalysis(data.analysis || "");
-      })
-      .catch((err) => console.error("Fetch error:", err))
-      .finally(() => setLoading(false));
+    fetchWeights();
   }, [clientId]);
 
   if (loading) return <Skeleton count={5} />;
@@ -106,8 +110,10 @@ export const WeightTracking = ({ clientId }: { clientId: string | null }) => {
             );
             
             if (response.ok) {
+              setShowSuccess(true);
+              setTimeout(() => setShowSuccess(false), 3000);
+              fetchWeights();
               (e.target as HTMLFormElement).reset();
-              window.location.reload();
             } else {
               alert("Failed to log body weight");
             }
@@ -133,6 +139,12 @@ export const WeightTracking = ({ clientId }: { clientId: string | null }) => {
           </button>
         </div>
       </form>
+
+      {showSuccess && (
+        <div className="fixed top-4 right-4 bg-green-500/80 text-white px-6 py-3 rounded-lg shadow-lg">
+          ✓ Client details updated successfully!
+        </div>
+      )}
 
       {/* AI Trainer Analysis */}
       {analysis && (

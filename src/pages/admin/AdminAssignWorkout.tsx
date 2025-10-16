@@ -27,11 +27,17 @@ export const AdminWorkout = () => {
   }, [navigate]);
 
   return (
-    <div className="text-black">
-      <p className="hidden px-8 text-black md:flex"></p>
-      <div className="mt-10 p-4 md:mt-0">
-        <AdminAssignWorkout clientId={clientId} />
+    <>
+    <section className="mt-10 p-4 text-white md:mt-0">
+      <div className="relative h-2 overflow-hidden rounded-t-lg bg-gradient-to-r from-gray-700 to-gray-600 text-white shadow-sm" />
+
+      <div className="rounded-b-md bg-gray-800 px-2 text-black">
+        <h1 className="p-4 text-2xl font-bold text-white">
+          Assign a Workout
+        </h1>
       </div>
-    </div>
+    </section>
+        <AdminAssignWorkout clientId={clientId} />
+      </>
   );
 };

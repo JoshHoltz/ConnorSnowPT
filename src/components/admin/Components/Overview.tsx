@@ -20,62 +20,64 @@ const OverviewComponent = () => {
 
   if (!client) {
     return (
-      <section className="p-4 text-white sm:mt-0">
+      <section className="p-4 text-slate-900">
         <p>Loading client...</p>
       </section>
     );
   }
 
+  const overviewItems = [
+    {
+      icon: Trophy,
+      label: "Goal",
+      value: client.client_goal,
+    },
+    {
+      icon: Weight,
+      label: "Weight",
+      value: `${client.client_weight} kg`,
+    },
+    {
+      icon: Phone,
+      label: "Contact",
+      value: client.client_preferred_contact,
+    },
+    {
+      icon: NotepadText,
+      label: "Plan",
+      value: client.client_plan_type,
+    },
+  ];
+
   return (
-    <section className="grid grid-cols-5 gap-4 rounded-b-lg bg-gray-200 p-4 text-black md:mt-0">
-      <h1 className="text-center font-bold md:text-xl">
-        {client.client_firstname} <br /> {client.client_lastname}
-      </h1>
-      <div className="col-span-4 grid w-full gap-6 md:grid-cols-4">
-        {/* Overview Block */}
-        <div className="flex items-start">
-          <p className="rounded-lg border-2 border-white p-4">
-            <Trophy />
-          </p>
-          <div className="ml-4">
-            <h2 className="md:text-l font-bold sm:text-sm">Goal:</h2>
-            <p className="sm:text-sm md:text-2xl">{client.client_goal}</p>
-          </div>
-        </div>
+    <section className="w-full">
+      {/* Client Name Header */}
+      <div className="mb-6 pb-6 border-b border-slate-200">
+        <h1 className="text-3xl font-bold text-slate-900">
+          {client.client_firstname} {client.client_lastname}
+        </h1>
+        <p className="text-slate-600 mt-1">Client Overview</p>
+      </div>
 
-        <div className="flex items-start">
-          <p className="rounded-lg border-2 border-white p-4">
-            <Weight />
-          </p>
-          <div className="ml-4">
-            <h2 className="md:text-l font-bold sm:text-sm">Weight:</h2>
-            <p className="sm:text-sm md:text-2xl">
-              {client.client_weight} <span className="text-sm">kg</span>
-            </p>
-          </div>
-        </div>
-
-        <div className="flex items-start">
-          <p className="rounded-lg border-2 border-white p-4">
-            <Phone />
-          </p>
-          <div className="ml-4">
-            <h2 className="md:text-l font-bold sm:text-sm">Contact:</h2>
-            <p className="sm:text-sm md:text-2xl">
-              {client.client_preferred_contact}
-            </p>
-          </div>
-        </div>
-
-        <div className="flex items-start">
-          <p className="rounded-lg border-2 border-white p-4">
-            <NotepadText />
-          </p>
-          <div className="ml-4">
-            <h2 className="md:text-l font-bold sm:text-sm">Plan:</h2>
-            <p className="sm:text-sm md:text-2xl">{client.client_plan_type}</p>
-          </div>
-        </div>
+      {/* Overview Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        {overviewItems.map((item, index) => {
+          const Icon = item.icon;
+          return (
+            <div
+              key={index}
+              className="bg-slate-50 border border-slate-200 rounded-lg p-4 hover:border-blue-900 hover:bg-blue-50 transition"
+            >
+              <div className="flex items-center gap-3 mb-3">
+                <div className="p-2 bg-blue-900 rounded-lg">
+                  <Icon size={20} className="text-white" />
+                </div>
+                <h3 className="font-semibold text-slate-700">{item.label}</h3>
+              </div>
+              <p className="text-xl font-bold text-slate-900">{item.value}</p>
+            </div>
+          );
+        })}
       </div>
     </section>
   );

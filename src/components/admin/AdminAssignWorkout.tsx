@@ -54,115 +54,112 @@ export const AdminAssignWorkout = ({ clientId }) => {
   );
 
   return (
-    <div className="mb-4 mt-10 w-full px-4 py-4 text-black md:mt-0 md:w-full">
-      <h1 className="hidden rounded-t-2xl bg-gray-800 px-8 py-4 text-2xl font-bold text-white md:flex">
-        Your Client's Workout Split
-      </h1>
+    <div className="w-full px-4 py-4">
+      <div className="mb-4">
+      </div>
 
-      <div className="mt-4 flex-wrap gap-6 md:flex">
+      <div className="gap-6 md:flex md:flex-wrap">
         {completeWorkouts.map((workout, dayIndex) => (
           <form
             key={dayIndex}
-            className="shadow-m transitioxn-transform mb-6 w-full overflow-hidden rounded-2xl bg-white hover:scale-[1.02] md:w-[32%]"
+            className="mb-6 w-full overflow-hidden rounded-xl bg-white shadow-lg border border-slate-100 md:w-[32%]"
             method="POST"
             action="https://www.connorsnowpt.com/api/insert-a-client-split"
           >
-            <div className="flex flex-col">
-              <div className="bg-gray-900 text-black">
-                <div className="bg-gray-900 p-6">
-                  <h2 className="text-xl font-bold uppercase"></h2>
-                  <input
-                    name="upcoming_workout_split_name"
-                    defaultValue={workout.upcoming_workout_split_name}
-                    placeholder={`Workout Name Day ${dayIndex + 1}`}
-                    className="mr-2 w-full p-1 text-lg font-semibold"
-                  />
-                  <input
-                    name="upcoming_workout_date"
-                    type="date"
-                    defaultValue={
-                      workout.upcoming_workout_date ||
-                      new Date().toISOString().split("T")[0]
-                    }
-                    className="rounded p-1 text-sm"
-                  />
-                </div>
-              </div>
-              <div className="flex items-center justify-between"></div>
-              {workout.idupcoming_workouts && (
-                <input
-                  type="hidden"
-                  name="idupcoming_workouts"
-                  value={workout.idupcoming_workouts}
-                />
-              )}
-              <input type="hidden" name="client_id" value={clientId} />
-              <input type="hidden" name="day" value={dayIndex + 1} />
+            {/* Header Gradient */}
+            <div className="relative h-2 overflow-hidden rounded-t-lg bg-gradient-to-r from-gray-700 to-gray-600 text-white shadow-sm" />
+
+            {/* Card Header */}
+            <div className="bg-gray-900 p-6 text-white">
+              <input
+                name="upcoming_workout_split_name"
+                defaultValue={workout.upcoming_workout_split_name}
+                placeholder={`Workout Name Day ${dayIndex + 1}`}
+                className="w-full bg-transparent text-xl font-bold text-white placeholder-slate-400 focus:outline-none mb-3"
+              />
+              <input
+                name="upcoming_workout_date"
+                type="date"
+                defaultValue={
+                  workout.upcoming_workout_date ||
+                  new Date().toISOString().split("T")[0]
+                }
+                className="w-full bg-slate-800 text-white text-sm rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
             </div>
 
-            <table className="w-full table-auto text-left text-sm">
-              <thead className="bg-gray-100 text-gray-700">
-                <tr>
-                  <th className="p-2">Exercise</th>
-                  <th className="p-2">Sets</th>
-                  <th className="p-2">Reps</th>
-                  <th className="p-2">How To</th>
-                </tr>
-              </thead>
-              <tbody className="text-sm text-gray-800">
-                {workout.exercises.map((ex, exIndex) => (
-                  <tr key={exIndex} className="hover:bg-gray-200">
-                    <td className="border-b p-2">
-                      <input
-                        name={`exercises[${exIndex}][name]`}
-                        defaultValue={ex.name}
-                        className="h-12 w-full rounded p-1"
-                      />
-                      <td className="border-b p-2">
-                        {/* <Select
-                        name={`exercises[${exIndex}][name]`}
-                        options={options}
-                        defaultValue={options.find(
-                          (option) => option.value === ex.name
-                        )}
-                        className="w-full rounded"
-                        placeholder="Select an exercise"
-                        isClearable
-                      /> */}
-                      </td>
-                    </td>
-                    <td className="border-b p-2">
-                      <input
-                        name={`exercises[${exIndex}][sets]`}
-                        defaultValue={ex.sets}
-                        className="h-12 w-full rounded p-1"
-                      />
-                    </td>
-                    <td className="border-b p-2">
-                      <input
-                        name={`exercises[${exIndex}][reps]`}
-                        defaultValue={ex.reps}
-                        className="h-12 w-full rounded p-1"
-                      />
-                    </td>
-                    <td className="border-b p-2">
-                      <input
-                        name={`exercises[${exIndex}][howTo]`}
-                        defaultValue={ex.howTo}
-                        className="h-12 w-full rounded p-1"
-                      />
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            {/* Hidden Fields */}
+            {workout.idupcoming_workouts && (
+              <input
+                type="hidden"
+                name="idupcoming_workouts"
+                value={workout.idupcoming_workouts}
+              />
+            )}
+            <input type="hidden" name="client_id" value={clientId} />
+            <input type="hidden" name="day" value={dayIndex + 1} />
 
-            <button
-              type="submit"
-              className="w-full rounded bg-blue-600 px-4 py-2 font-medium text-white hover:bg-blue-700"
-            >
-              Save Workout Day {dayIndex + 1}
-            </button>
+            {/* Exercises Table */}
+            <div className="overflow-x-auto">
+              <table className="w-full table-auto text-left text-sm">
+                <thead>
+                  <tr className="bg-slate-50 border-b border-slate-200">
+                    <th className="px-4 py-3 font-semibold text-slate-700">Exercise</th>
+                    <th className="px-4 py-3 font-semibold text-slate-700">Sets</th>
+                    <th className="px-4 py-3 font-semibold text-slate-700">Reps</th>
+                    <th className="px-4 py-3 font-semibold text-slate-700">How To</th>
+                  </tr>
+                </thead>
+                <tbody className="text-slate-700">
+                  {workout.exercises.map((ex, exIndex) => (
+                    <tr key={exIndex} className="border-b border-slate-200 hover:bg-blue-50 transition">
+                      <td className="px-4 py-3">
+                        <input
+                          name={`exercises[${exIndex}][name]`}
+                          defaultValue={ex.name}
+                          placeholder="Exercise name"
+                          className="w-full rounded-lg border border-slate-300 px-3 py-2 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-50"
+                        />
+                      </td>
+                      <td className="px-4 py-3">
+                        <input
+                          name={`exercises[${exIndex}][sets]`}
+                          defaultValue={ex.sets}
+                          placeholder="Sets"
+                          className="w-full rounded-lg border border-slate-300 px-3 py-2 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-50"
+                        />
+                      </td>
+                      <td className="px-4 py-3">
+                        <input
+                          name={`exercises[${exIndex}][reps]`}
+                          defaultValue={ex.reps}
+                          placeholder="Reps"
+                          className="w-full rounded-lg border border-slate-300 px-3 py-2 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-50"
+                        />
+                      </td>
+                      <td className="px-4 py-3">
+                        <input
+                          name={`exercises[${exIndex}][howTo]`}
+                          defaultValue={ex.howTo}
+                          placeholder="Video URL"
+                          className="w-full rounded-lg border border-slate-300 px-3 py-2 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-50"
+                        />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Submit Button */}
+            <div className="p-6 border-t border-slate-200">
+              <button
+                type="submit"
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg transition duration-200 shadow-md hover:shadow-lg"
+              >
+                Save Workout Day {dayIndex + 1}
+              </button>
+            </div>
           </form>
         ))}
       </div>

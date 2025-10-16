@@ -26,15 +26,9 @@ export const AdminClients = () => {
   }, [navigate]);
 
   return (
-    <div className="mb-4 text-black">
-      <h1 className="hidden px-8 text-2xl font-bold text-black md:flex">
-        Clients
-      </h1>
-      <p className="hidden px-8 text-black md:flex">
-        View and Manage Your Clients
-      </p>
+    <>
       <TopLevelInfo />
       <MembersTable />
-    </div>
+    </>
   );
 };

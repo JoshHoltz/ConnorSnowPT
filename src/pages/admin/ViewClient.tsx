@@ -31,7 +31,7 @@ const ViewClient = () => {
 
   return (
     <div>
-      <ClientOverview clientId={clientId} />
+      {/* <ClientOverview clientId={clientId} /> */}
       <ClientMetrics clientId={clientId} />
       <div className="flex">
         <ClientNotes clientId={clientId} />

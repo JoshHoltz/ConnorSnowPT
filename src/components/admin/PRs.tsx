@@ -1,38 +1,48 @@
 import { useEffect, useState } from "react";
-import { Trophy } from "lucide-react"; // Ensure you have lucide-react installed
+import { Trophy } from "lucide-react";
+import Skeleton from "react-loading-skeleton";
 
 export const PRs = ({ clientId }: { clientId: string | null }) => {
-  const [client, setClient] = useState(null);
+  const [client, setClient] = useState<any>(null);
   const [edit, setEdit] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   useEffect(() => {
     if (!clientId) return;
-    console.log("Extracted ID:", clientId);
 
     fetch(`https://connorsnowpt.onrender.com/api/client-by-id/${clientId}`)
       .then((res) =>
         res.ok ? res.json() : Promise.reject("Failed to fetch client"),
       )
       .then(setClient)
-      .catch((err) => console.error(err));
+      .catch(console.error)
+      .finally(() => setLoading(false));
   }, [clientId]);
-  if (!client) {
+
+  const Success = () => {
+    setShowSuccess(true);
+    setTimeout(() => setShowSuccess(false), 3000);
+  };
+
+  if (loading) {
     return (
-      <section className="mt-10 p-4 text-white md:mt-0">
-        <p className="text-white">Loading client...</p>
-      </section>
+      <div className="w-1/2 px-4 py-4">
+        <Skeleton height={400} />
+      </div>
     );
   }
 
+  if (!client)
+    return <p className="mt-10 p-4 text-white md:mt-0">Loading client...</p>;
+
   return (
-    <section className="w-full p-4 text-black md:mt-0 md:w-1/2">
-      <div className="relative h-2 overflow-hidden rounded-t-lg bg-gradient-to-r from-gray-700 to-gray-600 text-white shadow-sm" />
-      <div className="rounded-lg bg-white">
-        <div className="flex items-center justify-between bg-gray-800 px-4 py-4 text-white">
-          <h1 className="flex items-center gap-2 text-lg font-semibold">
-            <Trophy />
-            Personal Records
-          </h1>
+    
+    <section className="w-full p-4 md:mt-0 md:w-1/2">
+      <div className="relative h-2 overflow-hidden rounded-t-lg bg-gradient-to-r from-gray-700 to-gray-600 text-white shadow-sm"/>
+      <div className="bg-slate-100 border border-t-0 border-slate-200 p-4">
+        <div className="flex justify-between items-center">
+          <h1 className="text-xl font-semibold text-slate-900">Client PR's</h1>
           {!edit ? (
             <button
               onClick={() => setEdit(true)}
@@ -51,79 +61,131 @@ export const PRs = ({ clientId }: { clientId: string | null }) => {
             </button>
           )}
         </div>
+        </div>
 
         {edit ? (
           <form
-            action="https://connorsnowpt.onrender.com/api/insert-client-pr-result" //update api call
-            method="POST"
-            className="mt-4 space-y-6"
+            onSubmit={async (e) => {
+              e.preventDefault();
+              const formData = new FormData(e.target);
+              const data = Object.fromEntries(formData);
+              
+              try {
+                const response = await fetch(
+                  "https://connorsnowpt.onrender.com/api/insert-client-pr-result",
+                  {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(data),
+                  }
+                );
+                
+                if (response.ok) {
+                  setClient({
+                    ...client,
+                    client_pr_name_1: data.client_pr_name_1,
+                    client_pr_result_1: data.client_pr_result_1,
+                    client_pr_name_2: data.client_pr_name_2,
+                    client_pr_result_2: data.client_pr_result_2,
+                    client_pr_name_3: data.client_pr_name_3,
+                    client_pr_result_3: data.client_pr_result_3,
+                    client_pr_name_4: data.client_pr_name_4,
+                    client_pr_result_4: data.client_pr_result_4,
+                  });
+                  setEdit(false);
+                  Success()
+                } else {
+                  alert("Failed to update PRs");
+                }
+              } catch (error) {
+                console.error("Error:", error);
+                alert("Error updating PRs");
+              }
+            }}
+            className="p-4 py-4 bg-white"
           >
             <input type="hidden" name="client_id" value={client.client_id} />
 
-            <div className="grid grid-cols-2 gap-4 px-4">
-              <div className="rounded-lg border-2 p-5 duration-300 hover:bg-gray-200">
-                <label
-                  htmlFor="client_bench_pr"
-                  className="mb-1 block font-medium"
-                >
-                  Bench Press PR
-                </label>
+            <div className="grid grid-cols-2 gap-4 px-4 bg-white">
+              <div className="rounded-lg border-2 p-5 duration-300 hover:bg-gray-200 bg-white">
                 <input
-                  id="client_bench_pr"
-                  name="client_bench_pr"
+                  id="client_pr_name_1"
+                  name="client_pr_name_1"
                   type="text"
-                  defaultValue={client.client_bench_pr}
+                  placeholder="Goal name (e.g., Bench Press)"
+                  defaultValue={client.client_pr_name_1}
+                  className="mb-2 w-full rounded border px-2 py-1"
+                  required
+                />
+                <input
+                  id="client_pr_result_1"
+                  name="client_pr_result_1"
+                  type="text"
+                  placeholder="Goal result"
+                  defaultValue={client.client_pr_result_1}
                   className="w-full rounded border px-2 py-1"
                   required
                 />
               </div>
 
               <div className="rounded-lg border-2 p-5 duration-300 hover:bg-gray-200">
-                <label
-                  htmlFor="client_squat_pr"
-                  className="mb-1 block font-medium"
-                >
-                  Squat PR
-                </label>
                 <input
-                  id="client_squat_pr"
-                  name="client_squat_pr"
+                  id="client_pr_name_2"
+                  name="client_pr_name_2"
                   type="text"
-                  defaultValue={client.client_squat_pr}
+                  placeholder="Goal name (e.g., Squat)"
+                  defaultValue={client.client_pr_name_2}
+                  className="mb-2 w-full rounded border px-2 py-1"
+                  required
+                />
+                <input
+                  id="client_pr_result_2"
+                  name="client_pr_result_2"
+                  type="text"
+                  placeholder="Goal result"
+                  defaultValue={client.client_pr_result_2}
                   className="w-full rounded border px-2 py-1"
                   required
                 />
               </div>
 
               <div className="rounded-lg border-2 p-5 duration-300 hover:bg-gray-200">
-                <label
-                  htmlFor="client_deadlift_pr"
-                  className="mb-1 block font-medium"
-                >
-                  Deadlift PR
-                </label>
                 <input
-                  id="client_deadlift_pr"
-                  name="client_deadlift_pr"
+                  id="client_pr_name_3"
+                  name="client_pr_name_3"
                   type="text"
-                  defaultValue={client.client_deadlift_pr}
+                  placeholder="Goal name (e.g., Deadlift)"
+                  defaultValue={client.client_pr_name_3}
+                  className="mb-2 w-full rounded border px-2 py-1"
+                  required
+                />
+                <input
+                  id="client_pr_result_3"
+                  name="client_pr_result_3"
+                  type="text"
+                  placeholder="Goal result"
+                  defaultValue={client.client_pr_result_3}
                   className="w-full rounded border px-2 py-1"
                   required
                 />
               </div>
 
               <div className="rounded-lg border-2 p-5 duration-300 hover:bg-gray-200">
-                <label
-                  htmlFor="client_5k_time_pr"
-                  className="mb-1 block font-medium"
-                >
-                  5k PR
-                </label>
                 <input
-                  id="client_5k_time_pr"
-                  name="client_5k_time_pr"
+                  id="client_pr_name_4"
+                  name="client_pr_name_4"
                   type="text"
-                  defaultValue={client.client_5k_time_pr}
+                  placeholder="Goal name (e.g., 5K Time)"
+                  defaultValue={client.client_pr_name_4}
+                  className="mb-2 w-full rounded border px-2 py-1"
+                  required
+                />
+                <input
+                  id="client_pr_result_4"
+                  name="client_pr_result_4"
+                  type="text"
+                  placeholder="Goal result"
+                  defaultValue={client.client_pr_result_4}
                   className="w-full rounded border px-2 py-1"
                   required
                 />
@@ -138,26 +200,40 @@ export const PRs = ({ clientId }: { clientId: string | null }) => {
             </button>
           </form>
         ) : (
-          <div className="mt-2 grid grid-cols-2 gap-4 px-4 py-4">
+          <>
+          <div className="px-4 py-4 grid grid-cols-2 gap-4 bg-white">
             <div className="rounded-lg border-2 p-5 duration-300 hover:bg-gray-200">
-              <p>Bench Press PR</p>
-              <p>{client.client_bench_pr || "N/A"}</p>
+              <p>{client.client_pr_name_1 || "Set Goal:"}</p>
+              <p>{client.client_pr_result_1 || "N/A"}</p>
             </div>
             <div className="rounded-lg border-2 p-5 duration-300 hover:bg-gray-200">
-              <p>Squat PR</p>
-              <p>{client.client_squat_pr || "N/A"}</p>
+              <p>{client.client_pr_name_2 || "Set Goal:"}</p>
+              <p>{client.client_pr_result_2 || "N/A"}</p>
             </div>
             <div className="rounded-lg border-2 p-5 duration-300 hover:bg-gray-200">
-              <p>Deadlift PR</p>
-              <p>{client.client_deadlift_pr || "N/A"}</p>
+              <p>{client.client_pr_name_3 || "Set Goal:"}</p>
+              <p>{client.client_pr_result_3 || "N/A"}</p>
             </div>
             <div className="rounded-lg border-2 p-5 duration-300 hover:bg-gray-200">
-              <p>5k PR</p>
-              <p>{client.client_5k_time_pr || "N/A"}</p>
+              <p>{client.client_pr_name_4 || "Set Goal:"}</p>
+              <p>{client.client_pr_result_4 || "N/A"}</p>
             </div>
           </div>
+
+                <div className="bg-white py-8 px-8 rounded-b-lg">
+                  <div className="bg-slate-100 shadow p-8">
+          <h3 className="font-semibold text-gray-800">Client PR's Analysis</h3>
+          <p className="mt-2 text-gray-600">h1</p>
+        </div>
+        </div>
+          </>
         )}
-      </div>
+
+     {showSuccess && (
+        <div className="fixed top-4 right-4 bg-green-500/80 text-white px-6 py-3 rounded-lg shadow-lg">
+          ✓ Client details updated successfully!
+        </div>
+      )}
     </section>
   );
 };
