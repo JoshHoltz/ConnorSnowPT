@@ -994,19 +994,26 @@ app.post("/api/create-client", async (req, res) => {
     const hashedPassword = await bcrypt.hash(user_password, 10);
 
     const [userResult] = await connection.query(
-      `INSERT INTO user_logins (user_firstname, user_lastname, user_username, user_password, isAdmin, first_login)
+      `INSERT INTO user_logins 
+       (user_firstname, user_lastname, user_username, user_password, isAdmin, first_login)
        VALUES (?, ?, ?, ?, 0, 1)`,
       [client_firstname, client_lastname, user_username, hashedPassword]
     );
 
-    const newUserId = userResult.insertId; 
+    const newUserId = userResult.insertId; // this will match client_id
+
+    const [maxResult] = await connection.query(
+      "SELECT MAX(client_information_id) AS max_id FROM client_information"
+    );
+    const nextInfoId = (maxResult[0]?.max_id || 0) + 1;
 
     await connection.query(
       `INSERT INTO client_information
-       (client_id, client_firstname, client_lastname, client_preferred_contact, client_plan_type, client_goal)
-       VALUES (?, ?, ?, ?, ?, ?)`,
+       (client_information_id, client_id, client_firstname, client_lastname, client_preferred_contact, client_plan_type, client_goal)
+       VALUES (?, ?, ?, ?, ?, ?, ?)`,
       [
-        newUserId,
+        nextInfoId, 
+        newUserId, 
         client_firstname,
         client_lastname,
         client_preferred_contact,
