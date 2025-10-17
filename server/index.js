@@ -1140,7 +1140,7 @@ app.get("/api/posthog-average-rating", async (req, res) => {
     const data = await response.json();
     const averageRating = data.results?.[0]?.[0] || 0;
 
-    const prompt = `A personal trainer has an average client recommendation rating of ${averageRating.toFixed(1)} out of 10. Write a short 2-3 sentence professional insight about this rating and one suggestion for improvement in British English.`;
+    const prompt = `A personal trainer has an average client recommendation rating of ${averageRating.toFixed(1)} out of 10. Write a short 2-3 sentence professional insight about this rating make it 80 words.`;
 
     const aiResponse = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
@@ -1239,13 +1239,15 @@ app.get("/api/posthog-web-connections", async (req, res) => {
     const trafficData = data.results || [];
     const totalPageviews = trafficData.reduce((sum, day) => sum + (day.pageviews || 0), 0);
 
-    // Generate AI analysis
+    // AI analysis
     const prompt = `Analyse this 7-day web traffic data and provide a short 2-3 sentence insight:
 - Total pageviews: ${totalPageviews}
 - Daily breakdown: ${JSON.stringify(trafficData)}
 - Predictions
 
-Provide one key observation and one recommendation.`;
+Provide one key observation and one recommendation 
+
+Make it 80 words.`;
 
     const aiResponse = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
