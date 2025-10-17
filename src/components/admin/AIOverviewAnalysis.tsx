@@ -4,6 +4,7 @@ import { Zap, Loader } from "lucide-react";
 export function AIAnalysis() {
   const [webAnalysis, setWebAnalysis] = useState(null);
   const [focusAnalysis, setFocusAnalysis] = useState(null);
+  const [trainerAnalysis, setTrainerAnalysis] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -25,6 +26,15 @@ export function AIAnalysis() {
           const focusData = await focusRes.json();
           setFocusAnalysis(focusData);
         }
+
+        const trainerRes = await fetch(
+          "https://connorsnowpt.onrender.com/api/posthog-average-rating"
+        );
+        if (trainerRes.ok) {
+          const trainerData = await trainerRes.json()
+          setTrainerAnalysis(trainerData)
+        }
+
       } catch (err) {
         console.error("Error fetching data:", err);
         setError("Error loading analysis");
@@ -77,7 +87,9 @@ export function AIAnalysis() {
               <div className="rounded-lg border border-blue-100 bg-blue-50 p-4">
                 <h1 className="font-bold mb-2">AI Trainer Analysis</h1>
                 <div className="text-sm space-y-1">
-                    <p>trainer analysis</p>
+                    <p>
+                      {trainerAnalysis?.analysis || "No analysis available"}
+                    </p>
                 </div>
               </div>
             </div>
