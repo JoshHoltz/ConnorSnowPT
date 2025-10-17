@@ -1206,7 +1206,30 @@ app.get("/api/posthog-web-connections", async (req, res) => {
     });
 
     const data = await response.json();
-    res.json(data);
+    const trafficData = data.results || [];
+    const totalPageviews = trafficData.reduce((sum, day) => sum + (day.pageviews || 0), 0);
+
+    // Generate AI analysis
+    const prompt = `Analyse this 7-day web traffic data and provide a short 2-3 sentence insight:
+- Total pageviews: ${totalPageviews}
+- Daily breakdown: ${JSON.stringify(trafficData)}
+- Predictions
+
+Provide one key observation and one recommendation.`;
+
+    const aiResponse = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      messages: [
+        { role: "user", content: prompt },
+      ],
+      max_tokens: 100,
+    });
+
+    res.json({
+      results: trafficData,
+      totalPageviews,
+      analysis: aiResponse.choices[0].message.content,
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -1220,103 +1243,6 @@ app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
 
-// PostHog Web Summary
-// Web Traffic & Interaction Summary
-// Web Traffic & Interaction Summary
-app.get("/api/ai/traffic-summary", async (req, res) => {
-  const url = `https://eu.posthog.com/api/projects/${POSTHOG_PROJECT_ID}/query/`;
-  const headers = {
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${POSTHOG_API_KEY}`,
-  };
-
-  try {
-    // Fetch traffic data
-    const trafficRes = await fetch(url, {
-      method: "POST",
-      headers,
-      body: JSON.stringify({
-        query: {
-          kind: "HogQLQuery",
-          query: `SELECT toDate(timestamp) AS date, count() AS pageviews FROM events WHERE event = '$pageview' AND timestamp >= now() - INTERVAL 7 DAY GROUP BY date ORDER BY date ASC`,
-        },
-      }),
-    });
-    const trafficData = await trafficRes.json();
-    console.log("Traffic Data:", trafficData);
-    
-    const totalPageviews = trafficData.results?.length > 0 
-      ? trafficData.results.reduce((sum, day) => sum + (day.pageviews || 0), 0)
-      : 0;
-
-    // Fetch CTA clicks
-    const ctaRes = await fetch(url, {
-      method: "POST",
-      headers,
-      body: JSON.stringify({
-        query: { 
-          kind: "HogQLQuery", 
-          query: `SELECT count() AS clicks FROM events WHERE event = 'Clicked "Start Your Journey"'` 
-        },
-      }),
-    });
-    const ctaData = await ctaRes.json();
-    console.log("CTA Data:", ctaData);
-    
-    const ctaClicks = ctaData.results?.[0]?.clicks || 0;
-
-    // Fetch checkout clicks
-    const checkoutRes = await fetch(url, {
-      method: "POST",
-      headers,
-      body: JSON.stringify({
-        query: { 
-          kind: "HogQLQuery", 
-          query: `SELECT count() AS clicks FROM events WHERE event = 'Initiated Plan Purchase'` 
-        },
-      }),
-    });
-    const checkoutData = await checkoutRes.json();
-    console.log("Checkout Data:", checkoutData);
-    
-    const checkoutClicks = checkoutData.results?.[0]?.clicks || 0;
-
-    // Return early if no data
-    if (totalPageviews === 0 && ctaClicks === 0 && checkoutClicks === 0) {
-      return res.json({
-        pageviews: 0,
-        ctaClicks: 0,
-        checkoutClicks: 0,
-        summary: "No traffic data available for the selected period.",
-      });
-    }
-
-    const prompt = `Analyse this data and write a short 2-3 sentence summary:
-- Total pageviews (7 days): ${totalPageviews}
-- CTA clicks: ${ctaClicks}
-- Checkout initiated: ${checkoutClicks}
-
-Give one insight and one recommendation.`;
-
-    const aiResponse = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo",
-      messages: [
-        { role: "user", content: prompt },
-      ],
-      max_tokens: 100,
-    });
-
-    res.json({
-      pageviews: totalPageviews,
-      ctaClicks,
-      checkoutClicks,
-      summary: aiResponse.choices[0].message.content,
-    });
-  } catch (err) {
-    console.error("Traffic Summary Error:", err);
-    res.status(500).json({ error: err.message || "Failed to fetch traffic summary" });
-  }
-});
 
 // DELETE
 // DELTE FROM DATABASE APIS
