@@ -128,28 +128,17 @@ app.get("/api/client-by-id/:id", async (req, res) => {
   try {
     const [rows] = await pool.query(
       "SELECT * FROM client_information WHERE client_id = ?",
-      [clientId]
+      [clientId],
     );
-
-    if (!rows.length) {
-      return res.json({
-        success: false,
-        message: "No client found for this ID",
-        client: null,
-      });
-    }
-
-    res.json({
-      success: true,
-      client: rows[0],
-    });
+    res.json(rows[0]);
   } catch (err) {
     console.error(`Error on /client-by-id/${clientId}:`, err);
-    res.status(500).json({
-      success: false,
-      error: "Failed to fetch client information",
-      details: err.message,
-    });
+    res
+      .status(500)
+      .json({
+        error: "Failed to fetch client information",
+        details: err.message,
+      });
   }
 });
 
