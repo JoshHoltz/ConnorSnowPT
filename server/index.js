@@ -1048,23 +1048,30 @@ app.post("/api/login-user", async (req, res) => {
 });
 
 // Complete first-time setup
-app.use("/api/complete-setup", express.urlencoded());
+app.use("/api/complete-setup", express.json());
 
 app.post("/api/complete-setup", async (req, res) => {
   try {
-    const { user_id, new_password, first_name, last_name, phone, address } = req.body;
+    const { user_id, new_password, first_name, last_name, phone, goal } = req.body;
 
     if (!user_id || !new_password || !first_name || !last_name) {
       return res.status(400).json({ error: "All fields are required" });
     }
 
-    const sql = `
+    // ✅ Update user_logins table
+    const userLoginSql = `
       UPDATE user_logins
-      SET user_password = ?, first_login = 0, first_name = ?, last_name = ?, phone = ?, address = ?
+      SET user_password = ?, first_login = 0, user_firstname = ?, user_lastname = ?
       WHERE user_id = ?
     `;
+    await pool.query(userLoginSql, [new_password, first_name, last_name, user_id]);
 
-    await pool.query(sql, [new_password, first_name, last_name, phone, address, user_id]);
+    const clientInfoSql = `
+      UPDATE client_information
+      SET client_firstname = ?, client_lastname = ?, client_preffered_contact = ?, client_goal = ?
+      WHERE client_id = ?
+    `;
+    await pool.query(clientInfoSql, [first_name, last_name, phone, goal, user_id]);
 
     return res.json({
       success: true,

@@ -7,9 +7,7 @@ type Credentials = {};
 async function loginUser(credentials: Credentials) {
   return fetch("https://connorsnowpt.onrender.com/api/login-user", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(credentials),
   }).then((data) => data.json());
 }
@@ -17,9 +15,7 @@ async function loginUser(credentials: Credentials) {
 async function completeSetup(setupData) {
   return fetch("https://connorsnowpt.onrender.com/api/complete-setup", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(setupData),
   }).then((data) => data.json());
 }
@@ -46,7 +42,7 @@ export default function LoginForm() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [phone, setPhone] = useState("");
-  const [address, setAddress] = useState("");
+  const [goal, setGoal] = useState("");
 
   const [captchaToken, setCaptchaToken] = useState(null);
   const captchaRef = useRef(null);
@@ -99,7 +95,7 @@ export default function LoginForm() {
       return;
     }
 
-    if (!newPassword || !firstName || !lastName || !phone || !address) {
+    if (!newPassword || !firstName || !lastName || !phone || !goal) {
       setError("All fields are required.");
       return;
     }
@@ -110,7 +106,7 @@ export default function LoginForm() {
       first_name: firstName,
       last_name: lastName,
       phone,
-      address,
+      goal,
     });
 
     if (setupResult?.success) {
@@ -139,7 +135,7 @@ export default function LoginForm() {
           {/* Image Section */}
           <div className="relative md:w-1/2">
             <img
-              src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
+              src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48"
               alt="Gym Login Image"
               className="h-full w-full object-cover"
             />
@@ -150,10 +146,6 @@ export default function LoginForm() {
                   CONNOR<span className="text-blue-600">SNOW</span>
                 </h1>
                 <p className="text-2xl text-white">Start Your Journey.</p>
-                <p className="mt-8 text-white">
-                  Start your personal training journey and achieve the results you
-                  deserve.
-                </p>
               </div>
             </div>
           </div>
@@ -168,24 +160,19 @@ export default function LoginForm() {
                 </div>
               )}
               <form onSubmit={handleLoginSubmit} className="mt-4 w-full max-w-md">
-                <label className="font-semibold text-white" htmlFor="user_username">
-                  Username:
-                </label>
+                <label className="font-semibold text-white">Username:</label>
                 <input
                   type="text"
-                  name="user_username"
                   placeholder="Enter your username"
                   className="mb-4 mt-2 w-full rounded border border-blue-600 bg-gray-600 p-2 text-white"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   required
                 />
-                <label className="font-semibold text-white" htmlFor="user_password">
-                  Password:
-                </label>
+
+                <label className="font-semibold text-white">Password:</label>
                 <input
                   type="password"
-                  name="user_password"
                   placeholder="Enter your password"
                   className="mb-4 mt-2 w-full rounded border border-blue-600 bg-gray-600 p-2 text-white"
                   value={password}
@@ -220,7 +207,7 @@ export default function LoginForm() {
           {/* Image Section */}
           <div className="relative md:w-1/2">
             <img
-              src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
+              src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48"
               alt="Gym Setup Image"
               className="h-full w-full object-cover"
             />
@@ -231,14 +218,11 @@ export default function LoginForm() {
                   CONNOR<span className="text-blue-600">SNOW</span>
                 </h1>
                 <p className="text-2xl text-white">Complete Your Profile</p>
-                <p className="mt-8 text-white">
-                  This is your first login. Please update your password and complete your profile.
-                </p>
               </div>
             </div>
           </div>
 
-          {/* Content Section */}
+          {/* Setup Form */}
           <div className="flex w-full items-center justify-center bg-gray-900 p-8 md:w-1/2">
             <div className="m-8 flex flex-col items-center justify-center rounded-lg bg-gray-800 p-8 px-4 shadow-lg max-w-md">
               <h1 className="text-2xl font-bold text-white">Setup Your Account</h1>
@@ -298,13 +282,13 @@ export default function LoginForm() {
                   required
                 />
 
-                <label className="font-semibold text-white">Address:</label>
+                <label className="font-semibold text-white">Goal:</label>
                 <input
                   type="text"
-                  placeholder="Enter address"
+                  placeholder="Enter your fitness goal"
                   className="mb-4 mt-2 w-full rounded border border-blue-600 bg-gray-600 p-2 text-white"
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
+                  value={goal}
+                  onChange={(e) => setGoal(e.target.value)}
                   required
                 />
 
