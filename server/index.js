@@ -458,6 +458,66 @@ Here are the client's PR data: ${JSON.stringify(prResults)}
   }
 });
 
+// Get PR analysis for all clients
+app.get("/api/pr-analysis-all", async (req, res) => {
+  const trainerName = "Connor Snow";
+
+  try {
+    const [allClientsData] = await pool.query(
+      "SELECT client_id, client_name, client_pr_name_1, client_pr_result_1, client_pr_name_2, client_pr_result_2, client_pr_name_3, client_pr_result_3, client_pr_name_4, client_pr_result_4 FROM client_information"
+    );
+
+    if (!allClientsData || allClientsData.length === 0) {
+      return res.status(404).json({ error: "No clients found" });
+    }
+
+    const clientAnalyses = [];
+
+    for (const client of allClientsData) {
+      const prResults = [
+        { name: client.client_pr_name_1, result: client.client_pr_result_1 },
+        { name: client.client_pr_name_2, result: client.client_pr_result_2 },
+        { name: client.client_pr_name_3, result: client.client_pr_result_3 },
+        { name: client.client_pr_name_4, result: client.client_pr_result_4 },
+      ].filter((pr) => pr.name && pr.result);
+
+      if (prResults.length === 0) continue;
+
+      const prompt = `
+You are a personal trainer called ${trainerName}, and you are analysing a client's personal records (PRs) for various exercises.
+Write a short 2-3 sentence analysis of the client's strength performance.
+Highlight their top achievements and progress. Be encouraging.
+Provide clear and professional advice on how they can continue to improve.
+PRs are in kg
+Here are the client's PR data: ${JSON.stringify(prResults)}
+      `;
+
+      const response = await openai.chat.completions.create({
+        model: "gpt-3.5-turbo",
+        messages: [
+          { role: "system", content: "You are a helpful and motivational personal trainer." },
+          { role: "user", content: prompt },
+        ],
+        max_tokens: 150,
+      });
+
+      const aiMessage = response.choices[0].message.content;
+
+      clientAnalyses.push({
+        clientId: client.client_id,
+        clientName: client.client_name,
+        prData: prResults,
+        analysis: aiMessage,
+      });
+    }
+
+    res.json({ clients: clientAnalyses });
+  } catch (error) {
+    console.error("Error generating AI PR analysis:", error);
+    res.status(500).json({ error: "Failed to generate AI analysis" });
+  }
+});
+
 // Inserting frontend to the DB
 // REF (Formatting of Insertion): https://stackoverflow.com/questions/56034455/how-to-send-json-data-from-react-to-node-js-express-server
 // REF (Status Messages): https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status
