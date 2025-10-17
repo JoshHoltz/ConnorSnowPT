@@ -1168,7 +1168,21 @@ app.get("/api/posthog-client-focus-areas", async (req, res) => {
     });
 
     const data = await response.json();
-    res.json(data);
+    
+    const prompt = `Analyse client focus area trends and identify potential focal areas in British English. Here is the data: ${JSON.stringify(data.results)}. Provide a short 2-3 sentence insight about the trends and where to focus efforts.`;
+
+    const aiResponse = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      messages: [
+        { role: "user", content: prompt },
+      ],
+      max_tokens: 150,
+    });
+
+    res.json({
+      ...data,
+      analysis: aiResponse.choices[0].message.content,
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

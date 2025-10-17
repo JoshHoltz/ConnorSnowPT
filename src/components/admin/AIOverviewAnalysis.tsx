@@ -1,40 +1,85 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { Zap, Loader } from "lucide-react";
 
-import { BrainIcon } from "lucide-react";
 export function AIAnalysis() {
+  const [webAnalysis, setWebAnalysis] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchWebAnalysis = async () => {
+      try {
+        const response = await fetch(
+          "https://connorsnowpt.onrender.com/api/posthog-web-connections"
+        );
+        if (response.ok) {
+          const data = await response.json();
+          setWebAnalysis(data);
+        } else {
+          setError("Failed to fetch web analysis");
+        }
+      } catch (err) {
+        console.error("Error fetching web analysis:", err);
+        setError("Error loading web analysis");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchWebAnalysis();
+  }, []);
+
   return (
     <div className="px-6 py-4">
       <div className="mb-6 rounded-xl border-gray-100 bg-white p-6 shadow-lg">
         <div className="mb-4 flex items-center justify-between">
           <h2 className="flex items-center text-lg font-semibold text-gray-800">
-            <BrainIcon size={20} className="mr-2 text-purple-500" />
+            <Zap size={20} className="mr-2 text-purple-500" />
             AI Analysis & Insights
           </h2>
         </div>
 
         <div>
-          <div className="rounded-lg border border-purple-100 bg-purple-50 p-4">
-            <h1 className="font-bold mb-2">Client Achivements Summary</h1>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde nostrum, nesciunt dignissimos in fuga dicta quia autem possimus perferendis, maiores ab quidem et temporibus sequi suscipit nulla? Iure, assumenda cumque!</p>
-          </div>
-
-          <div className="mt-4 flex gap-4">
-            <div className="w-1/2">
-              <div className="rounded-lg border border-blue-100 bg-blue-50 p-4">
-                <h1 className="font-bold mb-2">Website Interaction Summary</h1>
-                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Magnam tempora accusantium est quos omnis officia sit tenetur fugit suscipit blanditiis ullam, voluptas dignissimos magni voluptates inventore eius, eaque expedita quisquam.</p>
+          {error ? (
+            <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-red-700">
+              {error}
+            </div>
+          ) : loading ? (
+            <div className="flex items-center justify-center p-8">
+              <Loader className="animate-spin text-purple-500" size={24} />
+            </div>
+          ) : (
+            <>
+              <div className="rounded-lg border border-purple-100 bg-purple-50 p-4">
+                <h1 className="font-bold mb-2">Client Achievements Summary</h1>
+                <p className="text-gray-700">
+                  Total pageviews recorded: <span className="font-semibold">{webAnalysis?.totalPageviews || 0}</span>
+                </p>
               </div>
-              </div>
 
-              <div className="w-1/2">
-                <div className="rounded-lg border border-green-100 bg-green-50 p-4">
-                  <h1 className="font-bold mb-2">Website Interaction Summary</h1>
-                  <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Perferendis vitae eius in minima totam quae, placeat incidunt obcaecati facere. Ad, voluptatem tenetur. Animi neque quos eos consequuntur cupiditate! Velit, tempora?</p>
+              <div className="mt-4 flex gap-4">
+                <div className="w-1/2">
+                  <div className="rounded-lg border border-blue-100 bg-blue-50 p-4">
+                    <h1 className="font-bold mb-2">Focus Areas</h1>
+                    <div className="text-sm space-y-2">
+                        <p className="text-gray-600">No traffic data available</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="w-1/2">
+                  <div className="rounded-lg border border-green-100 bg-green-50 p-4">
+                    <h1 className="font-bold mb-2">AI Web Analysis</h1>
+                    <p className="text-sm text-green-900 leading-relaxed">
+                      {webAnalysis?.analysis || "No analysis available"}
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
+            </>
+          )}
         </div>
       </div>
+    </div>
   );
 }
