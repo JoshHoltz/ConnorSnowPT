@@ -1222,6 +1222,7 @@ app.listen(port, () => {
 
 // PostHog Web Summary
 // Web Traffic & Interaction Summary
+// Web Traffic & Interaction Summary
 app.get("/api/ai/traffic-summary", async (req, res) => {
   const url = `https://eu.posthog.com/api/projects/${POSTHOG_PROJECT_ID}/query/`;
   const headers = {
@@ -1242,29 +1243,53 @@ app.get("/api/ai/traffic-summary", async (req, res) => {
       }),
     });
     const trafficData = await trafficRes.json();
-    const totalPageviews = trafficData.results.reduce((sum, day) => sum + day.pageviews, 0);
+    console.log("Traffic Data:", trafficData);
+    
+    const totalPageviews = trafficData.results?.length > 0 
+      ? trafficData.results.reduce((sum, day) => sum + (day.pageviews || 0), 0)
+      : 0;
 
     // Fetch CTA clicks
     const ctaRes = await fetch(url, {
       method: "POST",
       headers,
       body: JSON.stringify({
-        query: { kind: "HogQLQuery", query: `SELECT count() AS clicks FROM events WHERE matchesAction('Clicked "Start Your Journey"')` },
+        query: { 
+          kind: "HogQLQuery", 
+          query: `SELECT count() AS clicks FROM events WHERE event = 'Clicked "Start Your Journey"'` 
+        },
       }),
     });
     const ctaData = await ctaRes.json();
-    const ctaClicks = ctaData.results[0].clicks;
+    console.log("CTA Data:", ctaData);
+    
+    const ctaClicks = ctaData.results?.[0]?.clicks || 0;
 
     // Fetch checkout clicks
     const checkoutRes = await fetch(url, {
       method: "POST",
       headers,
       body: JSON.stringify({
-        query: { kind: "HogQLQuery", query: `SELECT count() AS clicks FROM events WHERE matchesAction('Initiated Plan Purchase')` },
+        query: { 
+          kind: "HogQLQuery", 
+          query: `SELECT count() AS clicks FROM events WHERE event = 'Initiated Plan Purchase'` 
+        },
       }),
     });
     const checkoutData = await checkoutRes.json();
-    const checkoutClicks = checkoutData.results[0].clicks;
+    console.log("Checkout Data:", checkoutData);
+    
+    const checkoutClicks = checkoutData.results?.[0]?.clicks || 0;
+
+    // Return early if no data
+    if (totalPageviews === 0 && ctaClicks === 0 && checkoutClicks === 0) {
+      return res.json({
+        pageviews: 0,
+        ctaClicks: 0,
+        checkoutClicks: 0,
+        summary: "No traffic data available for the selected period.",
+      });
+    }
 
     const prompt = `Analyse this data and write a short 2-3 sentence summary:
 - Total pageviews (7 days): ${totalPageviews}
@@ -1288,7 +1313,8 @@ Give one insight and one recommendation.`;
       summary: aiResponse.choices[0].message.content,
     });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error("Traffic Summary Error:", err);
+    res.status(500).json({ error: err.message || "Failed to fetch traffic summary" });
   }
 });
 
