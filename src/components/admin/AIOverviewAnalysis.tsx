@@ -75,17 +75,9 @@ export function AIAnalysis() {
           <div className="mt-4 flex gap-4">
             <div className="w-1/2">
               <div className="rounded-lg border border-blue-100 bg-blue-50 p-4">
-                <h1 className="font-bold mb-2">AI Trend Analysis</h1>
+                <h1 className="font-bold mb-2">AI Trainer Analysis</h1>
                 <div className="text-sm space-y-1">
-                  {focusAnalysis?.results && focusAnalysis.results.length > 0 ? (
-                    focusAnalysis.results.map((item, idx) => (
-                      <p key={idx} className="text-blue-900">
-                        <span className="font-semibold">{item.focus_area}:</span> {item.response_count} clients
-                      </p>
-                    ))
-                  ) : (
-                    <p className="text-gray-600">No trend data available</p>
-                  )}
+                    <p>trainer analysis</p>
                 </div>
               </div>
             </div>

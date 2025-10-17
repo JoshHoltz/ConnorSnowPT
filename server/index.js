@@ -1138,7 +1138,7 @@ app.get("/api/posthog-average-rating", async (req, res) => {
     });
 
     const data = await response.json();
-    const averageRating = data.results?.[0]?.average_recommendation || 0;
+    const averageRating = data.results?.[0]?.[0] || 0;
 
     const prompt = `A personal trainer has an average client recommendation rating of ${averageRating.toFixed(1)} out of 10. Write a short 2-3 sentence professional insight about this rating and one suggestion for improvement in British English.`;
 
