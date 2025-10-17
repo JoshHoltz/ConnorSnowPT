@@ -1160,7 +1160,80 @@ app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
 
+// PostHog Web Summary
+// Web Traffic & Interaction Summary
+app.get("/api/ai/traffic-summary", async (req, res) => {
+  const url = `https://eu.posthog.com/api/projects/${POSTHOG_PROJECT_ID}/query/`;
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${POSTHOG_API_KEY}`,
+  };
+
+  try {
+    // Fetch traffic data
+    const trafficRes = await fetch(url, {
+      method: "POST",
+      headers,
+      body: JSON.stringify({
+        query: {
+          kind: "HogQLQuery",
+          query: `SELECT toDate(timestamp) AS date, count() AS pageviews FROM events WHERE event = '$pageview' AND timestamp >= now() - INTERVAL 7 DAY GROUP BY date ORDER BY date ASC`,
+        },
+      }),
+    });
+    const trafficData = await trafficRes.json();
+    const totalPageviews = trafficData.results.reduce((sum, day) => sum + day.pageviews, 0);
+
+    // Fetch CTA clicks
+    const ctaRes = await fetch(url, {
+      method: "POST",
+      headers,
+      body: JSON.stringify({
+        query: { kind: "HogQLQuery", query: `SELECT count() AS clicks FROM events WHERE matchesAction('Clicked "Start Your Journey"')` },
+      }),
+    });
+    const ctaData = await ctaRes.json();
+    const ctaClicks = ctaData.results[0].clicks;
+
+    // Fetch checkout clicks
+    const checkoutRes = await fetch(url, {
+      method: "POST",
+      headers,
+      body: JSON.stringify({
+        query: { kind: "HogQLQuery", query: `SELECT count() AS clicks FROM events WHERE matchesAction('Initiated Plan Purchase')` },
+      }),
+    });
+    const checkoutData = await checkoutRes.json();
+    const checkoutClicks = checkoutData.results[0].clicks;
+
+    const prompt = `Analyse this data and write a short 2-3 sentence summary:
+- Total pageviews (7 days): ${totalPageviews}
+- CTA clicks: ${ctaClicks}
+- Checkout initiated: ${checkoutClicks}
+
+Give one insight and one recommendation.`;
+
+    const aiResponse = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      messages: [
+        { role: "user", content: prompt },
+      ],
+      max_tokens: 100,
+    });
+
+    res.json({
+      pageviews: totalPageviews,
+      ctaClicks,
+      checkoutClicks,
+      summary: aiResponse.choices[0].message.content,
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // DELETE
+// DELTE FROM DATABASE APIS
 app.delete("/api/delete-client/:clientId", async (req, res) => {
   const clientId = Number(req.params.clientId);
 
