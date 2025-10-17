@@ -65,7 +65,7 @@ export function AIAnalysis() {
   }
 
   return (
-    <div className="px-6 py-4">
+    <div className="px-8">
       <div className="mb-6 rounded-xl border-gray-100 bg-white p-6 shadow-lg">
         <div className="mb-4 flex items-center justify-between">
           <h2 className="flex items-center text-lg font-semibold text-gray-800">

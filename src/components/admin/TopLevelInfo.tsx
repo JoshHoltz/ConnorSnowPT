@@ -9,7 +9,7 @@ export const TopLevelInfo = () => {
 
         <div className="flex w-full flex-col md:flex-row">
           <div className="w-full rounded-xl bg-white border border-slate-100 shadow-lg overflow-hidden md:w-full">
-            <div className="relative h-2 overflow-hidden rounded-t-lg bg-gradient-to-r from-gray-700 to-gray-600 text-white shadow-sm" />
+            <div className="relative h-2 overflow-hidden rounded-b-lg bg-gradient-to-r from-gray-700 to-gray-600 text-white shadow-sm" />
 
             <div className="p-6">
               <div className="flex items-start">

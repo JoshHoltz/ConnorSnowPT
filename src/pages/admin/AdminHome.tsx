@@ -40,7 +40,7 @@ export const AdminHome = () => {
     </section> */}
 
       <TopLevelInfo />
-      {/* <QuickLinks /> */}
+      <QuickLinks />
 
       <div className="flex">
        <div className="w-2/3">

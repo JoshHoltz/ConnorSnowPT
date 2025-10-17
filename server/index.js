@@ -1010,7 +1010,6 @@ app.post("/api/create-client", async (req, res) => {
 });
 
 // Logging In
-
 app.use("/api/login-user", express.urlencoded());
 
 app.post("/api/login-user", async (req, res) => {
@@ -1022,7 +1021,7 @@ app.post("/api/login-user", async (req, res) => {
     }
 
     const sql = `
-      SELECT user_id, user_username, isAdmin
+      SELECT user_id, user_username, isAdmin, first_login
       FROM user_logins
       WHERE user_username = ? AND user_password = ?
       LIMIT 1
@@ -1040,9 +1039,39 @@ app.post("/api/login-user", async (req, res) => {
       user_id: user.user_id,
       user_username: user.user_username,
       isAdmin: user.isAdmin,
+      requiresSetup: user.first_login === 1,
     });
   } catch (err) {
     console.error("Login error:", err);
+    return res.status(500).json({ error: "Server error" });
+  }
+});
+
+// Complete first-time setup
+app.use("/api/complete-setup", express.urlencoded());
+
+app.post("/api/complete-setup", async (req, res) => {
+  try {
+    const { user_id, new_password, first_name, last_name, phone, address } = req.body;
+
+    if (!user_id || !new_password || !first_name || !last_name) {
+      return res.status(400).json({ error: "All fields are required" });
+    }
+
+    const sql = `
+      UPDATE user_logins
+      SET user_password = ?, first_login = 0, first_name = ?, last_name = ?, phone = ?, address = ?
+      WHERE user_id = ?
+    `;
+
+    await pool.query(sql, [new_password, first_name, last_name, phone, address, user_id]);
+
+    return res.json({
+      success: true,
+      message: "Profile setup completed successfully",
+    });
+  } catch (err) {
+    console.error("Setup error:", err);
     return res.status(500).json({ error: "Server error" });
   }
 });

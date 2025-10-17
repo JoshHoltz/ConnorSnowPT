@@ -24,9 +24,9 @@ function QuickLink({ icon, label, to }: QuickLinkProps) {
 
 export const QuickLinks = () => {
   return (
-    <section className="mt-6 px-6 py-4 md:mt-0">
-      <div className="relative h-2 overflow-hidden rounded-t-lg bg-gradient-to-r from-gray-700 to-gray-600 text-white shadow-sm" />
-      <div className="bg-white rounded-b-lg p-4 shadow-sm border border-gray-100 mb-4">
+    <section className="mt-6 px-8 py-4 md:mt-0">
+      <div className="relative h-2 overflow-hidden rounded-t-xl bg-gradient-to-r from-gray-700 to-gray-600 text-white shadow-sm" />
+      <div className="bg-white rounded-b-xl p-4 shadow-lg border border-gray-100 mb-4">
         <h2 className="text-md font-semibold text-gray-800 mb-3 flex items-center gap-2">
           <Zap className="text-blue-600" size={18} />
           Quick Links
