@@ -7,6 +7,8 @@ import { pool } from "./db.js";
 import OpenAI from "openai";
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
+import bcrypt from "bcrypt";
+
 const trainerName = "Connor Snow";
 
 const POSTHOG_PROJECT_ID = 83713;
@@ -1010,7 +1012,7 @@ app.post("/api/create-client", async (req, res) => {
 });
 
 // Logging In
-app.use("/api/login-user", express.urlencoded());
+app.use("/api/login-user", express.urlencoded({ extended: true }));
 
 app.post("/api/login-user", async (req, res) => {
   try {
@@ -1021,18 +1023,23 @@ app.post("/api/login-user", async (req, res) => {
     }
 
     const sql = `
-      SELECT user_id, user_username, isAdmin, first_login
+      SELECT user_id, user_username, user_password, isAdmin, first_login
       FROM user_logins
-      WHERE user_username = ? AND user_password = ?
+      WHERE user_username = ?
       LIMIT 1
     `;
-    const [rows] = await pool.query(sql, [user_username, user_password]);
+    const [rows] = await pool.query(sql, [user_username]);
 
     if (rows.length === 0) {
       return res.status(401).json({ error: "Invalid username or password" });
     }
 
     const user = rows[0];
+
+    const passwordMatch = await bcrypt.compare(user_password, user.user_password);
+    if (!passwordMatch) {
+      return res.status(401).json({ error: "Invalid username or password" });
+    }
 
     return res.json({
       success: true,
@@ -1058,13 +1065,15 @@ app.post("/api/complete-setup", async (req, res) => {
       return res.status(400).json({ error: "All fields are required" });
     }
 
-    // ✅ Update user_logins table
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(new_password, saltRounds);
+
     const userLoginSql = `
       UPDATE user_logins
       SET user_password = ?, first_login = 0, user_firstname = ?, user_lastname = ?
       WHERE user_id = ?
     `;
-    await pool.query(userLoginSql, [new_password, first_name, last_name, user_id]);
+    await pool.query(userLoginSql, [hashedPassword, first_name, last_name, user_id]);
 
     const clientInfoSql = `
       UPDATE client_information
@@ -1075,13 +1084,14 @@ app.post("/api/complete-setup", async (req, res) => {
 
     return res.json({
       success: true,
-      message: "Profile setup completed successfully",
+      message: "Profile setup completed successfully (password securely hashed)",
     });
   } catch (err) {
     console.error("Setup error:", err);
     return res.status(500).json({ error: "Server error" });
   }
 });
+
 
 // PostHog API Fetch
 // Fetching the traffic that interact with the "Start Your Journey" CTA

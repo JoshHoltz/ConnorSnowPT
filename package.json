@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@hcaptcha/react-hcaptcha": "^1.12.0",
+    "bcrypt": "^6.0.0",
     "chart.js": "^4.4.9",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
