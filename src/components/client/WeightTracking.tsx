@@ -52,9 +52,72 @@ export const WeightTracking = ({ clientId }: { clientId: string | null }) => {
 
   if (loading) return <Skeleton count={5} />;
 
-  if (!metrics.length) {
-    return <div className="p-4">No weight data available</div>;
-  }
+if (!metrics.length) {
+  return (
+    <div className="p-4">
+      <h2 className="mb-2 text-lg font-bold">Body Weight Over Time</h2>
+      <p className="text-gray-600 mb-4">No weight data available yet — log your first entry below.</p>
+
+      {/* Form still visible even without data */}
+      <form
+        onSubmit={async (e) => {
+          e.preventDefault();
+          const formData = new FormData(e.target);
+          const data = Object.fromEntries(formData);
+
+          try {
+            const response = await fetch(
+              "https://connorsnowpt.onrender.com/api/insert-client-body-weight",
+              {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data),
+              }
+            );
+
+            if (response.ok) {
+              setShowSuccess(true);
+              setTimeout(() => setShowSuccess(false), 3000);
+              fetchWeights();
+              (e.target as HTMLFormElement).reset();
+            } else {
+              alert("Failed to log body weight");
+            }
+          } catch (error) {
+            console.error("Error:", error);
+            alert("Error logging body weight");
+          }
+        }}
+        className="mt-4"
+      >
+        <div className="mt-2 flex items-center gap-2">
+          <input
+            type="number"
+            name="body_weight"
+            placeholder="Enter weight in kg"
+            step="0.01"
+            className="rounded border px-3 py-2"
+            required
+          />
+          <input type="hidden" name="client_id" value={clientId} />
+          <button
+            type="submit"
+            className="rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
+          >
+            Submit
+          </button>
+        </div>
+      </form>
+
+      {showSuccess && (
+        <div className="fixed top-4 right-4 bg-green-500/80 text-white px-6 py-3 rounded-lg shadow-lg">
+          ✓ Client details updated successfully!
+        </div>
+      )}
+    </div>
+  );
+}
+
 
   return (
     <div className="h-auto p-4">

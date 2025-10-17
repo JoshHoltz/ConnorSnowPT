@@ -36,10 +36,14 @@ export const ClientHome = () => {
 
     if (clientId !== token.user_id) {
       navigate("/forbidden", { replace: true });
-      window.location.reload(); // Reload the page to ensure the new token is applied
+      window.location.reload();
       return;
     }
   }, [clientId, navigate]);
+
+  if (!clientId) {
+    return <div className="p-4 text-white">Loading client data...</div>;
+  }
 
   return (
     <div className="px-4 py-4">
