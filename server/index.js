@@ -1068,7 +1068,7 @@ app.post("/api/complete-setup", async (req, res) => {
 
     const clientInfoSql = `
       UPDATE client_information
-      SET client_firstname = ?, client_lastname = ?, client_preffered_contact = ?, client_goal = ?
+      SET client_firstname = ?, client_lastname = ?, client_preferred_contact = ?, client_goal = ?
       WHERE client_id = ?
     `;
     await pool.query(clientInfoSql, [first_name, last_name, phone, goal, user_id]);
