@@ -986,30 +986,51 @@ app.post("/api/create-client", async (req, res) => {
     return res.status(400).json({ error: "Missing required fields" });
   }
 
+  const connection = await pool.getConnection();
+
   try {
-    const [maxResult] = await pool.query(
-      "SELECT MAX(client_information_id) as max_id FROM client_information"
-    );
-    const nextId = (maxResult[0]?.max_id || 0) + 1;
+    await connection.beginTransaction();
 
-    const [clientResult] = await pool.query(
-      "INSERT INTO client_information (client_information_id, client_firstname, client_lastname, client_preferred_contact, client_plan_type, client_goal) VALUES (?, ?, ?, ?, ?, ?)",
-      [nextId, client_firstname, client_lastname, client_preferred_contact, client_plan_type, client_goals]
-    );
+    const hashedPassword = await bcrypt.hash(user_password, 10);
 
-    const client_id = clientResult.insertId;
-
-    await pool.query(
-      "INSERT INTO user_logins (user_firstname, user_lastname, user_username, user_password) VALUES (?, ?, ?, ?)",
-      [client_firstname, client_lastname, user_username, user_password]
+    const [userResult] = await connection.query(
+      `INSERT INTO user_logins (user_firstname, user_lastname, user_username, user_password, isAdmin, first_login)
+       VALUES (?, ?, ?, ?, 0, 1)`,
+      [client_firstname, client_lastname, user_username, hashedPassword]
     );
 
-    res.json({ message: "Client created successfully", client_id });
+    const newUserId = userResult.insertId; 
+
+    await connection.query(
+      `INSERT INTO client_information
+       (client_id, client_firstname, client_lastname, client_preferred_contact, client_plan_type, client_goal)
+       VALUES (?, ?, ?, ?, ?, ?)`,
+      [
+        newUserId,
+        client_firstname,
+        client_lastname,
+        client_preferred_contact,
+        client_plan_type,
+        client_goals,
+      ]
+    );
+
+    await connection.commit();
+
+    res.json({
+      success: true,
+      message: "Client created successfully",
+      client_id: newUserId,
+    });
   } catch (error) {
+    await connection.rollback();
     console.error("Error creating client:", error);
     res.status(500).json({ error: "Failed to create client" });
+  } finally {
+    connection.release();
   }
 });
+
 
 // Logging In
 app.use("/api/login-user", express.json());
