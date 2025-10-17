@@ -1138,7 +1138,23 @@ app.get("/api/posthog-average-rating", async (req, res) => {
     });
 
     const data = await response.json();
-    res.json(data);
+    const averageRating = data.results?.[0]?.average_recommendation || 0;
+
+    const prompt = `A personal trainer has an average client recommendation rating of ${averageRating.toFixed(1)} out of 10. Write a short 2-3 sentence professional insight about this rating and one suggestion for improvement in British English.`;
+
+    const aiResponse = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      messages: [
+        { role: "user", content: prompt },
+      ],
+      max_tokens: 100,
+    });
+
+    res.json({
+      ...data,
+      averageRating: averageRating.toFixed(1),
+      analysis: aiResponse.choices[0].message.content,
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
