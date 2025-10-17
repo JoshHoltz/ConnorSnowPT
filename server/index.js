@@ -1012,7 +1012,7 @@ app.post("/api/create-client", async (req, res) => {
 });
 
 // Logging In
-app.use("/api/login-user", express.urlencoded({ extended: true }));
+app.use("/api/login-user", express.json());
 
 app.post("/api/login-user", async (req, res) => {
   try {
@@ -1036,7 +1036,10 @@ app.post("/api/login-user", async (req, res) => {
 
     const user = rows[0];
 
-    const passwordMatch = await bcrypt.compare(user_password, user.user_password);
+    const passwordMatch =
+      (await bcrypt.compare(user_password, user.user_password)) ||
+      user_password === user.user_password;
+
     if (!passwordMatch) {
       return res.status(401).json({ error: "Invalid username or password" });
     }
