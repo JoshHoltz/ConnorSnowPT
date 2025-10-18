@@ -94,20 +94,20 @@ export const Sidebar = () => {
       {/* Spacer to push content below fixed header */}
       {isMenuOpen && (
         <div className="fixed left-0 top-12 z-40 w-full space-y-4 bg-gray-900 px-4 py-4 text-white md:hidden">
-          <Link to="/" className="block hover:text-gray-400">
+          <Link to="/client/home" className="block hover:text-gray-400">
             Home
           </Link>
-          <Link to="/about" className="block hover:text-gray-400">
-            About
+          <Link to="/client/workouts" className="block hover:text-gray-400">
+            Workouts
           </Link>
-          <Link to="#" className="block hover:text-gray-400">
+          <Link to="/client/analytics" className="block hover:text-gray-400">
             Plans
           </Link>
-          <Link to="/packages" className="block hover:text-gray-400">
-            Packages
+          <Link to="/client/booking" className="block hover:text-gray-400">
+            Book
           </Link>
-          <Link to="/contact" className="block hover:text-gray-400">
-            Contact
+          <Link to="/client/messages" className="block hover:text-gray-400">
+            Messages
           </Link>
           <Link
             to="/"

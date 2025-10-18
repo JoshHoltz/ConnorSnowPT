@@ -1370,4 +1370,3 @@ app.delete("/api/delete-client/:clientId", async (req, res) => {
     res.status(500).json({ error: "Failed to delete client" });
   }
 });
-

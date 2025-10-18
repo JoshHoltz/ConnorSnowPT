@@ -48,11 +48,11 @@ export const ClientHome = () => {
   return (
     <div className="px-4 py-4">
       <div className="mb-4 text-black">
-        <ClientWelcome clientId={clientId} />
+        {/* <ClientWelcome clientId={clientId} /> */}
 
         <div className="flex flex-col space-y-4 md:flex-row md:space-x-4 md:space-y-0">
           <ClientDetails clientId={clientId} />
-          <MotivationMessage />
+                    <MotivationMessage />
         </div>
 
         <div className="mt-4 flex flex-col space-y-4 md:flex-row md:space-x-4 md:space-y-0">

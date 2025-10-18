@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { UserIcon, TargetIcon, PhoneIcon, CrownIcon } from "lucide-react";
+import { UserRound, Trophy, Phone, CrownIcon } from "lucide-react";
 import Skeleton from "react-loading-skeleton";
 
 export const ClientDetails = ({ clientId }: { clientId: string | null }) => {
@@ -25,7 +25,7 @@ export const ClientDetails = ({ clientId }: { clientId: string | null }) => {
 
   if (loading) {
     return (
-      <div className="w-1/2 px-4 py-4">
+      <div className="w-full px-4 py-4">
         <Skeleton height={300} />
       </div>
     );
@@ -33,31 +33,87 @@ export const ClientDetails = ({ clientId }: { clientId: string | null }) => {
 
   if (!client) return <p>Loading client...</p>;
 
-  return (
-    <section className="w-full p-4 text-black md:w-1/2">
-      <div className="relative overflow-hidden rounded-xl bg-white p-6 shadow-sm">
-        <div className="flex justify-between">
-          <h1 className="text-lg font-bold">Client Information</h1>
-          {!edit ? (
-            <button
-              onClick={() => setEdit(true)}
-              className="text-blue-600 hover:underline"
-              type="button"
-            >
-              Edit
-            </button>
-          ) : (
-            <button
-              onClick={() => setEdit(false)}
-              className="text-red-600 hover:underline"
-              type="button"
-            >
-              Cancel
-            </button>
-          )}
-        </div>
+  const detailItems = [
+    {
+      icon: Trophy,
+      label: "Goal",
+      value: client.client_goal,
+      name: "client_goal",
+    },
+    {
+      icon: Phone,
+      label: "Contact",
+      value: client.client_preferred_contact,
+      name: "client_preferred_contact",
+    },
+    {
+      icon: CrownIcon,
+      label: "Plan",
+      value: client.client_plan_type,
+      name: "client_plan_type",
+      readOnly: true,
+    },
+  ];
 
-        {edit ? (
+  return (
+    <section className="w-full text-slate-900 bg-white m-4 p-8 rounded-xl shadow-lg">
+      {/* Client Name Header */}
+      <div className="mb-6 pb-6 border-b border-slate-200 flex justify-between items-start">
+        <div>
+          <h1 className="text-3xl font-bold text-slate-900">
+            {client.client_firstname} {client.client_lastname}
+          </h1>
+          <p className="text-slate-600 mt-1">Client Information</p>
+        </div>
+        {!edit && (
+          <button
+            onClick={() => setEdit(true)}
+            className=" text-slate-600 px-4 py-2 rounded-lg hover:font-bold transition"
+          >
+            Edit
+          </button>
+        )}
+        {edit && (
+          <button
+            type="button"
+            onClick={() => setEdit(false)}
+            className="text-slate-600 hover:text-slate-900 text-sm font-semibold"
+          >
+            Cancel
+          </button>
+        )}
+      </div>
+
+      {!edit ? (
+        <>
+          {/* Detail Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+            {detailItems.map((item, index) => {
+              const Icon = item.icon;
+              return (
+                <div
+                  key={index}
+                  className="bg-slate-50 border border-slate-200 rounded-lg p-4 hover:border-blue-900 hover:bg-blue-50 transition"
+                >
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="p-2 bg-blue-900 rounded-lg">
+                      <Icon size={20} className="text-white" />
+                    </div>
+                    <h3 className="font-semibold text-slate-700">
+                      {item.label}
+                    </h3>
+                  </div>
+                  <p className="text-xl font-bold text-slate-900">
+                    {item.value}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+        </>
+      ) : (
+        <>
+
           <form
             onSubmit={async (e) => {
               e.preventDefault();
@@ -92,87 +148,77 @@ export const ClientDetails = ({ clientId }: { clientId: string | null }) => {
                 alert("Error updating client details");
               }
             }}
-            className="mt-4 space-y-4"
+            className="space-y-4"
           >
             <input type="hidden" name="client_id" value={client.client_id} />
 
-            <div className="flex items-center space-x-2">
-              <UserIcon />
-              <input
-                type="text"
-                name="client_firstname"
-                defaultValue={client.client_firstname}
-                className="w-1/2 rounded border px-2 py-1"
-                required
-              />
-              <input
-                type="text"
-                name="client_lastname"
-                defaultValue={client.client_lastname}
-                className="w-1/2 rounded border px-2 py-1"
-                required
-              />
+            {/* Name Fields */}
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-2">
+                  First Name
+                </label>
+                <input
+                  type="text"
+                  name="client_firstname"
+                  defaultValue={client.client_firstname}
+                  className="w-full rounded-lg border border-slate-300 px-3 py-2 focus:border-blue-900 focus:outline-none"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-2">
+                  Last Name
+                </label>
+                <input
+                  type="text"
+                  name="client_lastname"
+                  defaultValue={client.client_lastname}
+                  className="w-full rounded-lg border border-slate-300 px-3 py-2 focus:border-blue-900 focus:outline-none"
+                  required
+                />
+              </div>
             </div>
 
-            <div className="flex items-center space-x-2">
-              <TargetIcon />
+            {/* Goal Field */}
+            <div>
+              <label className="block text-sm font-semibold text-slate-700 mb-2">
+                Goal
+              </label>
               <input
                 type="text"
                 name="client_goal"
                 defaultValue={client.client_goal}
-                className="w-full rounded border px-2 py-1"
+                className="w-full rounded-lg border border-slate-300 px-3 py-2 focus:border-blue-900 focus:outline-none"
                 required
               />
             </div>
 
-            <div className="flex items-center space-x-2">
-              <PhoneIcon />
+            {/* Contact Field */}
+            <div>
+              <label className="block text-sm font-semibold text-slate-700 mb-2">
+                Contact
+              </label>
               <input
                 type="text"
                 name="client_preferred_contact"
                 defaultValue={client.client_preferred_contact}
-                className="w-full rounded border px-2 py-1"
+                className="w-full rounded-lg border border-slate-300 px-3 py-2 focus:border-blue-900 focus:outline-none"
                 required
               />
             </div>
 
-            <div className="flex items-center space-x-2">
-              <CrownIcon />
-              <p className="font-bold">{client.client_plan_type}</p>
-            </div>
-
             <button
               type="submit"
-              className="w-full rounded bg-blue-600 py-2 text-white hover:bg-blue-700"
+              className="mt-6 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition font-semibold"
             >
-              Submit
+              Save Changes
             </button>
           </form>
-        ) : (
-          <div className="mt-4 space-y-4">
-            <div className="flex items-center space-x-2">
-              <UserIcon />
-              <p>
-                {client.client_firstname} {client.client_lastname}
-              </p>
-            </div>
-            <div className="flex items-center space-x-2">
-              <TargetIcon />
-              <p>{client.client_goal}</p>
-            </div>
-            <div className="flex items-center space-x-2">
-              <PhoneIcon />
-              <p>{client.client_preferred_contact}</p>
-            </div>
-            <div className="flex items-center space-x-2">
-              <CrownIcon />
-              <p>{client.client_plan_type}</p>
-            </div>
-          </div>
-        )}
-      </div>
+        </>
+      )}
 
-     {showSuccess && (
+      {showSuccess && (
         <div className="fixed top-4 right-4 bg-green-500/80 text-white px-6 py-3 rounded-lg shadow-lg">
           ✓ Client details updated successfully!
         </div>
