@@ -41,7 +41,7 @@ export const AdminHome = () => {
        <div className="w-2/3 h-full">
         <AIAnalysis />
         </div>
-        <div className="w-1/3 pr-8 h-full">
+        <div className="w-1/3 pr-8">
         <ToDo />
         </div>
 
