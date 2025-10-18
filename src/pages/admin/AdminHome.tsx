@@ -36,7 +36,7 @@ export const AdminHome = () => {
       <QuickLinks />
 
       {/* flex w-full */}
-      <div className="flex w-full h-full">
+      <div className="flex w-full">
 
        <div className="w-2/3 h-full">
         <AIAnalysis />
