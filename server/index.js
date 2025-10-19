@@ -576,7 +576,7 @@ app.post("/api/insert-client-review", async (req, res) => {
   const description = req.body.description;
   const stars = req.body.stars;
   const name = req.body.name;
-  const date = req.body.date;
+  const date = new Date().toISOString().slice(0, 19).replace('T', ' ');
 
   if (!description || !stars || !name) {
     return res.status(400).json({ error: "All fields are required" });

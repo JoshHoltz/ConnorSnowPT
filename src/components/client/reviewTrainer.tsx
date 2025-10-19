@@ -22,7 +22,6 @@ export const ReviewTrainer = ({ onClose }) => {
         params.append("name", name);
         params.append("stars", String(rating));
         params.append("description", description);
-        params.append("date", new Date().toISOString());
 
         const response = await fetch("https://connorsnowpt.onrender.com/api/insert-client-review", {
           method: "POST",
