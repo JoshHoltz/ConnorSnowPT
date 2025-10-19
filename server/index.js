@@ -567,6 +567,35 @@ app.post("/api/insert-user", async (req, res) => {
   res.send("Sucessfully inserted User");
 });
 
+// insert client review
+app.use("/api/insert-client-review", express.urlencoded());
+
+app.post("/api/insert-client-review", async (req, res) => {
+  console.log("Received request to insert user:", req.body);
+
+  const description = req.body.description;
+  const stars = req.body.stars;
+  const name = req.body.name;
+  const date = req.body.date;
+
+  if (!description || !stars || !name) {
+    return res.status(400).json({ error: "All fields are required" });
+  }
+
+  const sql =
+    "INSERT INTO client_testimonials (testimonial_rating, client_name, testimonial_descripton, testimonial_date) VALUES (?, ?, ?, ?)";
+
+  const result = await pool.query(sql, [
+    stars,
+    name,
+    description,
+    date,
+  ]);
+
+  res.send("Sucessfully added testiminal");
+});
+
+
 //inserting a client note
 app.use("/api/insert-client-note", express.urlencoded());
 

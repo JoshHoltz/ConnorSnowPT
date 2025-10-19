@@ -1,5 +1,8 @@
 import React, { useState } from "react";
+import { ReviewTrainer } from "./reviewTrainer";
 import { Link } from "react-router-dom";
+import { Star } from 'lucide-react';
+
 import {
   MenuIcon,
   X as CloseIcon,
@@ -15,6 +18,7 @@ import {
 
 export const Sidebar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [showReviewScreen, setReviewScreen] = useState(false);
 
   return (
     <>
@@ -66,12 +70,20 @@ export const Sidebar = () => {
               </li>
             </ul>
 
+            {/* Bottom */}
             <div className="flex-grow" />
 
             <ul className="mb-4 flex list-none flex-col gap-2 px-4">
               <li>
                 <NavButton
-                  href="/client/Logout"
+                  onClick={() => setReviewScreen(true)}
+                  icon={<Star />}
+                  text="Leave Review"
+                />
+              </li>
+              <li>
+                <NavButton
+                  href="/client/logout"
                   icon={<LogOut />}
                   text="Logout"
                 />
@@ -80,6 +92,14 @@ export const Sidebar = () => {
           </nav>
         </div>
       </section>
+
+      {/* Review screen */}
+      {showReviewScreen && (
+        <>
+          {console.log("review screen pressed")}
+          <ReviewTrainer onClose={() => setReviewScreen(false)} />
+        </>
+      )}
 
       {/* Mobile Header */}
       <div className="fixed left-0 top-0 z-50 flex w-full justify-between bg-gray-900 p-4 text-white md:hidden">
@@ -123,20 +143,32 @@ export const Sidebar = () => {
 
 const NavButton = ({
   href,
+  onClick,
   icon,
   text,
 }: {
-  href: string;
+  href?: string;
+  onClick?: () => void;
   icon: JSX.Element;
   text: string;
 }) => (
-  <button className="flex w-full rounded-xl text-left transition duration-300 ease-in-out hover:bg-gray-400">
-    <a
-      href={href}
-      className="flex w-full gap-2 px-4 py-2 font-normal text-white hover:font-bold hover:text-black"
-    >
-      {icon}
-      {text}
-    </a>
+  <button
+    onClick={onClick}
+    className="flex w-full rounded-xl text-left transition duration-300 ease-in-out hover:bg-gray-400"
+  >
+    {href ? (
+      <a
+        href={href}
+        className="flex w-full gap-2 px-4 py-2 font-normal text-white hover:font-bold hover:text-black"
+      >
+        {icon}
+        {text}
+      </a>
+    ) : (
+      <span className="flex w-full gap-2 px-4 py-2 font-normal text-white hover:font-bold hover:text-black">
+        {icon}
+        {text}
+      </span>
+    )}
   </button>
 );
