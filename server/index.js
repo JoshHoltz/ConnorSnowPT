@@ -538,6 +538,23 @@ app.get("/api/trainer-todo", async (req, res) => {
   
 });
 
+
+// Count(*) for total clients
+app.get("/api/client-count", async (req, res) => {
+
+  try {
+    const count = await pool.query("SELECT COUNT(*) FROM client_information");
+    res.json(count[0]);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      error: "Failed to get count",
+      error,
+    });
+  }
+  
+});
+
 // Inserting frontend to the DB
 // REF (Formatting of Insertion): https://stackoverflow.com/questions/56034455/how-to-send-json-data-from-react-to-node-js-express-server
 // REF (Status Messages): https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status

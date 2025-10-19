@@ -1,7 +1,16 @@
 import { UserRound, Globe, Send } from "lucide-react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 export const TopLevelInfo = () => {
+  const [clientCount, setClientCount] = useState(0);
+
+    useEffect(() => {
+      fetch("https://connorsnowpt.onrender.com/api/client-count")
+        .then((res) => res.json())
+        .then((data) => setClientCount(data.count));
+    }, []);
+
   return (
     <section className="mt-10 p-4 md:mt-0">
       <div className="container mx-auto flex flex-col items-center justify-center gap-6 px-4 md:flex-row">
@@ -18,7 +27,7 @@ export const TopLevelInfo = () => {
                 </div>
                 <div className="ml-4">
                   <h2 className="text-lg font-semibold text-slate-600">Total Clients:</h2>
-                  <p className="text-3xl font-bold text-slate-900">150</p>
+                  <p className="text-3xl font-bold text-slate-900">{clientCount}</p>
                 </div>
               </div>
             </div>
