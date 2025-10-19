@@ -180,7 +180,7 @@ export const PRs = ({ clientId }: { clientId: string | null }) => {
                 <h3 className="font-semibold text-gray-800">AI PR Analysis</h3>
               </div>
               {analysisLoading ? (
-                <p className="text-gray-600 italic">Analyzing performance...</p>
+                <p className="text-gray-600 italic">Analysing performance...</p>
               ) : analysis ? (
                 <p className="text-gray-700 leading-relaxed">{analysis}</p>
               ) : (
