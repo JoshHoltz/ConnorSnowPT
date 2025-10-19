@@ -4,12 +4,21 @@ import { Link } from "react-router-dom";
 
 export const TopLevelInfo = () => {
   const [clientCount, setClientCount] = useState(0);
+    const [rating, setRating] = useState(0);
 
     useEffect(() => {
       fetch("https://connorsnowpt.onrender.com/api/client-count")
         .then((res) => res.json())
-        .then((data) => setClientCount(data.count));
+        .then((data) => setClientCount(data[0]["COUNT(*)"]));
     }, []);
+
+      useEffect(() => {
+    fetch("https://connorsnowpt.onrender.com/api/posthog-average-rating")
+      .then((res) => res.json())
+      .then((data) => {
+        setRating(data.results?.[0]?.[0] ?? 0);
+      });
+  }, []);
 
   return (
     <section className="mt-10 p-4 md:mt-0">
@@ -27,7 +36,7 @@ export const TopLevelInfo = () => {
                 </div>
                 <div className="ml-4">
                   <h2 className="text-lg font-semibold text-slate-600">Total Clients:</h2>
-                  <p className="text-3xl font-bold text-slate-900">{clientCount}</p>
+                  <p className="text-3xl font-bold text-slate-900">{clientCount || "Fetching"}</p>
                 </div>
               </div>
             </div>
@@ -49,8 +58,8 @@ export const TopLevelInfo = () => {
                 </div>
 
                 <div className="ml-4">
-                  <h2 className="text-lg font-semibold text-slate-600">Web Clients:</h2>
-                  <p className="text-3xl font-bold text-slate-900">102</p>
+                  <h2 className="text-lg font-semibold text-slate-600">Client Rating:</h2>
+                  <p className="text-3xl font-bold text-slate-900">{rating.toFixed(2)}</p> {/* REF: https://stackoverflow.com/questions/6525335/trim-to-2-decimals */}
                 </div>
               </div>
             </div>
