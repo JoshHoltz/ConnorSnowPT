@@ -3,12 +3,12 @@ import { X } from "lucide-react";
 
 export const AddPlan = ({ onClose, onSuccess }: { onClose: () => void; onSuccess: () => void }) => {
   const [formData, setFormData] = useState({
-    plan_image: "",
     plan_name: "",
     plan_description: "",
     plan_pages: "",
     plan_price: "",
     plan_stripe_link: "",
+    plan_image: ""
   });
 
   const [loading, setLoading] = useState(false);
@@ -137,6 +137,19 @@ export const AddPlan = ({ onClose, onSuccess }: { onClose: () => void; onSuccess
               value={formData.plan_stripe_link}
               onChange={handleChange}
               placeholder="Enter stripe link e.g. https://stripe..."
+              className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:border-blue-900 focus:ring-2 focus:ring-blue-900 resize-none"
+            />
+          </div>
+
+            <div>
+            <label className="block text-sm font-medium text-slate-900 mb-1">
+              Plan Image
+            </label>
+            <input
+              name="plan_image"
+              type="file"
+              value={formData.plan_image}
+              onChange={handleChange}
               className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:border-blue-900 focus:ring-2 focus:ring-blue-900 resize-none"
             />
           </div>

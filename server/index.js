@@ -728,19 +728,21 @@ app.post("/api/create-plan", async (req, res) => {
   const plan_pages = Number(req.body.plan_pages);
   const plan_price = String(req.body.plan_price);
   const plan_stripe_link = String(req.body.plan_stripe_link);
+  const plan_image = req.body.plan_image;
 
   if (
     !plan_name ||
     !plan_description ||
     !plan_pages ||
     !plan_price ||
-    !plan_stripe_link
+    !plan_stripe_link ||
+    !plan_image
   ) {
     return res.status(400).json({ error: "All fields are required" });
   }
 
   const sql =
-    "INSERT INTO workout_plans (plan_name, plan_description, plan_pages, plan_price, plan_stripe_link) VALUES (?, ?, ?, ?, ?)";
+    "INSERT INTO workout_plans (plan_name, plan_description, plan_pages, plan_price, plan_stripe_link, plan_image) VALUES (?, ?, ?, ?, ?, ?)";
 
   await pool.query(sql, [
     plan_name,
