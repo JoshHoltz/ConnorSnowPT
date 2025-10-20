@@ -738,8 +738,7 @@ app.post("/api/create-plan", async (req, res) => {
     !plan_pages ||
     !plan_price ||
     !plan_stripe_link ||
-    !plan_type ||
-    !plan_image
+    !plan_type 
   ) {
     return res.status(400).json({ error: "All fields are required" });
   }
