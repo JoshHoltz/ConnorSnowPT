@@ -21,13 +21,13 @@ export const AdminPlansGrid = () => {
   return (
     <section>
       {/* Add plan button */}
-      <div className="px-8 flex align-right">
+      <div className="px-8 absolute top-4 right-4 mb-4">
       <button
         onClick={() => setShowAddPlan(true)}
         className="px-8 flex items-center gap-2 rounded-lg bg-blue-900 py-2 font-medium text-white shadow-md transition duration-200 hover:bg-blue-950"
       >
         <Plus size={20} />
-        <span className="hidden sm:inline">Add Plan</span>
+        <span className="sm:inline">Add Plan</span>
       </button>
       </div>
 
