@@ -750,7 +750,7 @@ app.post("/api/create-plan", async (req, res) => {
     plan_pages,
     plan_price,
     plan_stripe_link,
-    plan_id,
+    plan_image,
   ]);
   res.json({ message: "Successfully inserted plan change" });
 });
