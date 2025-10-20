@@ -8,7 +8,8 @@ export const AddPlan = ({ onClose, onSuccess }: { onClose: () => void; onSuccess
     plan_pages: "",
     plan_price: "",
     plan_stripe_link: "",
-    plan_image: ""
+    plan_image: "",
+    plan_type: ""
   });
 
   const [loading, setLoading] = useState(false);
@@ -82,6 +83,26 @@ export const AddPlan = ({ onClose, onSuccess }: { onClose: () => void; onSuccess
               placeholder="Get Fit Before Summer!"
             />
           </div>
+
+         <div>
+            <label className="block text-sm font-medium text-slate-900 mb-1">
+              Plan Type
+            </label>
+            <select
+            name="plan_type"
+            value={formData.plan_type}
+            onChange={handleChange}
+            className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:border-blue-900 focus:ring-2 focus:ring-blue-900"
+            required
+            >
+            <option value="">Select a plan</option>
+            <option value="Cardio">Cardio</option>
+            <option value="Chest">Chest</option>
+            <option value="Back">Back</option>
+            <option value="Legs">Legs</option>
+            <option value="Nutrition">Nutrition</option>
+            </select>
+            </div>
 
           <div>
             <label className="block text-sm font-medium text-slate-900 mb-1">
