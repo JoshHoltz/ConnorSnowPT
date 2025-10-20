@@ -717,6 +717,43 @@ app.post("/api/insert-plan-change", async (req, res) => {
   res.json({ message: "Successfully inserted plan change" });
 });
 
+//create a plan change
+app.use("/api/create-plan", express.urlencoded());
+
+app.post("/api/create-plan", async (req, res) => {
+  console.log("Received request to insert plan:", req.body);
+
+  const plan_name = String(req.body.plan_name);
+  const plan_description = String(req.body.plan_description);
+  const plan_pages = Number(req.body.plan_pages);
+  const plan_price = String(req.body.plan_price);
+  const plan_stripe_link = String(req.body.plan_stripe_link);
+
+  if (
+    !plan_name ||
+    !plan_description ||
+    !plan_pages ||
+    !plan_price ||
+    !plan_stripe_link
+  ) {
+    return res.status(400).json({ error: "All fields are required" });
+  }
+
+  const sql =
+    "INSERT INTO workout_plans (plan_name, plan_description, plan_pages, plan_price, plan_stripe_link) VALUES (?, ?, ?, ?, ?)";
+
+  await pool.query(sql, [
+    plan_name,
+    plan_description,
+    plan_pages,
+    plan_price,
+    plan_stripe_link,
+    plan_id,
+  ]);
+  res.json({ message: "Successfully inserted plan change" });
+});
+
+
 //api insert a client pr
 app.use("/api/insert-client-pr-result", express.urlencoded());
 

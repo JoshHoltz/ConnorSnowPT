@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { AddPlan } from "../AddPlan";
+import { Plus } from "lucide-react";
 
 export const AdminPlansGrid = () => {
   const [plans, setPlans] = useState([]);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [showAddPlan, setShowAddPlan] = useState(false);
 
   useEffect(() => {
     fetch("https://connorsnowpt.onrender.com/api/workout-plans")
@@ -17,8 +20,19 @@ export const AdminPlansGrid = () => {
 
   return (
     <section>
+      {/* Add plan button */}
+      <div className="px-8 flex align-right">
+      <button
+        onClick={() => setShowAddPlan(true)}
+        className="px-8 flex items-center gap-2 rounded-lg bg-blue-900 py-2 font-medium text-white shadow-md transition duration-200 hover:bg-blue-950"
+      >
+        <Plus size={20} />
+        <span className="hidden sm:inline">Add Plan</span>
+      </button>
+      </div>
+
       <div className="p-4 px-4 md:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
           {plans.map((plan) => (
             <form
               key={plan.plan_id}
@@ -34,7 +48,7 @@ export const AdminPlansGrid = () => {
                       method: "POST",
                       headers: { "Content-Type": "application/json" },
                       body: JSON.stringify(data),
-                    }
+                    },
                   );
 
                   if (response.ok) {
@@ -77,7 +91,7 @@ export const AdminPlansGrid = () => {
                       <input
                         type="text"
                         name="plan_type"
-                        className="border-2 p-1 font-semibold text-blue-600 w-20"
+                        className="w-20 border-2 p-1 font-semibold text-blue-600"
                         defaultValue={plan.plan_type}
                       />
                     </p>
@@ -86,7 +100,7 @@ export const AdminPlansGrid = () => {
                       <input
                         type="text"
                         name="plan_pages"
-                        className="border-2 p-1 font-semibold text-blue-600 w-20"
+                        className="w-20 border-2 p-1 font-semibold text-blue-600"
                         defaultValue={plan.plan_pages}
                       />
                     </p>
@@ -120,9 +134,16 @@ export const AdminPlansGrid = () => {
       </div>
 
       {showSuccess && (
-        <div className="fixed top-4 right-4 bg-green-500/90 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-fade-in">
+        <div className="animate-fade-in fixed right-4 top-4 z-50 rounded-lg bg-green-500/90 px-6 py-3 text-white shadow-lg">
           ✓ Plan updated successfully!
         </div>
+      )}
+
+      {showAddPlan && (
+        <AddPlan
+          onClose={() => setShowAddPlan(false)}
+          onSuccess={() => fetchClients()}
+        />
       )}
     </section>
   );
