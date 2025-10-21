@@ -1519,15 +1519,7 @@ app.delete("/api/delete-plan/:planId", async (req, res) => {
     return res.status(400).json({ error: "Plan ID is required" });
   }
 
-  try { 
-    // get product id first from db
-    const [plan] = await pool.query("SELECT stripe_product_id FROM workout_plans WHERE plan_id = ?", [planId]);
-    
-    if (plan.length > 0 && plan[0].stripe_product_id) { // if product id found
-      await stripe.products.del(plan[0].stripe_product_id); //stripe syntax to delete
-    }
-
-    //standard db delete
+  try {
     await pool.query("DELETE FROM workout_plans WHERE plan_id = ?", [planId]);
     res.json({ message: "Plan deleted successfully" });
   } catch (error) {
