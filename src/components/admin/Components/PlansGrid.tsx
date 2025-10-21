@@ -136,7 +136,7 @@ export const AdminPlansGrid = () => {
                     </p>
                   </div>
 
-                  <p>
+                  {/* <p>
                     Stripe Link:{" "}
                     <input
                       type="text"
@@ -144,7 +144,7 @@ export const AdminPlansGrid = () => {
                       className="mb-4 w-full border-2 p-2"
                       defaultValue={plan.plan_stripe_link}
                     />
-                  </p>
+                  </p> */}
                 </div>
 
                 <input
