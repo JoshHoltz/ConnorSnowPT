@@ -35,7 +35,8 @@
     "react-markdown": "^10.1.0",
     "react-router-dom": "^7.5.3",
     "react-select": "^5.10.2",
-    "serve": "^14.2.4"
+    "serve": "^14.2.4",
+    "stripe": "^19.1.0"
   },
   "devDependencies": {
     "@types/node": "^20.11.18",

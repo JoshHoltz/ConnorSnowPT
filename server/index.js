@@ -725,6 +725,7 @@ app.post("/api/insert-plan-change", async (req, res) => {
 // Add using secret api key: REF: https://docs.stripe.com/keys?locale=en-GB
 // Auto insert a stripe product from form: REF https://docs.stripe.com/api/products/object?lang=node
 // Setting up prices in Stripe: REF: https://docs.stripe.com/api/prices/create?lang=node
+// setting up automatic payment links Stripe: REF: https://docs.stripe.com/api/payment-link/create?lang=node&lang)=
 app.use("/api/create-plan", express.urlencoded());
 
 app.post("/api/create-plan", async (req, res) => {
@@ -735,7 +736,6 @@ app.post("/api/create-plan", async (req, res) => {
   const plan_type = String(req.body.plan_type);
   const plan_pages = Number(req.body.plan_pages);
   const plan_price = String(req.body.plan_price);
-  const plan_stripe_link = String(req.body.plan_stripe_link);
   const plan_image = req.body.plan_image;
 
   if (
@@ -743,43 +743,52 @@ app.post("/api/create-plan", async (req, res) => {
     !plan_description ||
     !plan_pages ||
     !plan_price ||
-    !plan_stripe_link ||
     !plan_type 
   ) {
     return res.status(400).json({ error: "All fields are required" });
   }
 
   try { 
-  const product = await stripe.products.create({
-    name: plan_name,
-    description: plan_description
-  })
+    const product = await stripe.products.create({
+      name: plan_name,
+      description: plan_description
+    });
 
-  const price = await stripe.prices.create({
-    product: product.id,
-    unit_amount: Math.round(parseFloat(plan_price) * 100),
-    currency: 'gbp',
-  })
+    const price = await stripe.prices.create({
+      product: product.id,
+      unit_amount: Math.round(parseFloat(plan_price) * 100),
+      currency: 'gbp',
+    });
 
-  const sql =
-    "INSERT INTO workout_plans (plan_name, plan_description, plan_type, plan_pages, plan_price, plan_stripe_link, plan_image) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    // Auto-generate payment link
+    const paymentLink = await stripe.paymentLinks.create({
+      line_items: [
+        {
+          price: price.id,
+          quantity: 1,
+        },
+      ],
+    });
 
-  await pool.query(sql, [
-    plan_name,
-    plan_description,
-    plan_type,
-    plan_pages,
-    plan_price,
-    plan_stripe_link,
-    plan_image,
-  ]);
-  res.json({ message: "Successfully inserted plan change" });
+    const sql =
+      "INSERT INTO workout_plans (plan_name, plan_description, plan_type, plan_pages, plan_price, plan_stripe_link, plan_image) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-} catch (error) {
-  console.error('Error creating plan:', error)
-  res.status(500).json({error: error.message})
-}
+    await pool.query(sql, [
+      plan_name,
+      plan_description,
+      plan_type,
+      plan_pages,
+      plan_price,
+      paymentLink.url,
+      plan_image,
+    ]);
 
+    res.json({ message: "Successfully created plan", stripe_link: paymentLink.url });
+
+  } catch (error) {
+    console.error('Error creating plan:', error);
+    res.status(500).json({error: error.message});
+  }
 });
 
 
