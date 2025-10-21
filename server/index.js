@@ -718,6 +718,11 @@ app.post("/api/insert-plan-change", async (req, res) => {
 });
 
 //create a plan change
+// Add using secret api key: REF: https://docs.stripe.com/keys?locale=en-GB
+// Auto insert a stripe product from form: REF https://docs.stripe.com/api/products/object?lang=node
+// Setting up prices in Stripe: REF: https://docs.stripe.com/api/prices/create?lang=node
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+
 app.use("/api/create-plan", express.urlencoded());
 
 app.post("/api/create-plan", async (req, res) => {
@@ -731,7 +736,6 @@ app.post("/api/create-plan", async (req, res) => {
   const plan_stripe_link = String(req.body.plan_stripe_link);
   const plan_image = req.body.plan_image;
 
-
   if (
     !plan_name ||
     !plan_description ||
@@ -742,6 +746,18 @@ app.post("/api/create-plan", async (req, res) => {
   ) {
     return res.status(400).json({ error: "All fields are required" });
   }
+
+  try { 
+  const product = await stripe.products.create({
+    name: plan_name,
+    description: plan_description
+  })
+
+  const price = await stripe.prices.create({
+    product: product.id,
+    unit_amount: Math.round(parseFloat(plan_price) * 100),
+    currency: 'gbp',
+  })
 
   const sql =
     "INSERT INTO workout_plans (plan_name, plan_description, plan_type, plan_pages, plan_price, plan_stripe_link, plan_image) VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -756,6 +772,12 @@ app.post("/api/create-plan", async (req, res) => {
     plan_image,
   ]);
   res.json({ message: "Successfully inserted plan change" });
+
+} catch (error) {
+  console.error('Error creating plan:', error)
+  res.status(500).json({error: error.message})
+}
+
 });
 
 
