@@ -149,7 +149,7 @@ export const AddPlan = ({ onClose, onSuccess }: { onClose: () => void; onSuccess
             />
           </div>
 
-          <div>
+          {/* <div>
             <label className="block text-sm font-medium text-slate-900 mb-1">
               Stripe Link
             </label>
@@ -160,7 +160,7 @@ export const AddPlan = ({ onClose, onSuccess }: { onClose: () => void; onSuccess
               placeholder="Enter stripe link e.g. https://stripe..."
               className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:border-blue-900 focus:ring-2 focus:ring-blue-900 resize-none"
             />
-          </div>
+          </div> */}
 
             <div>
             <label className="block text-sm font-medium text-slate-900 mb-1">

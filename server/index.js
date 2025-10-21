@@ -1509,3 +1509,29 @@ app.delete("/api/delete-client/:clientId", async (req, res) => {
     res.status(500).json({ error: "Failed to delete client" });
   }
 });
+
+// Stripe Delete Product
+// Delete stripe product: REF: https://docs.stripe.com/api/products/list?lang=node
+app.delete("/api/delete-plan/:planId", async (req, res) => {
+  const planId = Number(req.params.planId);
+
+  if (!planId) {
+    return res.status(400).json({ error: "Plan ID is required" });
+  }
+
+  try { 
+    // get product id first from db
+    const [plan] = await pool.query("SELECT stripe_product_id FROM workout_plans WHERE plan_id = ?", [planId]);
+    
+    if (plan.length > 0 && plan[0].stripe_product_id) { // if product id found
+      await stripe.products.del(plan[0].stripe_product_id); //stripe syntax to delete
+    }
+
+    //standard db delete
+    await pool.query("DELETE FROM workout_plans WHERE plan_id = ?", [planId]);
+    res.json({ message: "Plan deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting plan:", error);
+    res.status(500).json({ error: "Failed to delete plan" });
+  }
+});

@@ -1,34 +1,64 @@
 import React, { useEffect, useState } from "react";
 import { AddPlan } from "../AddPlan";
-import { Plus } from "lucide-react";
+import { Plus, Trash2 } from "lucide-react";
 
 export const AdminPlansGrid = () => {
   const [plans, setPlans] = useState([]);
   const [showSuccess, setShowSuccess] = useState(false);
   const [showAddPlan, setShowAddPlan] = useState(false);
+  const [deleting, setDeleting] = useState<number | null>(null);
 
   useEffect(() => {
+    fetchPlans();
+  }, []);
+
+  const fetchPlans = () => {
     fetch("https://connorsnowpt.onrender.com/api/workout-plans")
       .then((res) => res.json())
       .then(setPlans);
-  }, []);
+  };
 
   const showSuccessMessage = () => {
     setShowSuccess(true);
     setTimeout(() => setShowSuccess(false), 3000);
   };
 
+  const handleDelete = async (planId: number) => {
+    if (!window.confirm("Are you sure you want to delete this plan? This will also delete it from Stripe.")) {
+      return;
+    }
+
+    setDeleting(planId);
+    try {
+      const response = await fetch(
+        `https://connorsnowpt.onrender.com/api/delete-plan/${planId}`,
+        { method: "DELETE" }
+      );
+
+      if (response.ok) {
+        setPlans(plans.filter((p) => p.plan_id !== planId));
+        showSuccessMessage();
+      } else {
+        console.error("Delete failed:", await response.text());
+      }
+    } catch (error) {
+      console.error("Error deleting plan:", error);
+    } finally {
+      setDeleting(null);
+    }
+  };
+
   return (
     <section>
       {/* Add plan button */}
       <div className="px-8 absolute top-4 right-4 mb-4">
-      <button
-        onClick={() => setShowAddPlan(true)}
-        className="px-8 flex items-center gap-2 rounded-lg bg-blue-900 py-2 font-medium text-white shadow-md transition duration-200 hover:bg-blue-950"
-      >
-        <Plus size={20} />
-        <span className="sm:inline">Add Plan</span>
-      </button>
+        <button
+          onClick={() => setShowAddPlan(true)}
+          className="px-8 flex items-center gap-2 rounded-lg bg-blue-900 py-2 font-medium text-white shadow-md transition duration-200 hover:bg-blue-950"
+        >
+          <Plus size={20} />
+          <span className="sm:inline">Add Plan</span>
+        </button>
       </div>
 
       <div className="p-4 px-4 md:px-8">
@@ -124,9 +154,23 @@ export const AdminPlansGrid = () => {
                   defaultValue={plan.plan_price}
                 />
 
-                <button className="mt-4 w-full rounded bg-blue-500 py-2 text-white transition duration-300 ease-in-out hover:bg-blue-600 hover:font-bold">
-                  Save & Update
-                </button>
+                <div className="flex gap-2">
+                  <button
+                    type="submit"
+                    className="flex-1 mt-4 rounded bg-blue-500 py-2 text-white transition duration-300 ease-in-out hover:bg-blue-600 hover:font-bold"
+                  >
+                    Save & Update
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleDelete(plan.plan_id)}
+                    disabled={deleting === plan.plan_id}
+                    className="mt-4 flex items-center justify-center gap-2 px-4 py-2 rounded bg-red-600 text-white transition duration-300 ease-in-out hover:bg-red-700 disabled:opacity-50"
+                  >
+                    <Trash2 size={18} />
+                    {deleting === plan.plan_id ? "Deleting..." : "Delete"}
+                  </button>
+                </div>
               </div>
             </form>
           ))}
@@ -135,14 +179,14 @@ export const AdminPlansGrid = () => {
 
       {showSuccess && (
         <div className="animate-fade-in fixed right-4 top-4 z-50 rounded-lg bg-green-500/90 px-6 py-3 text-white shadow-lg">
-          ✓ Plan updated successfully!
+          ✓ Operation completed successfully!
         </div>
       )}
 
       {showAddPlan && (
         <AddPlan
           onClose={() => setShowAddPlan(false)}
-          onSuccess={() => fetchClients()}
+          onSuccess={() => fetchPlans()}
         />
       )}
     </section>
