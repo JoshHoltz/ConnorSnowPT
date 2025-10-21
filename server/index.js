@@ -4,8 +4,12 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { pool } from "./db.js";
 
+import Stripe from 'stripe';
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
 import OpenAI from "openai";
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+
 
 import bcrypt from "bcrypt";
 
@@ -721,8 +725,6 @@ app.post("/api/insert-plan-change", async (req, res) => {
 // Add using secret api key: REF: https://docs.stripe.com/keys?locale=en-GB
 // Auto insert a stripe product from form: REF https://docs.stripe.com/api/products/object?lang=node
 // Setting up prices in Stripe: REF: https://docs.stripe.com/api/prices/create?lang=node
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-
 app.use("/api/create-plan", express.urlencoded());
 
 app.post("/api/create-plan", async (req, res) => {
