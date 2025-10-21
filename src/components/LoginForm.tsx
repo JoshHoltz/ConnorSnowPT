@@ -2,6 +2,53 @@ import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
 
+  /* //////////////////////////////////////////////////////////////////////////////
+
+* Async Login Function
+    Note: Async is a function that can perform an asynchronous (waited) operation till a operation or button is pressed / a promised is fulfilled
+    1. This async function checks a login user creds that is fetched from the API
+    2. Method is is POST for secure transmission of data rather than GET
+    3. Headers has to be set to json so the API can read it and interpret the entered data from the user
+    4. argument 'credentials' is passed as the object request 
+
+* Sucessfull Login (setToken)
+    1. If the login is sucessful the setToken then is called (if (token?.success) is true)
+    2. This function sets out setItem that stores information in the session storage:
+        - user_id, user_username, isAdmin
+    3. This then can work out if the user is admin or not and will hold the lgoin data in the session 
+    4. This session storage is then used at two other functions:
+        - getToken() to get the user_id and user_username
+        - setToken() to set the user_id and user_username (as described above)
+
+    Satisfying the Token
+    Before the user can call the login function they must satisfy what a token is:
+    1. The user must enter a username and password
+    2. The user must complete the captcha (hCaptcha) to ensure the user is human
+    3. if this is met call the loginUser function.
+    
+
+* Getting Entered Login Information from Form & Using Consts
+    1. username and setUsername is used to capture the username input from the form setUsername(e.target.value)
+    2. password and setPassword is used to capture the password input from the form setPassword(e.target.value)
+    3. navigate is used to redirect the user once the login is sucessful
+    
+* Captcha
+    Note: Captcha (added for layer of security)
+    1. captchaToken and setCaptchaToken is used to hold to see if the captcha has been compleated
+    2. captchaRef is used to reference the captcha, for example if it needs to reset
+    3. if (!captchaToken) is false it will alert the user to compleate the capture before they can move on
+
+* Token Validation
+    1. If the token is sucessful and the user has matched a database entry:
+    2. Set the token and append the login information to session
+
+    3. 
+    a. if the token is also Admin so the value is === "Y" send the user to the admin portal OR
+    b. anything else send to the client home page with the user token id parsed to the URL to get to the correct client page by ID
+
+
+////////////////////////////////////////////////////////////////////////////// */
+
 type Credentials = {};
 
 async function loginUser(credentials: Credentials) {
@@ -133,22 +180,28 @@ export default function LoginForm() {
       <section className="bg-gray-100 text-black">
         <div className="flex flex-col md:flex-row">
           {/* Image Section */}
-          <div className="relative md:w-1/2">
-            <img
-              src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48"
-              alt="Gym Login Image"
-              className="h-full w-full object-cover"
-            />
-            <div className="absolute inset-0 bg-black bg-opacity-20"></div>
-            <div className="absolute inset-0 m-8 flex items-center justify-center">
-              <div className="rounded-lg bg-gray-600 bg-opacity-75 p-4 text-left">
-                <h1 className="text-4xl font-bold text-white">
-                  CONNOR<span className="text-blue-600">SNOW</span>
-                </h1>
-                <p className="text-2xl text-white">Start Your Journey.</p>
-              </div>
+        <div className="relative md:w-1/2">
+          <img
+            src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
+            alt="Gym Login Image"
+            className="w-full h-full object-cover"
+          />
+          {/* Overlay */}
+          <div className="absolute inset-0 bg-black bg-opacity-40"></div>
+          <div className="absolute inset-0 flex items-center justify-center m-8">
+            <div className="bg-slate-600 bg-opacity-75 p-4 rounded-lg text-left">
+              <h1 className="text-4xl text-white font-bold">
+                CONNOR<span className="text-blue-600">SNOW</span>
+              </h1>
+
+              <p className="text-2xl text-white">Start Your Journey.</p>
+              <p className="mt-8 text-white">
+                Start your personal training journey and achieve the results you
+                deserve.
+              </p>
             </div>
           </div>
+        </div>
 
           {/* Content Section */}
           <div className="flex w-full items-center justify-center bg-gray-900 p-8 md:w-1/2">
