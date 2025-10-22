@@ -618,7 +618,7 @@ app.get("/api/stripe-monthly-sales", async (req, res) => {
 
 // past 6 months of data
 // get 6 months past REF: https://stackoverflow.com/questions/1648392/get-a-date-object-six-months-prior-from-another-date-object
-app.get("/api/stripe-monthly-sales", async (req, res) => {
+app.get("/api/stripe-six-monthly-sales", async (req, res) => {
   try {
     const now = new Date();
     const monthlySales = [];
