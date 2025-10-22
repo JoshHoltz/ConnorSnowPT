@@ -627,7 +627,7 @@ app.get("/api/stripe-six-monthly-sales", async (req, res) => {
       const monthDate = new Date(now.getFullYear(), now.getMonth() - i, 1);
       const nextMonthDate = new Date(now.getFullYear(), now.getMonth() - i + 1, 1);
       
-      const monthStartStripeConversion = Math.floor(monthStartStripeConversion.getTime() / 1000);
+      const monthStartStripeConversion = Math.floor(monthDate.getTime() / 1000);
       const monthEndStripeConversion = Math.floor(nextMonthDate.getTime() / 1000);
 
       const sales = await stripe.charges.list({
