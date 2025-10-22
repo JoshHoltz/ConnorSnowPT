@@ -28,6 +28,7 @@ export const AverageRating = () => {
           labels: ["Rating"],
           datasets: [
             {
+              label: 'Rating',
               data: [rating],
               backgroundColor: "rgba(62, 152, 199, 0.7)",
             },
