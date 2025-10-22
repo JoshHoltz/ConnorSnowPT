@@ -100,7 +100,7 @@ export const WorkoutSplitTable = () => {
         Your Week Workout Split
       </h1>
 
-      <button onClick={downloadPDF} target='_blank'>
+      <button onClick={downloadPDF}>
         Download PDF
       </button>
 
