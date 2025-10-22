@@ -559,6 +559,30 @@ app.get("/api/client-count", async (req, res) => {
   
 });
 
+// Retriving Stripe Balance
+// getting stripe charges: REF: https://docs.stripe.com/api/charges/list
+app.get("/api/stripe-total-sales", async (req, res) => {
+  try {
+    const sales = await stripe.charges.list({
+      limit: 100
+    });
+
+    let totalSales = 0;
+    sales.data.forEach(charge => {
+      if (charge.paid) {
+        totalSales += charge.amount;
+      }
+    });
+
+    totalSales = totalSales / 100;
+    console.log(`Total Sales: $${totalSales.toFixed(2)}`);
+    res.json({ totalSales: totalSales.toFixed(2) });
+  } catch (error) {
+    console.error('Error fetching sales:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // Inserting frontend to the DB
 // REF (Formatting of Insertion): https://stackoverflow.com/questions/56034455/how-to-send-json-data-from-react-to-node-js-express-server
 // REF (Status Messages): https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status
