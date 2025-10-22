@@ -592,7 +592,7 @@ app.get("/api/stripe-monthly-sales", async (req, res) => {
   try {
 
     const now = new Date();
-    const firstDay = new Date(now.getFullYear(), date.getMonth(), 1)
+    const firstDay = new Date(now.getFullYear(), now.getMonth(), 1)
     const monthStartStripeConversion = Math.floor(firstDay.getTime() / 1000); //seconds for stripe
 
     const sales = await stripe.charges.list({
