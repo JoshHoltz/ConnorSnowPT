@@ -4,6 +4,8 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { pool } from "./db.js";
 
+const PDFDocument = require('pdfkit');
+
 import Stripe from 'stripe';
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
