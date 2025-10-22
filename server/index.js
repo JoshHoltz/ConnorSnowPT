@@ -251,11 +251,11 @@ app.get("/api/workout-split/:id/pdf", async (req, res) => {
       doc.moveDown(0.5);
     });
 
-    doc.end();
-
-    res.on('error', (err) => {
-      console.error('Response error:', err);
+    doc.on('end', () => { //trying to fix hangtime errors
+      res.end();
     });
+
+    doc.end();
   } catch (err) {
     console.error(`Error on /workout-split/${clientId}/pdf:`, err);
     res.status(500).json({
