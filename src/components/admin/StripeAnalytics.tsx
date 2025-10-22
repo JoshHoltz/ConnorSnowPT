@@ -5,6 +5,10 @@ import { Line } from "react-chartjs-2";
 export const StripeAnalytics = () => {
   const [clicks, setClicks] = useState(0);
   const [totalSalesStripe, setTotalSalesStripe] = useState(0);
+  const [monthlyStripeSales, setMonthlyStripeSales] = useState(0);
+  const Months = [ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ];
+  const currentDate = new Date(); //REF: https://medium.com/@rahul.tpointtech12/simple-ways-to-get-the-current-month-in-javascript-9dad07c3fb90
+  const currentMonth = Months[currentDate.getMonth()];
 
   useEffect(() => {
     fetch("https://connorsnowpt.onrender.com/api/posthog-homepage-cta-clicks")
@@ -19,6 +23,14 @@ export const StripeAnalytics = () => {
       .then((res) => res.json())
       .then((data) => {
         setTotalSalesStripe(data.totalSales[0])
+      });
+  }, []);
+
+    useEffect(() => {
+    fetch("https://connorsnowpt.onrender.com/api/stripe-monthly-sales")
+      .then((res) => res.json())
+      .then((data) => {
+        setMonthlyStripeSales(data.totalSales[0])
       });
   }, []);
 
@@ -60,11 +72,11 @@ export const StripeAnalytics = () => {
             value={54}
             text={`£${totalSalesStripe}`}
           />
-          <h1 className="text-center text-sm font-bold">Monthly Sales </h1>
+          <h1 className="text-center text-sm font-bold">{currentMonth} Sales </h1>
           <CircularProgressbar
             className="flex h-24 pt-2"
             value={54}
-            text={`£130`}
+            text={`£${monthlyStripeSales}`}
           />
         </div>
       </div>

@@ -616,6 +616,49 @@ app.get("/api/stripe-monthly-sales", async (req, res) => {
   }
 });
 
+// past 6 months of data
+// get 6 months past REF: https://stackoverflow.com/questions/1648392/get-a-date-object-six-months-prior-from-another-date-object
+app.get("/api/stripe-monthly-sales", async (req, res) => {
+  try {
+    const now = new Date();
+    const monthlySales = [];
+
+    for (let i = 5; i >= 0; i--) {
+      const monthDate = new Date(now.getFullYear(), now.getMonth() - i, 1);
+      const nextMonthDate = new Date(now.getFullYear(), now.getMonth() - i + 1, 1);
+      
+      const monthStartStripeConversion = Math.floor(monthStartStripeConversion.getTime() / 1000);
+      const monthEndStripeConversion = Math.floor(nextMonthDate.getTime() / 1000);
+
+      const sales = await stripe.charges.list({
+        limit: 100,
+        created: { gte: monthStartStripeConversion, lt: monthEndStripeConversion }
+      });
+
+      let totalSales = 0;
+      sales.data.forEach(charge => {
+        if (charge.paid) {
+          totalSales += charge.amount;
+        }
+      });
+
+      totalSales = totalSales / 100;
+      const monthName = monthDate.toLocaleString('default', { month: 'short' }); //month short REF: https://stackoverflow.com/questions/76422584/js-tolocalestring-shows-numeric-value-for-short-month-instead-of-month
+      
+      monthlySales.push({
+        month: monthName,
+        sales: totalSales.toFixed(2)
+      });
+    }
+
+    console.log(monthlySales);
+    res.json({ monthlySales });
+  } catch (error) {
+    console.error('Error fetching sales:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // Inserting frontend to the DB
 // REF (Formatting of Insertion): https://stackoverflow.com/questions/56034455/how-to-send-json-data-from-react-to-node-js-express-server
 // REF (Status Messages): https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status
