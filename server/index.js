@@ -12,6 +12,7 @@ const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 
 import bcrypt from "bcrypt";
+import { data } from "react-router-dom";
 
 const trainerName = "Connor Snow";
 
@@ -561,6 +562,7 @@ app.get("/api/client-count", async (req, res) => {
 
 // Retriving Stripe Balance
 // getting stripe charges: REF: https://docs.stripe.com/api/charges/list
+// limit and list REF: https://stackoverflow.com/questions/46068866/how-to-get-the-total-revenue-of-my-account-in-stripe-node-js
 app.get("/api/stripe-total-sales", async (req, res) => {
   try {
     const sales = await stripe.charges.list({
@@ -576,6 +578,37 @@ app.get("/api/stripe-total-sales", async (req, res) => {
 
     totalSales = totalSales / 100;
     console.log(`Total Sales: $${totalSales.toFixed(2)}`);
+    res.json({ totalSales: totalSales.toFixed(2) });
+  } catch (error) {
+    console.error('Error fetching sales:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+//Monthly Overview
+// getting month REF: https://stackoverflow.com/questions/13571700/get-first-and-last-date-of-current-month-with-javascript-or-jquery
+// stripe fetching with date arg: REF: https://stackoverflow.com/questions/14931264/how-to-get-charges-transactions-details-in-stripe-based-on-date-range
+app.get("/api/stripe-monthly-sales", async (req, res) => {
+  try {
+
+    const now = new Date();
+    const firstDay = new Date(now.getFullYear(), date.getMonth(), 1)
+    const monthStartStripeConversion = Math.floor(firstDay.getTime() / 1000); //seconds for stripe
+
+    const sales = await stripe.charges.list({
+      limit: 100,
+      created: {gte: monthStartStripeConversion}
+    });
+
+    let totalSales = 0;
+    sales.data.forEach(charge => {
+      if (charge.paid) {
+        totalSales += charge.amount;
+      }
+    });
+
+    totalSales = totalSales / 100;
+    console.log(`Total Monthly Sales: $${totalSales.toFixed(2)}`);
     res.json({ totalSales: totalSales.toFixed(2) });
   } catch (error) {
     console.error('Error fetching sales:', error);
