@@ -9,6 +9,7 @@ export const StripeAnalytics = () => {
   const Months = [ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ];
   const currentDate = new Date(); //REF: https://medium.com/@rahul.tpointtech12/simple-ways-to-get-the-current-month-in-javascript-9dad07c3fb90
   const currentMonth = Months[currentDate.getMonth()];
+  const [sixMonthStripeSales, setSixMonthStripeSales] = useState([])
 
   useEffect(() => {
     fetch("https://connorsnowpt.onrender.com/api/posthog-homepage-cta-clicks")
@@ -34,6 +35,14 @@ export const StripeAnalytics = () => {
       });
   }, []);
 
+  useEffect(() => {
+    fetch("https://connorsnowpt.onrender.com/api/stripe-six-monthly-sales")
+      .then((res) => res.json())
+      .then((data) => {
+        setSixMonthStripeSales(data.monthlySales) //append the array into the list (array called monthly sales)
+      });
+  }, []);
+
   return (
     <div className="h-1/2 rounded-lg bg-white px-4">
       <h1 className="text-sm font-bold text-black">Sale Analytics</h1>
@@ -42,11 +51,11 @@ export const StripeAnalytics = () => {
         <div className="w-3/4">
           <Line
             data={{
-              labels: ["January", "February", "March", "April", "May", "June"],
+              labels: sixMonthStripeSales.map(item => item.month),
               datasets: [
                 {
-                  label: "Sales",
-                  data: [65, 59, 80, 81, 56, 55],
+                  label: 'Sales',
+                  data: sixMonthStripeSales.map(item => parseFloat(item.sales)),
                   fill: false,
                   backgroundColor: "rgba(75,192,192,0.4)",
                   borderColor: "rgba(75,192,192,1)",
