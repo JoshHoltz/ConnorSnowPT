@@ -252,6 +252,10 @@ app.get("/api/workout-split/:id/pdf", async (req, res) => {
     });
 
     doc.end();
+
+    res.on('error', (err) => {
+      console.error('Response error:', err);
+    });
   } catch (err) {
     console.error(`Error on /workout-split/${clientId}/pdf:`, err);
     res.status(500).json({
