@@ -214,14 +214,51 @@ app.get("/api/workout-split/:id", async (req, res) => {
     res.json(rows);
   } catch (err) {
     console.error(`Error on /workout-split/${clientId}:`, err);
-    res
-      .status(500)
-      .json({
-        error: "Failed to fetch upcoming workouts",
-        details: err.message,
-      });
+    res.status(500).json({
+      error: "Failed to fetch upcoming workouts",
+      details: err.message,
+    });
   }
 });
+
+//Get a pdf download link for workouts
+// pdfkit docs REF: https://pdfkit.org/docs/getting_started.html
+// pdf kit setHeader REF: https://stackoverflow.com/questions/60488444/creating-pdf-with-pdfkit-no-save-options
+// pdf text styles REF: https://pdfkit.org/docs/text.html
+app.get("/api/workout-split/:id/pdf", async (req, res) => {
+  const clientId = req.params.id;
+  try {
+    const [rows] = await pool.query(
+      "SELECT * FROM upcoming_workouts WHERE client_id = ? ORDER BY upcoming_workout_date DESC LIMIT 3",
+      [clientId],
+    );
+
+    const doc = new PDFDocument();
+
+    res.setHeader('Content-type', 'application/pdf');
+    res.setHeader('Content-Disposition', 'attachment; filename="workout-split.pdf"');
+
+    doc.pipe(res);
+
+    doc.font(20).text('Workout Split', { align: 'center' });
+    doc.moveDown();
+
+    rows.forEach(workout => {
+      doc.fontSize(12).text(`Date: ${workout.upcoming_workout_date}`);
+      doc.text(`Exercise: ${workout.exercise_name}`);
+      doc.moveDown(0.5);
+    });
+
+    doc.end();
+  } catch (err) {
+    console.error(`Error on /workout-split/${clientId}/pdf:`, err);
+    res.status(500).json({
+      error: "Failed to generate PDF",
+      details: err.message,
+    });
+  }
+});
+
 
 // get all upcoming workouts
 app.get("/api/motivation-message", async (req, res) => {

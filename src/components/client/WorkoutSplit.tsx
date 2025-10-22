@@ -37,6 +37,11 @@ export const WorkoutSplitTable = () => {
     setVisibleHowTo((prev) => ({ ...prev, [id]: !prev[id] }));
   };
 
+  const downloadPDF = () => {
+    window.location.href = `https://connorsnowpt.onrender.com/api/workout-split/${clientId}/pdf`;
+  };
+
+
   if (loading) {
     return (
       <div className="px-4 py-4">
@@ -94,6 +99,10 @@ export const WorkoutSplitTable = () => {
       <h1 className="hidden rounded-2xl bg-gray-800 px-8 py-4 text-2xl font-bold text-white md:flex">
         Your Week Workout Split
       </h1>
+
+      <button onClick={downloadPDF} target='_blank'>
+        Download PDF
+      </button>
 
       <div className="mt-4 flex-wrap gap-6 md:flex">
         {workouts.length === 0 ? (
