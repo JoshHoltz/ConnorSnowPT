@@ -1,6 +1,7 @@
 import { useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
+import jsPDF from "jspdf";
 
 export const WorkoutSplitTable = () => {
   const [searchParams] = useSearchParams();
@@ -18,7 +19,6 @@ export const WorkoutSplitTable = () => {
       .finally(() => setLoading(false));
   }, [clientId]);
 
-  // obtain ai analysis of ucpoming workout
   useEffect(() => {
     if (!clientId) return;
     fetch(
@@ -37,16 +37,39 @@ export const WorkoutSplitTable = () => {
     setVisibleHowTo((prev) => ({ ...prev, [id]: !prev[id] }));
   };
 
-  const downloadPDF = () => {
-    window.location.href = `https://connorsnowpt.onrender.com/api/workout-split/${clientId}/pdf`;
-  };
+  //ref jsPDF: https://www.npmjs.com/package/jspdf
+ const downloadPDF = () => {
+    const doc = new jsPDF();
 
+    doc.setFontSize(18);
+    doc.text("Workout Split", 105, 10, { align: "center" });
+
+    let content = "\n";
+    workouts.forEach((workout) => {
+      content += `${workout.upcoming_workout_split_name}\n`;
+      content += `${new Date(workout.upcoming_workout_date).toLocaleDateString()}\n`;
+
+      for (let i = 1; i <= 6; i++) {
+        const name = workout[`upcoming_workout_e_${i}_name`];
+        if (!name) continue;
+
+        const sets = workout[`upcoming_workout_e_${i}_sets`];
+        const reps = workout[`upcoming_workout_e_${i}_reps`];
+        content += `• ${name} - ${sets} sets x ${reps} reps\n`;
+      }
+
+      content += "\n";
+    });
+
+    doc.setFontSize(10);
+    doc.text(content, 10, 25);
+    doc.save("workout-split.pdf");
+  };
 
   if (loading) {
     return (
       <div className="px-4 py-4">
         <Skeleton height={100} />
-
         <div className="mt-4 grid grid-cols-3 gap-4 rounded-lg">
           {[...Array(3)].map((_, index) => (
             <Skeleton key={index} height={600} />
@@ -100,7 +123,10 @@ export const WorkoutSplitTable = () => {
         Your Week Workout Split
       </h1>
 
-      <button onClick={downloadPDF}>
+      <button
+        onClick={downloadPDF}
+        className="mb-4 rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
+      >
         Download PDF
       </button>
 
@@ -190,7 +216,6 @@ export const WorkoutSplitTable = () => {
         )}
       </div>
 
-      {/* Upcoming Workout Help AI */}
       <div className="mt-6 overflow-hidden rounded-lg bg-gray-50 shadow hover:scale-[1.02]">
         <div className="h-2 bg-gray-700" />
         <div className="bg-gray-900 p-4 text-white">
