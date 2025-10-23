@@ -1725,3 +1725,20 @@ app.delete("/api/delete-plan/:planId", async (req, res) => {
     res.status(500).json({ error: "Failed to delete plan" });
   }
 });
+
+//delete trainer todo
+app.get("/api/delete-trainer-todo/:id", async (req, res) => {
+  const todo_id = req.params.id;
+
+  if (!todo_id) {
+    return res.status(400).json({ error: "Todo ID is required" });
+  }
+
+  try {
+    await pool.query("DELETE FROM trainer_todo WHERE todo_id = ?", [todo_id]);
+    res.json({ message: "Todo deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting todo:", error);
+    res.status(500).json({ error: "Failed to delete todo" });
+  }
+});
