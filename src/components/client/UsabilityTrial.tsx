@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { X } from "lucide-react";
 
 export const UseabilityTrial = ({ onClose }) => {
-  const [rating, setRating] = useState(0);
   const [loading, setLoading] = useState(false);
 
   // Client fitness progression
@@ -11,13 +10,13 @@ export const UseabilityTrial = ({ onClose }) => {
   const [fitnessScale, setFitnessScale] = useState("");
 
   // Client usability
-  const [useabiltyScore, setUseabiltyScore] = useState("");
+  const [usabilityScore, setusabilityScore] = useState("");
   const [progressTracking, setProgressTracking] = useState("");
   const [fitnessProgressText, setFitnessProgressText] = useState("");
 
   // Motivation & Encouragement Hypothesis
   const [progressAnalyticsMotivation, setProgressAnalyticsMotivation] = useState("");
-  const [appUseabilty, setAppUseabilty] = useState("");
+  const [appusability, setAppusability] = useState("");
   const [aiAnalyticsThoughts, setAIAnalyticsThoughts] = useState("");
 
   const handleSubmit = async () => {
@@ -30,19 +29,18 @@ export const UseabilityTrial = ({ onClose }) => {
 
     try {
       const params = new URLSearchParams();
-      params.append("stars", String(rating));
       params.append("fitnessImproved", fitnessImproved);
       params.append("fitnessDetails", fitnessDetails);
       params.append("fitnessScale", fitnessScale);
-      params.append("useabiltyScore", useabiltyScore);
+      params.append("usabilityScore", usabilityScore);
       params.append("progressTracking", progressTracking);
       params.append("fitnessProgressText", fitnessProgressText);
       params.append("progressAnalyticsMotivation", progressAnalyticsMotivation);
-      params.append("appUseabilty", appUseabilty);
+      params.append("appusability", appusability);
       params.append("aiAnalyticsThoughts", aiAnalyticsThoughts);
 
       const response = await fetch(
-        "https://connorsnowpt.onrender.com/api/insert-client-review",
+        "https://connorsnowpt.onrender.com/api/insert-client-hypothesis",
         {
           method: "POST",
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -85,7 +83,7 @@ export const UseabilityTrial = ({ onClose }) => {
         </div>
 
         <p className="px-6 pt-3 text-sm italic text-gray-500">
-          Note: Your feedback will remain anonymous.
+          Note: Your feedback will remain anonymous. <br /> This will help your trainer understand areas of improvement for the website.
         </p>
 
         {/* Body */}
@@ -176,8 +174,8 @@ export const UseabilityTrial = ({ onClose }) => {
             </label>
             <select
               id="usabilityScore"
-              value={useabiltyScore}
-              onChange={(e) => setUseabiltyScore(e.target.value)}
+              value={usabilityScore}
+              onChange={(e) => setusabilityScore(e.target.value)}
               className="mt-2 w-full rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="">Select a Rating</option>
@@ -248,8 +246,8 @@ export const UseabilityTrial = ({ onClose }) => {
             </label>
             <select
               id="fitnessIncrease"
-              value={appUseabilty}
-              onChange={(e) => setAppUseabilty(e.target.value)}
+              value={appusability}
+              onChange={(e) => setAppusability(e.target.value)}
               className="mt-2 w-full rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="">Select a Rating</option>

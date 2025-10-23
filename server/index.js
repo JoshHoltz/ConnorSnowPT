@@ -731,6 +731,40 @@ app.post("/api/insert-user", async (req, res) => {
   res.send("Sucessfully inserted User");
 });
 
+// insert hypothesis client form
+app.use("/api/insert-client-hypothesis", express.urlencoded());
+
+app.post("/api/insert-client-hypothesis", async (req, res) => {
+  console.log('request to insert client hypothesis to db', req.body);
+
+  // client fitness progression
+  const fitnessImproved = req.body.fitnessImproved
+  const fitnessDetails = req.body.fitnessDetails
+  const fitnessScale = req.body.fitnessScale
+
+  // client usabilty 
+  const usabilityScore = req.body.usabilityScore
+  const progressTracking = req.body.progressTracking
+  const fitnessProgressText = req.body.fitnessProgressText
+
+  // Motivation & Encouragement Hypothesis
+  const progressAnalyticsMotivation = req.body.progressAnalyticsMotivation
+  const appusability = req.body.appusability
+  const aiAnalyticsThoughts = req.body.aiAnalyticsThoughts
+
+  if (!fitnessImproved || !fitnessScale || !usabilityScore || !progressTracking || !fitnessProgressText ||
+    !progressAnalyticsMotivation || !appusability || !aiAnalyticsThoughts
+    ) {
+      return res.status(400).json({ error: 'Please enter all fields required' });
+    }
+
+    const sql =
+    "INSERT INTO client_website_interactions (fitnessImproved, fitnessDetails, fitnessScale, usabilityScore, progressTracking, fitnessProgressText, progressAnalyticsMotivation, appusability, aiAnalyticsThoughts) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
+
+    await pool.query(sql, [fitnessImproved, fitnessDetails, fitnessScale, usabilityScore, progressTracking, fitnessProgressText, progressAnalyticsMotivation, appusability, aiAnalyticsThoughts])
+    res.json({ message: 'inserted into client_website_interactions' })
+})
+
 // insert client review
 app.use("/api/insert-client-review", express.urlencoded());
 
