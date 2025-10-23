@@ -12,6 +12,13 @@ export const UseabilityTrial = ({ onClose }) => {
 
   // Client usability
   const [useabiltyScore, setUseabiltyScore] = useState("");
+  const [progressTracking, setProgressTracking] = useState("");
+  const [fitnessProgressText, setFitnessProgressText] = useState("");
+
+  // Motivation & Encouragement Hypothesis
+  const [progressAnalyticsMotivation, setProgressAnalyticsMotivation] = useState("");
+  const [appUseabilty, setAppUseabilty] = useState("");
+  const [aiAnalyticsThoughts, setAIAnalyticsThoughts] = useState("");
 
   const handleSubmit = async () => {
     if (!rating) {
@@ -28,6 +35,11 @@ export const UseabilityTrial = ({ onClose }) => {
       params.append("fitnessDetails", fitnessDetails);
       params.append("fitnessScale", fitnessScale);
       params.append("useabiltyScore", useabiltyScore);
+      params.append("progressTracking", progressTracking);
+      params.append("fitnessProgressText", fitnessProgressText);
+      params.append("progressAnalyticsMotivation", progressAnalyticsMotivation);
+      params.append("appUseabilty", appUseabilty);
+      params.append("aiAnalyticsThoughts", aiAnalyticsThoughts);
 
       const response = await fetch(
         "https://connorsnowpt.onrender.com/api/insert-client-review",
@@ -95,12 +107,8 @@ export const UseabilityTrial = ({ onClose }) => {
               className="mt-2 w-full rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="">Select a Option</option>
-                <option>
-                  Yes
-                </option>
-                <option>
-                  No
-                </option>
+              <option>Yes</option>
+              <option>No</option>
             </select>
 
             {/* Q2 */}
@@ -185,91 +193,85 @@ export const UseabilityTrial = ({ onClose }) => {
             </label>
             <select
               id="usabilityScore"
-              value={useabiltyScore}
-              onChange={(e) => setUseabiltyScore(e.target.value)}
+              value={progressTracking}
+              onChange={(e) => setProgressTracking(e.target.value)}
               className="mt-2 w-full rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="">Select a Option</option>
-                <option>
-                  Strongly Disagree
-                </option>
-                <option>
-                  Disagree
-                </option>
-                <option>
-                  Agree
-                </option>
-                <option>
-                 Strongly Agree
-                </option>
+              <option>Strongly Disagree</option>
+              <option>Disagree</option>
+              <option>Agree</option>
+              <option>Strongly Agree</option>
             </select>
 
             <label htmlFor="" className="block font-medium text-gray-700 mt-2">Which parts of the app best support your fitness progress?</label>
-              <textarea
-                placeholder="Share your thoughts..."
-                className="mt-2 w-full rounded-lg border border-gray-300 p-3 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                rows={3}
-              />
-
+            <textarea
+              value={fitnessProgressText}
+              placeholder="Share your thoughts..."
+              className="mt-2 w-full rounded-lg border border-gray-300 p-3 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              rows={3}
+              onChange={(e) => setFitnessProgressText(e.target.value)}
+            />
           </section>
 
-                    {/* Motivation & Encouragement Hypothesis */}
+          {/* Motivation & Encouragement Hypothesis */}
           <section className="rounded-xl border border-gray-100 bg-gray-50/70 p-5 shadow-sm">
             <h1 className="mb-4 text-lg font-semibold text-gray-800">
               Motivation & Encouragement Hypothesis
             </h1>
 
-                       <label
-                htmlFor="fitnessIncrease"
-                className="block font-medium text-gray-700"
-              >
-                Do you feel after viewing your progress analytics and charts? (1-10)
-              </label>
-              <select
-                id="fitnessIncrease"
-                value={fitnessScale}
-                onChange={(e) => setFitnessScale(e.target.value)}
-                className="mt-2 w-full rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="">Select a Rating</option>
-                {[...Array(10)].map((_, i) => (
-                  <option key={i + 1} value={i + 1}>
-                    {i + 1}
-                  </option>
-                ))}
-              </select>
+            <label
+              htmlFor="fitnessIncrease"
+              className="block font-medium text-gray-700"
+            >
+              Do you feel motiviated after viewing your progress analytics and charts? (1-10)
+            </label>
+            <select
+              id="fitnessIncrease"
+              value={progressAnalyticsMotivation}
+              onChange={(e) => setProgressAnalyticsMotivation(e.target.value)}
+              className="mt-2 w-full rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="">Select a Rating</option>
+              {[...Array(10)].map((_, i) => (
+                <option key={i + 1} value={i + 1}>
+                  {i + 1}
+                </option>
+              ))}
+            </select>
 
-                                    <label
-                htmlFor="fitnessIncrease"
-                className="block font-medium text-gray-700"
-              >
-                How likely are you to keep using the app's features? (1-10)
-              </label>
-              <select
-                id="fitnessIncrease"
-                value={fitnessScale}
-                onChange={(e) => setFitnessScale(e.target.value)}
-                className="mt-2 w-full rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="">Select a Rating</option>
-                {[...Array(10)].map((_, i) => (
-                  <option key={i + 1} value={i + 1}>
-                    {i + 1}
-                  </option>
-                ))}
-              </select>
+            <label
+              htmlFor="fitnessIncrease"
+              className="block font-medium text-gray-700 mt-2"
+            >
+              How likely are you to keep using the app's features? (1-10)
+            </label>
+            <select
+              id="fitnessIncrease"
+              value={appUseabilty}
+              onChange={(e) => setAppUseabilty(e.target.value)}
+              className="mt-2 w-full rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="">Select a Rating</option>
+              {[...Array(10)].map((_, i) => (
+                <option key={i + 1} value={i + 1}>
+                  {i + 1}
+                </option>
+              ))}
+            </select>
 
-                  <label htmlFor="" className="block font-medium text-gray-700 mt-2">How do the AI analytics and visual graphs make you feel about your achivements?</label>
-              <textarea
-                placeholder="Share your thoughts..."
-                className="mt-2 w-full rounded-lg border border-gray-300 p-3 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                rows={3}
-              />
-
-            </section>
+            <label htmlFor="" className="block font-medium text-gray-700 mt-2">How do the AI analytics and visual graphs make you feel about your achivements?</label>
+            <textarea
+              value={aiAnalyticsThoughts}
+              placeholder="Share your thoughts..."
+              className="mt-2 w-full rounded-lg border border-gray-300 p-3 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              rows={3}
+              onChange={(e) => setAIAnalyticsThoughts(e.target.value)}
+            />
+          </section>
 
           {/* Submit */}
-            <button
+          <button
             onClick={handleSubmit}
             disabled={loading}
             className="w-full rounded-lg bg-blue-600 py-3 font-semibold text-white shadow-md transition-all duration-200 hover:bg-blue-700 hover:shadow-lg disabled:bg-gray-400"
