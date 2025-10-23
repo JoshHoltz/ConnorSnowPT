@@ -61,22 +61,22 @@ export const ToDo = () => {
 
         {/* ToDo mapping */}
         <div className="mt-4 space-y-2">
-          {todos.map((todo) => (
-            <div key={todo.id} className="flex w-full bg-slate-100 p-4 rounded-lg justify-between items-center hover:bg-slate-200 transition">
-              <h1>{todo.todo_item}</h1>
-              <button 
-                onClick={() => {
-                  fetch(`https://connorsnowpt.onrender.com/api/delete-trainer-todo/${todo.todo_id}`)
-                    .then(() => fetch("https://connorsnowpt.onrender.com/api/trainer-todo"))
-                    .then((res) => res.json())
-                    .then((data) => setTodos(data));
-                }}
-                className="text-red-500"
-              >
-                <Trash />
-              </button>
-            </div>
-          ))}
+        {todos.map((todo) => (
+          <div key={todo.todo_id} className="flex w-full bg-slate-100 p-4 rounded-lg justify-between items-center hover:bg-slate-200 transition">
+            <h1>{todo.todo_item}</h1>
+            <button 
+              onClick={() => {
+                fetch(`https://connorsnowpt.onrender.com/api/delete-trainer-todo/${todo.todo_id}`, { method: 'DELETE' })
+                  .then(() => fetch("https://connorsnowpt.onrender.com/api/trainer-todo"))
+                  .then((res) => res.json())
+                  .then((data) => setTodos(data));
+              }}
+              className="text-red-500"
+            >
+              <Trash />
+            </button>
+          </div>
+        ))}
         </div>
       </div>
     </>

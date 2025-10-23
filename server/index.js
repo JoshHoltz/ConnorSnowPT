@@ -1727,7 +1727,7 @@ app.delete("/api/delete-plan/:planId", async (req, res) => {
 });
 
 //delete trainer todo
-app.get("/api/delete-trainer-todo/:id", async (req, res) => {
+app.delete("/api/delete-trainer-todo/:id", async (req, res) => {
   const todo_id = req.params.id;
 
   if (!todo_id) {
