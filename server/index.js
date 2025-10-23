@@ -4,8 +4,6 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { pool } from "./db.js";
 
-import PDFDocument from 'pdfkit';
-
 import Stripe from 'stripe';
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
@@ -224,9 +222,10 @@ app.get("/api/workout-split/:id", async (req, res) => {
 });
 
 //Get a pdf download link for workouts
-// pdfkit docs REF: https://pdfkit.org/docs/getting_started.html
-// pdf kit setHeader REF: https://stackoverflow.com/questions/60488444/creating-pdf-with-pdfkit-no-save-options
-// pdf text styles REF: https://pdfkit.org/docs/text.html
+// html-pdf docs: REF: https://github.com/marcbachmann/node-html-pdf
+// pdf.create REF: https://www.npmjs.com/package/html-pdf?activeTab=readme
+const pdf = require('html-pdf');
+
 app.get("/api/workout-split/:id/pdf", async (req, res) => {
   const clientId = req.params.id;
   try {
@@ -235,27 +234,59 @@ app.get("/api/workout-split/:id/pdf", async (req, res) => {
       [clientId],
     );
 
-    const doc = new PDFDocument();
+    // html build
+    let htmlContent = `
+      <html>
+        <head>
+          <style>
+            body { font-family: Arial, sans-serif; margin: 20px; }
+            h1 { text-align: center; font-size: 24px; margin-bottom: 20px; }
+            .workout-item { margin-bottom: 15px; padding: 10px; border-bottom: 1px solid #ccc; }
+            .date { font-weight: bold; }
+            .exercise { margin-top: 5px; }
+          </style>
+        </head>
+        <body>
+          <h1>Workout Split</h1>
+    `;
+
+    // loop through workouts
+    rows.forEach(workout => {
+      htmlContent += `
+        <div class="workout-item">
+          <div class="date">Date: ${workout.upcoming_workout_date}</div>
+          <div class="exercise">Exercise: ${workout.exercise_name}</div>
+        </div>
+      `;
+    });
+
+    //end html
+    htmlContent += `
+        </body>
+      </html>
+    `;
+
+    // options set 
+    const options = {
+      format: 'Letter',
+      orientation: 'portrait',
+      type: 'application/pdf',
+    };
 
     res.setHeader('Content-type', 'application/pdf');
     res.setHeader('Content-Disposition', 'attachment; filename="workout-split.pdf"');
 
-    doc.pipe(res);
 
-    doc.font(20).text('Workout Split', { align: 'center' });
-    doc.moveDown();
-
-    rows.forEach(workout => {
-      doc.fontSize(12).text(`Date: ${workout.upcoming_workout_date}`);
-      doc.text(`Exercise: ${workout.exercise_name}`);
-      doc.moveDown(0.5);
+    pdf.create(htmlContent, options).toStream((err, stream) => {
+      if (err) {
+        console.error(`Error generating PDF for client ${clientId}:`, err);
+        return res.status(500).json({
+          error: "Failed to generate PDF",
+          details: err.message,
+        });
+      }
+      stream.pipe(res);
     });
-
-    doc.on('end', () => { //trying to fix hangtime errors
-      res.end();
-    });
-
-    doc.end();
   } catch (err) {
     console.error(`Error on /workout-split/${clientId}/pdf:`, err);
     res.status(500).json({
