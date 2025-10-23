@@ -3,6 +3,7 @@ import { X } from "lucide-react";
 
 export const UseabilityTrial = ({ onClose }) => {
   const [loading, setLoading] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   // Client fitness progression
   const [fitnessImproved, setFitnessImproved] = useState("");
@@ -10,7 +11,7 @@ export const UseabilityTrial = ({ onClose }) => {
   const [fitnessScale, setFitnessScale] = useState("");
 
   // Client usability
-  const [usabilityScore, setusabilityScore] = useState("");
+  const [usabilityScore, setUsabilityScore] = useState("");
   const [progressTracking, setProgressTracking] = useState("");
   const [fitnessProgressText, setFitnessProgressText] = useState("");
 
@@ -20,7 +21,8 @@ export const UseabilityTrial = ({ onClose }) => {
   const [aiAnalyticsThoughts, setAIAnalyticsThoughts] = useState("");
 
   const handleSubmit = async () => {
-    if (!rating) {
+    if (!fitnessImproved || !fitnessScale || !usabilityScore || !progressTracking || !fitnessProgressText ||
+        !progressAnalyticsMotivation || !appusability || !aiAnalyticsThoughts) {
       alert("Please fill in all required fields");
       return;
     }
@@ -49,8 +51,10 @@ export const UseabilityTrial = ({ onClose }) => {
       );
 
       if (response.ok) {
-        alert("Review submitted successfully!");
-        onClose();
+        setShowSuccess(true);
+        setTimeout(() => {
+          onClose();
+        }, 2000);
       } else {
         const data = await response.json();
         alert(data.error || "Failed to submit review");
@@ -64,8 +68,8 @@ export const UseabilityTrial = ({ onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 bg-black/50">
-      <div className="w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl bg-white shadow-2xl transition-all duration-300">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4" onClick={onClose}>
+      <div className="w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl bg-white shadow-2xl transition-all duration-300" onClick={(e) => e.stopPropagation()}>
         {/* Header */}
         <div className="flex items-center justify-between border-b border-gray-200 bg-gray-50 px-6 py-4">
           <div>
@@ -175,7 +179,7 @@ export const UseabilityTrial = ({ onClose }) => {
             <select
               id="usabilityScore"
               value={usabilityScore}
-              onChange={(e) => setusabilityScore(e.target.value)}
+              onChange={(e) => setUsabilityScore(e.target.value)}
               className="mt-2 w-full rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="">Select a Rating</option>
@@ -278,6 +282,11 @@ export const UseabilityTrial = ({ onClose }) => {
           </button>
         </div>
       </div>
-    </div>
+      {showSuccess && (
+        <div className="fixed top-4 right-4 bg-green-500/80 text-white px-6 py-3 rounded-lg shadow-lg">
+          ✓ Form Submitted Successfully!
+        </div>
+      )}
+      </div>
   );
 };

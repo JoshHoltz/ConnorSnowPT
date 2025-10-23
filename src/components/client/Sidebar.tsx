@@ -114,7 +114,7 @@ export const Sidebar = () => {
       {showUsabilityTrials && (
         <>
           {console.log("Usabilty review screen pressed")}
-          <UseabilityTrial onClose={() => setReviewScreen(false)} />
+          <UseabilityTrial onClose={() => setShowUsabilityTrials(false)} />
         </>
       )}
 
