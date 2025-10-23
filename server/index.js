@@ -708,6 +708,26 @@ app.get("/api/stripe-six-monthly-sales", async (req, res) => {
 // REF (Status Messages): https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status
 // REF (Routing Guide): https://expressjs.com/en/guide/routing.html
 
+// inseert admin to do
+app.use('/api/insert-todo', express.urlencoded());
+
+app.post('/api/insert-todo', async (req, res) => {
+  console.log('Request to insert admin todo', req.body);
+
+  const todo = req.body.todo;
+
+  if (!todo) {
+    return res.status(400).json({error: 'All fields required'})
+  }
+
+  const sql =
+    "INSERT INTO trainer_todo (todo_item) VALUES (?)";
+
+  const result = await pool.query(sql, [todo]);
+  res.send('Successfully inserted')
+
+})
+
 app.use("/api/insert-user", express.urlencoded());
 
 app.post("/api/insert-user", async (req, res) => {

@@ -5,12 +5,29 @@ import { Trash } from 'lucide-react';
 
 export const ToDo = () => {
   const [todos, setTodos] = useState([]);
+  const [insertToDo, setInsertToDo] = useState('')
 
   useEffect(() => {
     fetch("https://connorsnowpt.onrender.com/api/trainer-todo")
       .then((res) => res.json())
       .then((data) => setTodos(data));
   }, []);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const formData = new URLSearchParams();
+    formData.append('todo', insertToDo);
+    
+    fetch("https://connorsnowpt.onrender.com/api/insert-todo", {
+      method: 'POST',
+      body: formData
+    }).then(() => {
+      setInsertToDo('');
+      fetch("https://connorsnowpt.onrender.com/api/trainer-todo") //refresh a new api call
+        .then((res) => res.json())
+        .then((data) => setTodos(data));
+    });
+  };
 
   return (
     <>
@@ -24,21 +41,23 @@ export const ToDo = () => {
         </div>
 
         {/* Input of todo and add button */}
-        <div className="flex w-full gap-4">
+        <form onSubmit={handleSubmit} className="flex w-full gap-4">
           <div className="w-2/3">
             <input
               type="text"
               className="w-full rounded-lg border border-blue-600 bg-slate-100 p-2"
               placeholder="Enter To-Do"
+              value={insertToDo}
+              onChange={(e) => setInsertToDo(e.target.value)}
             />
           </div>
           <div className="w-1/3 rounded-lg border border-blue-300 bg-blue-300 p-2 transition hover:bg-blue-400">
-            <button className="flex w-full items-center justify-center gap-2">
+            <button type="submit" className="flex w-full items-center justify-center gap-2">
               <CirclePlus size={20} />
               Add
             </button>
           </div>
-        </div>
+        </form>
 
         {/* ToDo mapping */}
         <div className="mt-4 space-y-2">
