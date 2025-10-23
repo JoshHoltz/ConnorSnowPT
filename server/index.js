@@ -721,7 +721,7 @@ app.post('/api/insert-todo', async (req, res) => {
   }
 
   const sql =
-    "INSERT INTO trainer_todo (todo_item) VALUES (?)";
+    "INSERT INTO trainer_todo (todo_item, todo_date) VALUES (?, NOW())";
 
   const result = await pool.query(sql, [todo]);
   res.send('Successfully inserted')
