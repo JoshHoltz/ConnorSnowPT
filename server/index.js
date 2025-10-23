@@ -4,6 +4,8 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { pool } from "./db.js";
 
+import pdf from 'html-pdf';
+
 import Stripe from 'stripe';
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
@@ -224,8 +226,6 @@ app.get("/api/workout-split/:id", async (req, res) => {
 //Get a pdf download link for workouts
 // html-pdf docs: REF: https://github.com/marcbachmann/node-html-pdf
 // pdf.create REF: https://www.npmjs.com/package/html-pdf?activeTab=readme
-const pdf = require('html-pdf');
-
 app.get("/api/workout-split/:id/pdf", async (req, res) => {
   const clientId = req.params.id;
   try {
