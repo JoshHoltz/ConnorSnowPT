@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { ReviewTrainer } from "./reviewTrainer";
+import { UseabilityTrial } from "./UsabilityTrial";
 import { Link } from "react-router-dom";
-import { Star } from 'lucide-react';
+import { Star, NotepadText } from 'lucide-react';
 
 import {
   MenuIcon,
@@ -19,6 +20,7 @@ import {
 export const Sidebar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showReviewScreen, setReviewScreen] = useState(false);
+  const [showUsabilityTrials, setShowUsabilityTrials] = useState(false);
 
   return (
     <>
@@ -76,6 +78,13 @@ export const Sidebar = () => {
             <ul className="mb-4 flex list-none flex-col gap-2 px-4">
               <li>
                 <NavButton
+                  onClick={() => setShowUsabilityTrials(true)}
+                  icon={<NotepadText />}
+                  text="Site Feedback"
+                />
+              </li>
+              <li>
+                <NavButton
                   onClick={() => setReviewScreen(true)}
                   icon={<Star />}
                   text="Leave Review"
@@ -98,6 +107,14 @@ export const Sidebar = () => {
         <>
           {console.log("review screen pressed")}
           <ReviewTrainer onClose={() => setReviewScreen(false)} />
+        </>
+      )}
+
+      {/* useabilty screen feedback */}
+      {showUsabilityTrials && (
+        <>
+          {console.log("Usabilty review screen pressed")}
+          <UseabilityTrial onClose={() => setReviewScreen(false)} />
         </>
       )}
 
