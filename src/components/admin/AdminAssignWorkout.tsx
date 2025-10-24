@@ -1,7 +1,26 @@
 import React, { useState, useEffect } from "react";
 
 export const AdminAssignWorkout = ({ clientId }) => {
-  const [workouts, setWorkouts] = useState([]);
+  const [workouts, setWorkouts] = useState([
+    {
+      upcoming_workout_split_name: "",
+      upcoming_workout_date: new Date().toISOString().split("T")[0],
+      idupcoming_workouts: null,
+      exercises: [],
+    },
+    {
+      upcoming_workout_split_name: "",
+      upcoming_workout_date: new Date().toISOString().split("T")[0],
+      idupcoming_workouts: null,
+      exercises: [],
+    },
+    {
+      upcoming_workout_split_name: "",
+      upcoming_workout_date: new Date().toISOString().split("T")[0],
+      idupcoming_workouts: null,
+      exercises: [],
+    },
+  ]);
   const [showSuccess, setShowSuccess] = useState(false);
 
   useEffect(() => {
@@ -10,14 +29,25 @@ export const AdminAssignWorkout = ({ clientId }) => {
     fetch(`https://connorsnowpt.onrender.com/api/workout-split/${clientId}`)
       .then((res) => res.json())
       .then((data) => {
-        // Data now comes as: { exercises: [{name, sets, reps, howTo}, ...], ...metadata }
-        const mapped = (data || []).map((w) => ({
-          ...w,
-          exercises: w.exercises || [],
-        }));
-        setWorkouts(mapped);
+        if (data && data.length > 0) {
+          const mapped = data.map((w) => ({
+            ...w,
+            exercises: w.exercises || [],
+          }));
+          while (mapped.length < 3) {
+            mapped.push({
+              upcoming_workout_split_name: "",
+              upcoming_workout_date: new Date().toISOString().split("T")[0],
+              idupcoming_workouts: null,
+              exercises: [],
+            });
+          }
+          setWorkouts(mapped);
+        }
       })
-      .catch(() => setWorkouts([]));
+      .catch(() => {
+        // Keep default 3 empty workouts
+      });
   }, [clientId]);
 
   const handleAddExercise = (dayIndex) => {
@@ -40,6 +70,12 @@ export const AdminAssignWorkout = ({ clientId }) => {
   const handleExerciseChange = (dayIndex, exIndex, field, value) => {
     const updated = [...workouts];
     updated[dayIndex].exercises[exIndex][field] = value;
+    setWorkouts(updated);
+  };
+
+  const handleWorkoutFieldChange = (dayIndex, field, value) => {
+    const updated = [...workouts];
+    updated[dayIndex][field] = value;
     setWorkouts(updated);
   };
 
@@ -73,21 +109,10 @@ export const AdminAssignWorkout = ({ clientId }) => {
 
   if (!clientId) return <p className="text-red-500">Loading client ID...</p>;
 
-  const emptyDayWorkout = {
-    upcoming_workout_split_name: "",
-    upcoming_workout_date: "",
-    idupcoming_workouts: null,
-    exercises: [],
-  };
-
-  const completeWorkouts = [0, 1, 2].map(
-    (i) => workouts[i] || { ...emptyDayWorkout }
-  );
-
   return (
     <div className="w-full px-4 py-4">
       <div className="gap-6 md:flex md:flex-wrap">
-        {completeWorkouts.map((workout, dayIndex) => (
+        {workouts.map((workout, dayIndex) => (
           <form
             key={dayIndex}
             onSubmit={(e) => handleSubmit(e, dayIndex)}
@@ -98,25 +123,26 @@ export const AdminAssignWorkout = ({ clientId }) => {
             <div className="bg-gray-900 p-6 text-white">
               <input
                 value={workout.upcoming_workout_split_name}
-                onChange={(e) => {
-                  const updated = [...workouts];
-                  updated[dayIndex].upcoming_workout_split_name = e.target.value;
-                  setWorkouts(updated);
-                }}
+                onChange={(e) =>
+                  handleWorkoutFieldChange(
+                    dayIndex,
+                    "upcoming_workout_split_name",
+                    e.target.value
+                  )
+                }
                 placeholder={`Workout Name Day ${dayIndex + 1}`}
                 className="w-full bg-transparent text-xl font-bold text-white placeholder-slate-400 focus:outline-none mb-3"
               />
               <input
                 type="date"
-                value={
-                  workout.upcoming_workout_date ||
-                  new Date().toISOString().split("T")[0]
+                value={workout.upcoming_workout_date}
+                onChange={(e) =>
+                  handleWorkoutFieldChange(
+                    dayIndex,
+                    "upcoming_workout_date",
+                    e.target.value
+                  )
                 }
-                onChange={(e) => {
-                  const updated = [...workouts];
-                  updated[dayIndex].upcoming_workout_date = e.target.value;
-                  setWorkouts(updated);
-                }}
                 className="w-full bg-slate-800 text-white text-sm rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
