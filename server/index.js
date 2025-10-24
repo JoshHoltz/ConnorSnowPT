@@ -210,10 +210,18 @@ app.get("/api/workout-split/:id", async (req, res) => {
   const clientId = req.params.id;
   try {
     const [rows] = await pool.query(
-      "SELECT * FROM upcoming_workouts WHERE client_id = ? ORDER BY upcoming_workout_date DESC LIMIT 3",
-      [clientId],
+      "SELECT idupcoming_workouts, upcoming_workout_split_name, upcoming_workout_date, exercises_json FROM upcoming_workouts WHERE client_id = ? ORDER BY upcoming_workout_date DESC LIMIT 3",
+      [clientId]
     );
-    res.json(rows);
+    
+    const workouts = rows.map((row) => ({
+      idupcoming_workouts: row.idupcoming_workouts,
+      upcoming_workout_split_name: row.upcoming_workout_split_name,
+      upcoming_workout_date: row.upcoming_workout_date,
+      exercises: JSON.parse(row.exercises_json || "[]"),
+    }));
+    
+    res.json(workouts);
   } catch (err) {
     console.error(`Error on /workout-split/${clientId}:`, err);
     res.status(500).json({
@@ -222,6 +230,7 @@ app.get("/api/workout-split/:id", async (req, res) => {
     });
   }
 });
+
 
 //Get a pdf download link for workouts
 //Get a pdf download link for workouts
@@ -1056,143 +1065,40 @@ app.post("/api/insert-a-client-split", async (req, res) => {
     };
 
     const exercises = req.body.exercises || [];
-
-    const mapIndexToSuffix = ["one", "two", "three", "four", "five", "six"];
-
-    for (let i = 0; i < 6; i++) {
-      const ex = exercises[i] || {};
-      const suffix = mapIndexToSuffix[i];
-      workout[`upcoming_workout_e_${suffix}_name`] = ex.name || "";
-      workout[`upcoming_workout_e_${suffix}_sets`] = ex.sets || "";
-      workout[`upcoming_workout_e_${suffix}_reps`] = ex.reps || "";
-      workout[`upcoming_workout_e_${suffix}_how_to`] = ex.howTo || "";
-    }
+    
+    workout.exercises_json = JSON.stringify(exercises);
 
     console.log("Request body:", req.body);
     console.log("Workout object:", workout);
 
     if (workout.idupcoming_workouts) {
-      // Update existing workout
       await pool.query(
         `UPDATE upcoming_workouts SET
           upcoming_workout_split_name = ?,
           upcoming_workout_date = ?,
-          upcoming_workout_e_one_name = ?,
-          upcoming_workout_e_one_sets = ?,
-          upcoming_workout_e_one_reps = ?,
-          upcoming_workout_e_one_how_to = ?,
-          upcoming_workout_e_two_name = ?,
-          upcoming_workout_e_two_sets = ?,
-          upcoming_workout_e_two_reps = ?,
-          upcoming_workout_e_two_how_to = ?,
-          upcoming_workout_e_three_name = ?,
-          upcoming_workout_e_three_sets = ?,
-          upcoming_workout_e_three_reps = ?,
-          upcoming_workout_e_three_how_to = ?,
-          upcoming_workout_e_four_name = ?,
-          upcoming_workout_e_four_sets = ?,
-          upcoming_workout_e_four_reps = ?,
-          upcoming_workout_e_four_how_to = ?,
-          upcoming_workout_e_five_name = ?,
-          upcoming_workout_e_five_sets = ?,
-          upcoming_workout_e_five_reps = ?,
-          upcoming_workout_e_five_how_to = ?,
-          upcoming_workout_e_six_name = ?,
-          upcoming_workout_e_six_sets = ?,
-          upcoming_workout_e_six_reps = ?,
-          upcoming_workout_e_six_how_to = ?
+          exercises_json = ?
         WHERE idupcoming_workouts = ?`,
         [
           workout.upcoming_workout_split_name,
           workout.upcoming_workout_date,
-          workout.upcoming_workout_e_one_name,
-          workout.upcoming_workout_e_one_sets,
-          workout.upcoming_workout_e_one_reps,
-          workout.upcoming_workout_e_one_how_to,
-          workout.upcoming_workout_e_two_name,
-          workout.upcoming_workout_e_two_sets,
-          workout.upcoming_workout_e_two_reps,
-          workout.upcoming_workout_e_two_how_to,
-          workout.upcoming_workout_e_three_name,
-          workout.upcoming_workout_e_three_sets,
-          workout.upcoming_workout_e_three_reps,
-          workout.upcoming_workout_e_three_how_to,
-          workout.upcoming_workout_e_four_name,
-          workout.upcoming_workout_e_four_sets,
-          workout.upcoming_workout_e_four_reps,
-          workout.upcoming_workout_e_four_how_to,
-          workout.upcoming_workout_e_five_name,
-          workout.upcoming_workout_e_five_sets,
-          workout.upcoming_workout_e_five_reps,
-          workout.upcoming_workout_e_five_how_to,
-          workout.upcoming_workout_e_six_name,
-          workout.upcoming_workout_e_six_sets,
-          workout.upcoming_workout_e_six_reps,
-          workout.upcoming_workout_e_six_how_to,
+          workout.exercises_json,
           workout.idupcoming_workouts,
-        ],
+        ]
       );
     } else {
-      // Insert new workout
       await pool.query(
         `INSERT INTO upcoming_workouts (
           client_id,
           upcoming_workout_split_name,
           upcoming_workout_date,
-          upcoming_workout_e_one_name,
-          upcoming_workout_e_one_sets,
-          upcoming_workout_e_one_reps,
-          upcoming_workout_e_one_how_to,
-          upcoming_workout_e_two_name,
-          upcoming_workout_e_two_sets,
-          upcoming_workout_e_two_reps,
-          upcoming_workout_e_two_how_to,
-          upcoming_workout_e_three_name,
-          upcoming_workout_e_three_sets,
-          upcoming_workout_e_three_reps,
-          upcoming_workout_e_three_how_to,
-          upcoming_workout_e_four_name,
-          upcoming_workout_e_four_sets,
-          upcoming_workout_e_four_reps,
-          upcoming_workout_e_four_how_to,
-          upcoming_workout_e_five_name,
-          upcoming_workout_e_five_sets,
-          upcoming_workout_e_five_reps,
-          upcoming_workout_e_five_how_to,
-          upcoming_workout_e_six_name,
-          upcoming_workout_e_six_sets,
-          upcoming_workout_e_six_reps,
-          upcoming_workout_e_six_how_to
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+          exercises_json
+        ) VALUES (?, ?, ?, ?)`,
         [
           clientId,
           workout.upcoming_workout_split_name,
           workout.upcoming_workout_date,
-          workout.upcoming_workout_e_one_name,
-          workout.upcoming_workout_e_one_sets,
-          workout.upcoming_workout_e_one_reps,
-          workout.upcoming_workout_e_one_how_to,
-          workout.upcoming_workout_e_two_name,
-          workout.upcoming_workout_e_two_sets,
-          workout.upcoming_workout_e_two_reps,
-          workout.upcoming_workout_e_two_how_to,
-          workout.upcoming_workout_e_three_name,
-          workout.upcoming_workout_e_three_sets,
-          workout.upcoming_workout_e_three_reps,
-          workout.upcoming_workout_e_three_how_to,
-          workout.upcoming_workout_e_four_name,
-          workout.upcoming_workout_e_four_sets,
-          workout.upcoming_workout_e_four_reps,
-          workout.upcoming_workout_e_four_how_to,
-          workout.upcoming_workout_e_five_name,
-          workout.upcoming_workout_e_five_sets,
-          workout.upcoming_workout_e_five_reps,
-          workout.upcoming_workout_e_five_how_to,
-          workout.upcoming_workout_e_six_name,
-          workout.upcoming_workout_e_six_sets,
-          workout.upcoming_workout_e_six_reps,
-          workout.upcoming_workout_e_six_how_to,
-        ],
+          workout.exercises_json,
+        ]
       );
     }
     res.json({ success: true });

@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
-import Select from "react-select";
 
 export const AdminAssignWorkout = ({ clientId }) => {
   const [workouts, setWorkouts] = useState([]);
-  const [options, setOptions] = useState([]);
   const [showSuccess, setShowSuccess] = useState(false);
 
   useEffect(() => {
@@ -12,56 +10,58 @@ export const AdminAssignWorkout = ({ clientId }) => {
     fetch(`https://connorsnowpt.onrender.com/api/workout-split/${clientId}`)
       .then((res) => res.json())
       .then((data) => {
-        const fields = ["one", "two", "three", "four", "five", "six"];
+        // Data now comes as: { exercises: [{name, sets, reps, howTo}, ...], ...metadata }
         const mapped = (data || []).map((w) => ({
           ...w,
-          exercises: fields.map((n) => ({
-            name: w[`upcoming_workout_e_${n}_name`] || "",
-            sets: w[`upcoming_workout_e_${n}_sets`] || "",
-            reps: w[`upcoming_workout_e_${n}_reps`] || "",
-            howTo: w[`upcoming_workout_e_${n}_how_to`] || "",
-          })),
+          exercises: w.exercises || [],
         }));
         setWorkouts(mapped);
       })
       .catch(() => setWorkouts([]));
   }, [clientId]);
 
-  // get all exercises
-  useEffect(() => {
-    fetch("https://connorsnowpt.onrender.com/api/exercises")
-      .then((res) => res.json())
-      .then((data) => {
-        const options = data.map((exercise) => ({
-          value: exercise.exercise_name,
-          label: exercise.exercise_name,
-        }));
-        setOptions(options);
-      })
-      .catch(() => setOptions([]));
-  }, []);
+  const handleAddExercise = (dayIndex) => {
+    const updated = [...workouts];
+    updated[dayIndex].exercises.push({
+      name: "",
+      sets: "",
+      reps: "",
+      howTo: "",
+    });
+    setWorkouts(updated);
+  };
 
-  const handleSubmit = async (e) => {
+  const handleRemoveExercise = (dayIndex, exIndex) => {
+    const updated = [...workouts];
+    updated[dayIndex].exercises.splice(exIndex, 1);
+    setWorkouts(updated);
+  };
+
+  const handleExerciseChange = (dayIndex, exIndex, field, value) => {
+    const updated = [...workouts];
+    updated[dayIndex].exercises[exIndex][field] = value;
+    setWorkouts(updated);
+  };
+
+  const handleSubmit = async (e, dayIndex) => {
     e.preventDefault();
-    const formData = new FormData(e.target);
-    const plainData = Object.fromEntries(formData.entries());
-    plainData.exercises = [];
+    const workout = workouts[dayIndex];
 
-    for (let i = 0; i < 6; i++) {
-      plainData.exercises.push({
-        name: formData.get(`exercises[${i}][name]`),
-        sets: formData.get(`exercises[${i}][sets]`),
-        reps: formData.get(`exercises[${i}][reps]`),
-        howTo: formData.get(`exercises[${i}][howTo]`),
-      });
-    }
+    const payload = {
+      client_id: clientId,
+      day: dayIndex + 1,
+      upcoming_workout_split_name: workout.upcoming_workout_split_name,
+      upcoming_workout_date: workout.upcoming_workout_date,
+      idupcoming_workouts: workout.idupcoming_workouts || null,
+      exercises: workout.exercises,
+    };
 
     const response = await fetch(
       "https://connorsnowpt.onrender.com/api/insert-a-client-split",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(plainData),
+        body: JSON.stringify(payload),
       }
     );
 
@@ -77,7 +77,7 @@ export const AdminAssignWorkout = ({ clientId }) => {
     upcoming_workout_split_name: "",
     upcoming_workout_date: "",
     idupcoming_workouts: null,
-    exercises: Array(6).fill({ name: "", sets: "", reps: "", howTo: "" }),
+    exercises: [],
   };
 
   const completeWorkouts = [0, 1, 2].map(
@@ -90,43 +90,37 @@ export const AdminAssignWorkout = ({ clientId }) => {
         {completeWorkouts.map((workout, dayIndex) => (
           <form
             key={dayIndex}
-            onSubmit={handleSubmit}
+            onSubmit={(e) => handleSubmit(e, dayIndex)}
             className="mb-6 w-full overflow-hidden rounded-xl bg-white shadow-lg border border-slate-100 md:w-[32%]"
           >
-            {/* Header Gradient */}
-            <div className="relative h-2 overflow-hidden rounded-t-lg bg-gradient-to-r from-gray-700 to-gray-600 text-white shadow-sm" />
+            <div className="relative h-2 overflow-hidden rounded-t-lg bg-gradient-to-r from-gray-700 to-gray-600" />
 
-            {/* Card Header */}
             <div className="bg-gray-900 p-6 text-white">
               <input
-                name="upcoming_workout_split_name"
-                defaultValue={workout.upcoming_workout_split_name}
+                value={workout.upcoming_workout_split_name}
+                onChange={(e) => {
+                  const updated = [...workouts];
+                  updated[dayIndex].upcoming_workout_split_name = e.target.value;
+                  setWorkouts(updated);
+                }}
                 placeholder={`Workout Name Day ${dayIndex + 1}`}
                 className="w-full bg-transparent text-xl font-bold text-white placeholder-slate-400 focus:outline-none mb-3"
               />
               <input
-                name="upcoming_workout_date"
                 type="date"
-                defaultValue={
+                value={
                   workout.upcoming_workout_date ||
                   new Date().toISOString().split("T")[0]
                 }
+                onChange={(e) => {
+                  const updated = [...workouts];
+                  updated[dayIndex].upcoming_workout_date = e.target.value;
+                  setWorkouts(updated);
+                }}
                 className="w-full bg-slate-800 text-white text-sm rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
 
-            {/* Hidden Fields */}
-            {workout.idupcoming_workouts && (
-              <input
-                type="hidden"
-                name="idupcoming_workouts"
-                value={workout.idupcoming_workouts}
-              />
-            )}
-            <input type="hidden" name="client_id" value={clientId} />
-            <input type="hidden" name="day" value={dayIndex + 1} />
-
-            {/* Exercises Table */}
             <div className="overflow-x-auto">
               <table className="w-full table-auto text-left text-sm">
                 <thead>
@@ -143,6 +137,9 @@ export const AdminAssignWorkout = ({ clientId }) => {
                     <th className="px-4 py-3 font-semibold text-slate-700">
                       How To
                     </th>
+                    <th className="px-4 py-3 font-semibold text-slate-700">
+                      Action
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="text-slate-700">
@@ -153,35 +150,74 @@ export const AdminAssignWorkout = ({ clientId }) => {
                     >
                       <td className="px-4 py-3">
                         <input
-                          name={`exercises[${exIndex}][name]`}
-                          defaultValue={ex.name}
+                          value={ex.name}
+                          onChange={(e) =>
+                            handleExerciseChange(
+                              dayIndex,
+                              exIndex,
+                              "name",
+                              e.target.value
+                            )
+                          }
                           placeholder="Exercise name"
-                          className="w-full rounded-lg border border-slate-300 px-3 py-2 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-50"
+                          className="w-full rounded-lg border border-slate-300 px-3 py-2 focus:outline-none focus:border-blue-500"
                         />
                       </td>
                       <td className="px-4 py-3">
                         <input
-                          name={`exercises[${exIndex}][sets]`}
-                          defaultValue={ex.sets}
+                          value={ex.sets}
+                          onChange={(e) =>
+                            handleExerciseChange(
+                              dayIndex,
+                              exIndex,
+                              "sets",
+                              e.target.value
+                            )
+                          }
                           placeholder="Sets"
-                          className="w-full rounded-lg border border-slate-300 px-3 py-2 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-50"
+                          className="w-full rounded-lg border border-slate-300 px-3 py-2 focus:outline-none focus:border-blue-500"
                         />
                       </td>
                       <td className="px-4 py-3">
                         <input
-                          name={`exercises[${exIndex}][reps]`}
-                          defaultValue={ex.reps}
+                          value={ex.reps}
+                          onChange={(e) =>
+                            handleExerciseChange(
+                              dayIndex,
+                              exIndex,
+                              "reps",
+                              e.target.value
+                            )
+                          }
                           placeholder="Reps"
-                          className="w-full rounded-lg border border-slate-300 px-3 py-2 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-50"
+                          className="w-full rounded-lg border border-slate-300 px-3 py-2 focus:outline-none focus:border-blue-500"
                         />
                       </td>
                       <td className="px-4 py-3">
                         <input
-                          name={`exercises[${exIndex}][howTo]`}
-                          defaultValue={ex.howTo}
+                          value={ex.howTo}
+                          onChange={(e) =>
+                            handleExerciseChange(
+                              dayIndex,
+                              exIndex,
+                              "howTo",
+                              e.target.value
+                            )
+                          }
                           placeholder="Video URL"
-                          className="w-full rounded-lg border border-slate-300 px-3 py-2 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-50"
+                          className="w-full rounded-lg border border-slate-300 px-3 py-2 focus:outline-none focus:border-blue-500"
                         />
+                      </td>
+                      <td className="px-4 py-3">
+                        <button
+                          type="button"
+                          onClick={() =>
+                            handleRemoveExercise(dayIndex, exIndex)
+                          }
+                          className="text-red-500 hover:text-red-700 font-semibold"
+                        >
+                          Remove
+                        </button>
                       </td>
                     </tr>
                   ))}
@@ -189,11 +225,17 @@ export const AdminAssignWorkout = ({ clientId }) => {
               </table>
             </div>
 
-            {/* Submit Button */}
-            <div className="p-6 border-t border-slate-200">
+            <div className="p-6 border-t border-slate-200 space-y-3">
+              <button
+                type="button"
+                onClick={() => handleAddExercise(dayIndex)}
+                className="w-full bg-gray-500 hover:bg-gray-600 text-white font-semibold px-6 py-2 rounded-lg transition"
+              >
+                + Add Exercise
+              </button>
               <button
                 type="submit"
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg transition duration-200 shadow-md hover:shadow-lg"
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg transition"
               >
                 Save Workout Day {dayIndex + 1}
               </button>
