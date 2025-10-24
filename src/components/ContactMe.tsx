@@ -13,7 +13,7 @@ export const ContactMe = () => {
             <Mail />
             <span className="ml-2 text-lg font-bold">Email:</span>
           </div>
-          <p className="ml-8">contact@cspt.com</p>
+          <p className="ml-8">connor@connorsnowpt.com</p>
 
           <div className="mt-6 flex items-center">
             <Instagram />
