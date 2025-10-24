@@ -41,12 +41,10 @@ export const WorkoutSplitTable = () => {
     window.location.href = `https://connorsnowpt.onrender.com/api/workout-split/${clientId}/pdf`;
   };
 
-
   if (loading) {
     return (
       <div className="px-4 py-4">
         <Skeleton height={100} />
-
         <div className="mt-4 grid grid-cols-3 gap-4 rounded-lg">
           {[...Array(3)].map((_, index) => (
             <Skeleton key={index} height={600} />
@@ -135,54 +133,25 @@ export const WorkoutSplitTable = () => {
                   </tr>
                 </thead>
                 <tbody className="text-sm text-gray-800">
-                  {workout.upcoming_workout_e_one_name &&
-                    renderExerciseRow(
-                      workout.upcoming_workout_e_one_name,
-                      workout.upcoming_workout_e_one_sets,
-                      workout.upcoming_workout_e_one_reps,
-                      workout.upcoming_workout_e_one_how_to,
-                      `${workout.idupcoming_workouts}_1`,
-                    )}
-                  {workout.upcoming_workout_e_two_name &&
-                    renderExerciseRow(
-                      workout.upcoming_workout_e_two_name,
-                      workout.upcoming_workout_e_two_sets,
-                      workout.upcoming_workout_e_two_reps,
-                      workout.upcoming_workout_e_two_how_to,
-                      `${workout.idupcoming_workouts}_2`,
-                    )}
-                  {workout.upcoming_workout_e_three_name &&
-                    renderExerciseRow(
-                      workout.upcoming_workout_e_three_name,
-                      workout.upcoming_workout_e_three_sets,
-                      workout.upcoming_workout_e_three_reps,
-                      workout.upcoming_workout_e_three_how_to,
-                      `${workout.idupcoming_workouts}_3`,
-                    )}
-                  {workout.upcoming_workout_e_four_name &&
-                    renderExerciseRow(
-                      workout.upcoming_workout_e_four_name,
-                      workout.upcoming_workout_e_four_sets,
-                      workout.upcoming_workout_e_four_reps,
-                      workout.upcoming_workout_e_four_how_to,
-                      `${workout.idupcoming_workouts}_4`,
-                    )}
-                  {workout.upcoming_workout_e_five_name &&
-                    renderExerciseRow(
-                      workout.upcoming_workout_e_five_name,
-                      workout.upcoming_workout_e_five_sets,
-                      workout.upcoming_workout_e_five_reps,
-                      workout.upcoming_workout_e_five_how_to,
-                      `${workout.idupcoming_workouts}_5`,
-                    )}
-                  {workout.upcoming_workout_e_six_name &&
-                    renderExerciseRow(
-                      workout.upcoming_workout_e_six_name,
-                      workout.upcoming_workout_e_six_sets,
-                      workout.upcoming_workout_e_six_reps,
-                      workout.upcoming_workout_e_six_how_to,
-                      `${workout.idupcoming_workouts}_6`,
-                    )}
+                  {workout.exercises && workout.exercises.length > 0 ? (
+                    workout.exercises.map((exercise, index) =>
+                      exercise.name ? (
+                        renderExerciseRow(
+                          exercise.name,
+                          exercise.sets,
+                          exercise.reps,
+                          exercise.howTo,
+                          `${workout.idupcoming_workouts}_${index}`,
+                        )
+                      ) : null,
+                    )
+                  ) : (
+                    <tr>
+                      <td colSpan="4" className="border p-4 text-center text-gray-500">
+                        No exercises assigned
+                      </td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
             </div>
