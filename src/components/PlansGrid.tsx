@@ -200,7 +200,7 @@ export const PlansGrid = () => {
           </div>
 
           {/* Main Plan Grid - White Background */}
-          <section>
+          <section className="w-full">
             <div className="bg-white p-4 px-6 md:px-20">
               {searchItem && // If the searchItem has been set, show the number of matching results and plans
                 (filtered.length > 0 ? (
@@ -209,7 +209,7 @@ export const PlansGrid = () => {
                   </p>
                 ) : (
                   // <p className="text-gray-500 mb-4">No plans match your search.</p>
-                  <p className="mb-4 text-gray-500">
+                  <p className="mb-4 text-gray-500 w-full">
                     Nothing found for "{searchItem}"
                   </p>
                 ))}
