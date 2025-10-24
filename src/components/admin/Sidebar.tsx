@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import { TrainerFeedbackForm } from './UsabilityTrial';
+
 import {
   MenuIcon,
   X as CloseIcon,
@@ -12,10 +14,12 @@ import {
   ScrollText,
   Settings,
   LogOut,
+  NotepadText
 } from "lucide-react";
 
 export const Sidebar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [showFeedbackForm, setShowFeedbackForm] = useState(false);
 
   return (
     <>
@@ -79,9 +83,9 @@ export const Sidebar = () => {
             <ul className="mb-4 flex list-none flex-col gap-2 px-4">
               <li>
                 <NavButton
-                  href="/admin/user"
-                  icon={<Settings />}
-                  text="Website Settings"
+                  onClick={() => setShowFeedbackForm(true)}
+                  icon={<NotepadText />}
+                  text="Site Feedback"
                 />
               </li>
               <li>
@@ -95,6 +99,11 @@ export const Sidebar = () => {
           </nav>
         </div>
       </section>
+
+      {/* Feedback Form Modal */}
+      {showFeedbackForm && (
+        <TrainerFeedbackForm onClose={() => setShowFeedbackForm(false)} />
+      )}
 
       {/* Mobile Header */}
       <div className="fixed left-0 top-0 z-50 flex w-full justify-between bg-gray-900 p-4 text-white md:hidden">
@@ -140,18 +149,33 @@ const NavButton = ({
   href,
   icon,
   text,
-}: {
-  href: string;
-  icon: JSX.Element;
-  text: string;
-}) => (
-  <button className="flex w-full rounded-xl text-left transition duration-300 ease-in-out hover:bg-gray-400">
-    <a
-      href={href}
-      className="flex w-full gap-2 px-4 py-2 font-normal text-white hover:font-bold hover:text-black"
-    >
-      {icon}
-      {text}
-    </a>
-  </button>
-);
+  onClick,
+}) => {
+  // If onClick is provided, render a button instead of a link
+  if (onClick) {
+    return (
+      <button
+        onClick={onClick}
+        className="flex w-full rounded-xl text-left transition duration-300 ease-in-out hover:bg-gray-400"
+      >
+        <div className="flex w-full gap-2 px-4 py-2 font-normal text-white hover:font-bold hover:text-black">
+          {icon}
+          {text}
+        </div>
+      </button>
+    );
+  }
+
+  // Otherwise render a link
+  return (
+    <button className="flex w-full rounded-xl text-left transition duration-300 ease-in-out hover:bg-gray-400">
+      <a
+        href={href}
+        className="flex w-full gap-2 px-4 py-2 font-normal text-white hover:font-bold hover:text-black"
+      >
+        {icon}
+        {text}
+      </a>
+    </button>
+  );
+};
