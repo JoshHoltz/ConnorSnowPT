@@ -1063,6 +1063,7 @@ app.post("/api/insert-client-pr-result", async (req, res) => {
 //inserting a client change split
 // auto scale discussion: REF: https://stackoverflow.com/questions/43983500/how-to-scale-a-nodejs-stateful-application (json)
 // json api scaling: REF: https://dev.to/imsushant12/scaling-nodejs-applications-techniques-and-best-practices-3lc0
+// fetch and store json REF: https://stackoverflow.com/questions/15367696/storing-json-in-database-vs-having-a-new-column-for-each-key
 app.post("/api/insert-a-client-split", async (req, res) => {
   try {
     const clientId = req.body.client_id;
