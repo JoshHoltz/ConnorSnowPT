@@ -214,12 +214,24 @@ app.get("/api/workout-split/:id", async (req, res) => {
       [clientId]
     );
     
-    const workouts = rows.map((row) => ({
-      idupcoming_workouts: row.idupcoming_workouts,
-      upcoming_workout_split_name: row.upcoming_workout_split_name,
-      upcoming_workout_date: row.upcoming_workout_date,
-      exercises: JSON.parse(row.exercises_json || "[]"),
-    }));
+    const workouts = rows.map((row) => {
+      let exercises = [];
+      
+      if (row.exercises_json) {
+        if (typeof row.exercises_json === 'string') {
+          exercises = JSON.parse(row.exercises_json);
+        } else if (typeof row.exercises_json === 'object') {
+          exercises = row.exercises_json;
+        }
+      }
+      
+      return {
+        idupcoming_workouts: row.idupcoming_workouts,
+        upcoming_workout_split_name: row.upcoming_workout_split_name,
+        upcoming_workout_date: row.upcoming_workout_date,
+        exercises: exercises,
+      };
+    });
     
     res.json(workouts);
   } catch (err) {
@@ -230,7 +242,6 @@ app.get("/api/workout-split/:id", async (req, res) => {
     });
   }
 });
-
 
 //Get a pdf download link for workouts
 //Get a pdf download link for workouts
@@ -1050,6 +1061,8 @@ app.post("/api/insert-client-pr-result", async (req, res) => {
 });
 
 //inserting a client change split
+// auto scale discussion: REF: https://stackoverflow.com/questions/43983500/how-to-scale-a-nodejs-stateful-application (json)
+// json api scaling: REF: https://dev.to/imsushant12/scaling-nodejs-applications-techniques-and-best-practices-3lc0
 app.post("/api/insert-a-client-split", async (req, res) => {
   try {
     const clientId = req.body.client_id;
@@ -1066,12 +1079,14 @@ app.post("/api/insert-a-client-split", async (req, res) => {
 
     const exercises = req.body.exercises || [];
     
+    // Store exercises as JSON
     workout.exercises_json = JSON.stringify(exercises);
 
     console.log("Request body:", req.body);
     console.log("Workout object:", workout);
 
     if (workout.idupcoming_workouts) {
+      // Update existing workout
       await pool.query(
         `UPDATE upcoming_workouts SET
           upcoming_workout_split_name = ?,
@@ -1086,6 +1101,7 @@ app.post("/api/insert-a-client-split", async (req, res) => {
         ]
       );
     } else {
+      // Insert new workout
       await pool.query(
         `INSERT INTO upcoming_workouts (
           client_id,
