@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { DumbbellIcon } from "lucide-react";
+import { Play, ArrowRight } from "lucide-react";
 import Skeleton from "react-loading-skeleton";
-import { ArrowRight } from "lucide-react";
 
 export const UpcomingWorkout = () => {
   const [searchParams] = useSearchParams();
@@ -76,15 +75,6 @@ export const UpcomingWorkout = () => {
       <div className="rounded-t-lg bg-white md:mt-0">
         <div className="p-4 text-white md:mt-0">
           {workouts.map((workout) => {
-            const exerciseNames = [
-              "upcoming_workout_e_one_name",
-              "upcoming_workout_e_two_name",
-              "upcoming_workout_e_three_name",
-              "upcoming_workout_e_four_name",
-              "upcoming_workout_e_five_name",
-              "upcoming_workout_e_six_name",
-            ];
-
             return (
               <div key={workout.idupcoming_workouts} className="mb-4">
                 {/* Header */}
@@ -92,7 +82,7 @@ export const UpcomingWorkout = () => {
                   <div>
                     <div className="mb-2 flex items-center gap-3">
                       <div className="rounded-lg bg-blue-900 p-2">
-                        <DumbbellIcon size={24} className="text-white" />
+                        <span className="text-white text-2xl">💪</span>
                       </div>
                       <div>
                         <h1 className="text-3xl font-bold text-slate-900">
@@ -108,19 +98,17 @@ export const UpcomingWorkout = () => {
 
                 {/* Workouts */}
                 <div className="px-4 text-black">
-                  {exerciseNames.map(
-                    (field, index) =>
-                      workout[field] && (
-                        <div
-                          key={index}
-                          className="mb-4 rounded-lg border border-slate-200 bg-slate-100 duration-300 hover:bg-gray-400"
-                        >
-                          <h1 className="p-4 text-lg">
-                            {index + 1}. {workout[field]}
-                          </h1>
-                        </div>
-                      ),
-                  )}
+                  {workout.exercises_json &&
+                    workout.exercises_json.map((exercise, index) => (
+                      <div
+                        key={index}
+                        className="mb-4 rounded-lg border border-slate-200 bg-slate-100 duration-300 hover:bg-gray-400"
+                      >
+                        <h1 className="p-4 text-lg">
+                          {index + 1}. {exercise.name}
+                        </h1>
+                      </div>
+                    ))}
                 </div>
               </div>
             );
