@@ -82,7 +82,7 @@ export const UpcomingWorkout = () => {
                   <div>
                     <div className="mb-2 flex items-center gap-3">
                       <div className="rounded-lg bg-blue-900 p-2">
-                        <span className="text-white text-2xl">💪</span>
+                        <span className="text-white text-2xl"></span>
                       </div>
                       <div>
                         <h1 className="text-3xl font-bold text-slate-900">
