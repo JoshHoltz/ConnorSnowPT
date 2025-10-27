@@ -857,6 +857,26 @@ app.post("/api/insert-client-note", async (req, res) => {
   res.json({ message: "Successfully inserted Client Note" });
 });
 
+//update client plan type
+app.use("/api/update-client-plan/", async (req, res) => {
+  console.log('Received request to update client plan:', req.body);
+
+  const client_id = Number(req.body.client_id);
+  const plan_change = String(req.body.setPlanChange);
+
+  if (!setPlanChange) {
+    return res.status(400).json({error: 'request error'})
+  }
+
+  console.log("Inserting plan change: ", plan_change)
+
+  const sql =
+  "UPDATE client_information SET plan_change = ? WHERE client_id = ?";
+  await pool.query(sql, [plan_change, client_id]);
+  res.json({message: 'inserted plan change'})
+
+}) 
+
 //inserting a package change
 app.use("/api/insert-package-change", express.urlencoded());
 
