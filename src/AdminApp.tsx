@@ -9,6 +9,7 @@ import { AdminPlans } from "./pages/admin/AdminPlans";
 import { AdminAnalytics } from "./pages/admin/AdminAnalytics";
 import { AdminCalendar } from "./pages/admin/AdminCalendar";
 import { AdminWorkout } from "./pages/admin/AdminAssignWorkout";
+import { AdminPremadePlans } from "./pages/admin/AdminPremadePlans";
 import { Logout } from "./pages/admin/Logout";
 
 export function AdminApp() {
@@ -20,6 +21,7 @@ export function AdminApp() {
           <Routes>
             <Route path="/admin/home" element={<AdminHome />} />
             <Route path="/admin/AdminClients" element={<AdminClients />} />
+            <Route path="/admin/AdminPremadePlans" element={<AdminPremadePlans />} />
             <Route path="/admin/ViewClient" element={<ViewClient />} />
             <Route path="/admin/AdminPackages" element={<AdminPackages />} />
             <Route path="/admin/AdminPlans" element={<AdminPlans />} />

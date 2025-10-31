@@ -14,7 +14,8 @@ import {
   ScrollText,
   Settings,
   LogOut,
-  NotepadText
+  NotepadText,
+  NotebookPen
 } from "lucide-react";
 
 export const Sidebar = () => {
@@ -46,6 +47,13 @@ export const Sidebar = () => {
                   href="/admin/AdminClients"
                   icon={<User />}
                   text="Clients"
+                />
+              </li>
+              <li className="list-none px-4">
+                <NavButton
+                  href="/admin/AdminPremadePlans"
+                  icon={<NotebookPen />}
+                  text="Manage Workout"
                 />
               </li>
               <li className="list-none px-4">
