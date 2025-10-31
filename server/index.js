@@ -243,6 +243,41 @@ app.get("/api/workout-split/:id", async (req, res) => {
   }
 });
 
+
+//get all predefined workouts
+
+//db columns: premade_workout_id, INT, premade_workout_name, VARCHAR, premade_workout_exercies_json, JSON
+app.get('/api/premade_workouts', async (req, res) => {
+  try {
+    const [rows] = await pool.query("SELECT * FROM premade_workouts");
+
+    const workouts = rows.map((row) => {
+      let exercises = [];
+
+      if (typeof row.premade_workout_exercies_json === 'string') {
+        exercises = JSON.parse(row.premade_workout_exercies_json);
+      } else if (typeof row.premade_workout_exercies_json === 'object') {
+        exercises = row.premade_workout_exercies_json;
+      }
+
+      return {
+        id: row.premade_workout_id,
+        name: row.premade_workout_name,
+        exercises: exercises,
+      };
+    });
+
+    res.json(workouts);
+  } catch (err) {
+    console.error('Error fetching /api/premade_workouts', err);
+    res.status(500).json({
+      error: "Failed to fetch premade workouts",
+      details: err.message,
+    });
+  }
+});
+
+
 //Get a pdf download link for workouts
 //Get a pdf download link for workouts
 // pdfkit docs REF: https://pdfkit.org/docs/getting_started.html
