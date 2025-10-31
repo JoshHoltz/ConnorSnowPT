@@ -21,8 +21,11 @@ export const AdminAssignWorkout = ({ clientId }) => {
       exercises: [],
     },
   ]);
+
+  const [premadeWorkouts, setPremadeWorkouts] = useState([]);
   const [showSuccess, setShowSuccess] = useState(false);
 
+  // Fetch existing client workout data
   useEffect(() => {
     if (!clientId) return;
 
@@ -50,7 +53,15 @@ export const AdminAssignWorkout = ({ clientId }) => {
       });
   }, [clientId]);
 
-  const handleAddExercise = (dayIndex) => {
+  // FETCH THE PREMADE WORKOUTS 
+  useEffect(() => {
+    fetch("https://connorsnowpt.onrender.com/api/premade_workouts")
+      .then((res) => res.json())
+      .then((data) => setPremadeWorkouts(data))
+      .catch((err) => console.error("Failed to load premade workouts", err));
+  }, []);
+
+  const handleAddExercise = (dayIndex) => { //so for eahc day index the names, sets, reps and how to
     const updated = [...workouts];
     updated[dayIndex].exercises.push({
       name: "",
@@ -58,28 +69,43 @@ export const AdminAssignWorkout = ({ clientId }) => {
       reps: "",
       howTo: "",
     });
-    setWorkouts(updated);
+    setWorkouts(updated); //update and append to setworkout
   };
 
-  const handleRemoveExercise = (dayIndex, exIndex) => {
+  const handleRemoveExercise = (dayIndex, exIndex) => { //update and splice the latter index
     const updated = [...workouts];
     updated[dayIndex].exercises.splice(exIndex, 1);
     setWorkouts(updated);
   };
 
-  const handleExerciseChange = (dayIndex, exIndex, field, value) => {
+  const handleExerciseChange = (dayIndex, exIndex, field, value) => { //specific update exercise on its field and value index
     const updated = [...workouts];
     updated[dayIndex].exercises[exIndex][field] = value;
     setWorkouts(updated);
   };
 
-  const handleWorkoutFieldChange = (dayIndex, field, value) => {
+  const handleWorkoutFieldChange = (dayIndex, field, value) => { // update top level info info name/date
     const updated = [...workouts];
     updated[dayIndex][field] = value;
     setWorkouts(updated);
   };
 
-  const handleSubmit = async (e, dayIndex) => {
+
+
+  const handleSelectPremadeWorkout = (dayIndex, premadeId) => { //apply premade workout from the /api/premade_workouts table
+    const selected = premadeWorkouts.find(
+      (w) => w.id === parseInt(premadeId)
+    );
+    if (!selected) return; //if false return out
+ 
+    const updated = [...workouts]; //index and loop the selected info for the type of day index
+    updated[dayIndex].upcoming_workout_split_name = selected.name; 
+    updated[dayIndex].exercises = selected.exercises;
+    updated[dayIndex].premade_workout_id = selected.id;
+    setWorkouts(updated);
+  };
+
+  const handleSubmit = async (e, dayIndex) => { //exercise submit create payload and insert-a-client-split api called
     e.preventDefault();
     const workout = workouts[dayIndex];
 
@@ -90,6 +116,7 @@ export const AdminAssignWorkout = ({ clientId }) => {
       upcoming_workout_date: workout.upcoming_workout_date,
       idupcoming_workouts: workout.idupcoming_workouts || null,
       exercises: workout.exercises,
+      premade_workout_id: workout.premade_workout_id || null,
     };
 
     const response = await fetch(
@@ -107,7 +134,8 @@ export const AdminAssignWorkout = ({ clientId }) => {
     }
   };
 
-  if (!clientId) return <p className="text-red-500">Loading client ID...</p>;
+  if (!clientId)
+    return <p className="text-red-500">Loading client ID...</p>;
 
   return (
     <div className="w-full px-4 py-4">
@@ -145,6 +173,21 @@ export const AdminAssignWorkout = ({ clientId }) => {
                 }
                 className="w-full bg-slate-800 text-white text-sm rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
+
+              <select
+                onChange={(e) =>
+                  handleSelectPremadeWorkout(dayIndex, e.target.value)
+                }
+                className="w-full mt-3 bg-slate-800 text-white text-sm rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="">Select a premade workout...</option>
+                {premadeWorkouts.map((p) => (
+                  // for each option map the id and the value for each row 
+                  <option key={p.id} value={p.id}> 
+                    {p.name}
+                  </option>
+                ))}
+              </select>
             </div>
 
             <div className="overflow-x-auto">
