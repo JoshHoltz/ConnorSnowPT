@@ -1727,7 +1727,7 @@ app.delete("/api/delete-trainer-todo/:id", async (req, res) => {
 // Parsed into AI analysis
 app.get("/api/analyse-client-hypothesis", async (req, res) => {
   try {
-    const [rows] = await pool.query("SELECT id, user_id, page, action, created_at FROM client_website_interactions");
+    const [rows] = await pool.query("SELECT * FROM client_website_interactions");
 
     const prompt = `
     You are a business data analyst reviewing client website interaction data.
@@ -1738,7 +1738,7 @@ app.get("/api/analyse-client-hypothesis", async (req, res) => {
 
     Data: ${JSON.stringify(rows)}
 
-    Write a short 3–4 sentence analysis highlighting key trends and areas for improvement.
+    Write a short 3-4 sentence analysis highlighting key trends and areas for improvement.
     Provide a few metric observations if possible, and organise the analysis into clear headings.
     `;
 
