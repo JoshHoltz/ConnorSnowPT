@@ -5,6 +5,7 @@ import { PRs } from "../../components/client/PRs";
 import { UpcomingWorkout } from "../../components/client/UpcomingWorkout";
 import { MotivationMessage } from "../../components/client/Motivation";
 import { ClientDetails } from "../../components/client/ClientDetails";
+import Hypothesis from "../../components/client/Hypothesis";
 
 function getToken() {
   const user_id = sessionStorage.getItem("user_id");
@@ -59,6 +60,7 @@ export const ClientHome = () => {
           <UpcomingWorkout />
           <PRs clientId={clientId} />
         </div>
+        <Hypothesis />
       </div>
     </div>
   );
