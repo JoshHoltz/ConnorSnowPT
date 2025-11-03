@@ -1727,7 +1727,10 @@ app.delete("/api/delete-trainer-todo/:id", async (req, res) => {
 // Parsed into AI analysis
 app.get("/api/analyse-client-hypothesis", async (req, res) => {
   try {
+    // Fetch your database data
     const [rows] = await pool.query("SELECT * FROM client_website_interactions");
+
+    console.log("Fetched client_website_interactions data:", rows);
 
     const prompt = `
     You are a business data analyst reviewing client website interaction data.
@@ -1753,6 +1756,8 @@ app.get("/api/analyse-client-hypothesis", async (req, res) => {
 
     const aiMessage = response.choices?.[0]?.message?.content || "No analysis generated.";
 
+    console.log("AI analysis output:", aiMessage);
+
     res.json({
       analysis: aiMessage,
     });
@@ -1762,4 +1767,3 @@ app.get("/api/analyse-client-hypothesis", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
-
