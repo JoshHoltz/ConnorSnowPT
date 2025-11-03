@@ -341,7 +341,7 @@ app.get("/api/analyse-client-hypothesis", async (req, res) => {
 
     Data: ${JSON.stringify(rows)}
 
-    Write a short 3-4 sentence analysis highlighting key trends and areas for improvement.
+    Write a a detailed overview for each section with metrics on each section and a consise summary. Highlight key areas or comments. 
     Provide a few metric observations if possible, and organise the analysis into clear headings.
 
     For Client Fitness Progression Cover these questions
