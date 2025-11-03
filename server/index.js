@@ -321,6 +321,52 @@ app.get("/api/workout-split/:id/pdf", async (req, res) => {
   }
 });
 
+// COLLECTING INFO FOR HYPTHESIS TESTING FOR DISSERTATION 
+
+// Analyse the client hypothesis (collecting data and info from web_client_interactions table)
+// Parsed into AI analysis
+app.get("/api/analyse-client-hypothesis", async (req, res) => {
+  try {
+    // Fetch your database data
+    const [rows] = await pool.query("SELECT * FROM client_website_interactions");
+
+    console.log("Fetched client_website_interactions data:", rows);
+
+    const prompt = `
+    You are a business data analyst reviewing client website interaction data.
+    Analyse the data below and provide insights on:
+    - Fitness progression
+    - Usability
+    - Motivation
+
+    Data: ${JSON.stringify(rows)}
+
+    Write a short 3-4 sentence analysis highlighting key trends and areas for improvement.
+    Provide a few metric observations if possible, and organise the analysis into clear headings.
+    `;
+
+    const response = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      messages: [
+        { role: "system", content: "You are a skilled data analyst providing concise, structured insights." },
+        { role: "user", content: prompt },
+      ],
+      max_tokens: 250,
+    });
+
+    const aiMessage = response.choices?.[0]?.message?.content || "No analysis generated.";
+
+    console.log("AI analysis output:", aiMessage);
+
+    res.json({
+      analysis: aiMessage,
+    });
+
+  } catch (err) {
+    console.error("Error analysing client hypothesis:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
 
 // get all upcoming workouts
 app.get("/api/motivation-message", async (req, res) => {
@@ -1718,52 +1764,5 @@ app.delete("/api/delete-trainer-todo/:id", async (req, res) => {
   } catch (error) {
     console.error("Error deleting todo:", error);
     res.status(500).json({ error: "Failed to delete todo" });
-  }
-});
-
-// COLLECTING INFO FOR HYPTHESIS TESTING FOR DISSERTATION 
-
-// Analyse the client hypothesis (collecting data and info from web_client_interactions table)
-// Parsed into AI analysis
-app.get("/api/analyse-client-hypothesis", async (req, res) => {
-  try {
-    // Fetch your database data
-    const [rows] = await pool.query("SELECT * FROM client_website_interactions");
-
-    console.log("Fetched client_website_interactions data:", rows);
-
-    const prompt = `
-    You are a business data analyst reviewing client website interaction data.
-    Analyse the data below and provide insights on:
-    - Fitness progression
-    - Usability
-    - Motivation
-
-    Data: ${JSON.stringify(rows)}
-
-    Write a short 3-4 sentence analysis highlighting key trends and areas for improvement.
-    Provide a few metric observations if possible, and organise the analysis into clear headings.
-    `;
-
-    const response = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo",
-      messages: [
-        { role: "system", content: "You are a skilled data analyst providing concise, structured insights." },
-        { role: "user", content: prompt },
-      ],
-      max_tokens: 250,
-    });
-
-    const aiMessage = response.choices?.[0]?.message?.content || "No analysis generated.";
-
-    console.log("AI analysis output:", aiMessage);
-
-    res.json({
-      analysis: aiMessage,
-    });
-
-  } catch (err) {
-    console.error("Error analysing client hypothesis:", err);
-    res.status(500).json({ error: err.message });
   }
 });
