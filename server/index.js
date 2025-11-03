@@ -1727,26 +1727,37 @@ app.delete("/api/delete-trainer-todo/:id", async (req, res) => {
 // Parsed into AI analysis
 app.get("/api/analyse-client-hypothesis", async (req, res) => {
   try {
-    const sql = "SELECT * FROM client_website_interactions";
-    const [rows] = await pool.query(sql);
+    const [rows] = await pool.query("SELECT * FROM client_website_interactions");
 
-    const prompt = `Analyse the following client website interaction data and provide insights on fitness progression, usability, and motivation. Here is the data: ${JSON.stringify(rows)}. Provide a short 3-4 sentence analysis highlighting key trends and areas for improvement.
-    Also provide metric data to analyse.
-    Orgainse the analysis into headings with each section relating to one of the questions and headings.
+    const prompt = `
+    You are a business data analyst reviewing client website interaction data. 
+    Analyse the data below and provide insights on:
+    - Fitness progression
+    - Usability
+    - Motivation
+    
+    Data: ${JSON.stringify(rows)}
+
+    Write a short 3-4 sentence analysis highlighting key trends and areas for improvement.
+    Provide a few metric observations if possible, and organise the analysis into clear headings.
     `;
 
-    const aiResponse = await openai.chat.completions.create({
+    const response = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
       messages: [
+        { role: "system", content: "You are a skilled data analyst providing concise, structured insights." },
         { role: "user", content: prompt },
       ],
-      max_tokens: 200,
+      max_tokens: 250,
     });
+
+    const aiMessage = response.choices?.[0]?.message?.content || "No analysis generated.";
 
     res.json({
       results: rows,
-      analysis: aiResponse.choices[0].message.content,
+      analysis: aiMessage,
     });
+
   } catch (err) {
     console.error("Error analysing client hypothesis:", err);
     res.status(500).json({ error: err.message });
