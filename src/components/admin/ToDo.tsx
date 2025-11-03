@@ -77,12 +77,6 @@ export const ToDo = () => {
             </button>
           </div>
         ))}
-
-        <h1>
-          
- "**Fitness Progression Analysis:**<br />The data shows a positive trend in fitness progression among users, with most reporting improvements in various aspects such as increased muscle mass, cardio endurance, and strength levels. Users consistently mentioned enhancements in their fitness levels and abilities, indicating that the website effectively supports their fitness goals.<br /><br />**Usability Insights:**<br />Overall, users rated the website usability and app usability quite high, with an average usability score of around 8.6 out of 10. Positive feedback on the ease of use, clarity, and accessibility of the platform suggests that the website design and functionality effectively support user engagement and interaction.<br /><br />**Motivation Evaluation:**<br />Users expressed high motivation levels due to features like progress tracking, detailed analytics, and AI assistance. The interactive graphs, trend tracking, and personalized workout recommendations were particularly highlighted as motivating factors, encouraging users to stay engaged and committed to their fitness journey.<br /><br />**Key Observations:**<br />- Average fitness scale rating: 7.8 out of 10<br />- Average app usability score: 8.8 out of 10<br />- Average progress analytics motivation rating: 8.8 out of 10<br /><br />**Areas for Improvement:**<br />- Custom graph creation feature requested by users<br />- Potential enhancements in"
-          
-        </h1>
         </div>
       </div>
     </>
