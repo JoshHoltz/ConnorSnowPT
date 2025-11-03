@@ -343,6 +343,22 @@ app.get("/api/analyse-client-hypothesis", async (req, res) => {
 
     Write a short 3-4 sentence analysis highlighting key trends and areas for improvement.
     Provide a few metric observations if possible, and organise the analysis into clear headings.
+
+    For Client Fitness Progression Cover these questions
+
+     - Has your overall fitness levels increased?
+     - Do you feel your physical fitness has increased since using the app?
+     - Has the app influenced your fitness habits or motivation to exercise?
+
+    For Usability Cover these questions
+
+     - To what extent do you agree that the features help you track progress?
+     - Which parts of the app best support your fitness progress?
+
+    For Motivation & Encouragement Hypothesis
+     - Do you feel motiviated after viewing your progress analytics and charts? (1-10)
+     - How likely are you to keep using the app's features? (1-10)
+     - How do the AI analytics and visual graphs make you feel about your achivements?
     `;
 
     const response = await openai.chat.completions.create({
@@ -351,7 +367,7 @@ app.get("/api/analyse-client-hypothesis", async (req, res) => {
         { role: "system", content: "You are a skilled data analyst providing concise, structured insights." },
         { role: "user", content: prompt },
       ],
-      max_tokens: 250,
+      max_tokens: 600,
     });
 
     const aiMessage = response.choices?.[0]?.message?.content || "No analysis generated.";
