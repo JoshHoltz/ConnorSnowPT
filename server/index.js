@@ -1720,3 +1720,35 @@ app.delete("/api/delete-trainer-todo/:id", async (req, res) => {
     res.status(500).json({ error: "Failed to delete todo" });
   }
 });
+
+// COLLECTING INFO FOR HYPTHESIS TESTING FOR DISSERTATION 
+
+// Analyse the client hypothesis (collecting data and info from web_client_interactions table)
+// Parsed into AI analysis
+app.get("/api/analyse-client-hypothesis", async (req, res) => {
+  try {
+    const sql = "SELECT * FROM client_website_interactions";
+    const [rows] = await pool.query(sql);
+
+    const prompt = `Analyse the following client website interaction data and provide insights on fitness progression, usability, and motivation. Here is the data: ${JSON.stringify(rows)}. Provide a short 3-4 sentence analysis highlighting key trends and areas for improvement.
+    Also provide metric data to analyse.
+    Orgainse the analysis into headings with each section relating to one of the questions and headings.
+    `;
+
+    const aiResponse = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      messages: [
+        { role: "user", content: prompt },
+      ],
+      max_tokens: 200,
+    });
+
+    res.json({
+      results: rows,
+      analysis: aiResponse.choices[0].message.content,
+    });
+  } catch (err) {
+    console.error("Error analysing client hypothesis:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
