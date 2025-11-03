@@ -9,6 +9,7 @@ export const PRs = ({ clientId }: { clientId: string | null }) => {
   const [edit, setEdit] = useState(false);
   const [loading, setLoading] = useState(true);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [results, setResults] = useState(null);
 
   useEffect(() => {
     if (!clientId) return;
