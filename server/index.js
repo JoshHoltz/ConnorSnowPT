@@ -903,6 +903,35 @@ app.post("/api/insert-client-hypothesis", async (req, res) => {
     res.json({ message: 'inserted into client_website_interactions' })
 })
 
+// insert trainer feedback form
+app.use("/api/insert-trainer-feedback", express.urlencoded());
+
+app.post("/api/insert-trainer-feedback", async (req, res) => {
+  console.log('request to insert trainer feedback to db', req.body);
+
+  const clientManagementEffectiveness = req.body.clientManagementEffectiveness;
+  const progressTracking = req.body.progressTracking;
+  const managementChallenges = req.body.managementChallenges;
+  const workflowEfficiency = req.body.workflowEfficiency;
+  const taskCompletion = req.body.taskCompletion;
+  const efficiencyImprovements = req.body.efficiencyImprovements;
+  const retentionPercentage = req.body.retentionPercentage;
+  const engagementLikelihood = req.body.engagementLikelihood;
+  const retentionFactors = req.body.retentionFactors;
+  const revenueIncrease = req.body.revenueIncrease;
+  const acquisitionContribution = req.body.acquisitionContribution;
+  const businessGrowth = req.body.businessGrowth;
+
+  if (!clientManagementEffectiveness || !progressTracking || !managementChallenges || !workflowEfficiency || !taskCompletion || !efficiencyImprovements || !retentionPercentage || !engagementLikelihood || !retentionFactors || !revenueIncrease || !acquisitionContribution || !businessGrowth) {
+    return res.status(400).json({ error: 'Please enter all fields required' });
+  }
+
+  const sql = "INSERT INTO trainer_feedback (clientManagementEffectiveness, progressTracking, managementChallenges, workflowEfficiency, taskCompletion, efficiencyImprovements, retentionPercentage, engagementLikelihood, retentionFactors, revenueIncrease, acquisitionContribution, businessGrowth) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+  await pool.query(sql, [clientManagementEffectiveness, progressTracking, managementChallenges, workflowEfficiency, taskCompletion, efficiencyImprovements, retentionPercentage, engagementLikelihood, retentionFactors, revenueIncrease, acquisitionContribution, businessGrowth]);
+  res.json({ message: 'inserted into trainer_feedback' });
+});
+
 // insert client review
 app.use("/api/insert-client-review", express.urlencoded());
 
