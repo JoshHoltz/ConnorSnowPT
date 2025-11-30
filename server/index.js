@@ -384,6 +384,73 @@ app.get("/api/analyse-client-hypothesis", async (req, res) => {
   }
 });
 
+// Analyse the trainer hypothesis (collecting data and info)
+app.get("/api/analyse-trainer-hypothesis", async (req, res) => {
+  try {
+    // Fetch your database data
+    const [rows] = await pool.query("SELECT * FROM trainer_feedback");
+
+    console.log("Fetched trainer_feedback data:", rows);
+
+    const prompt = `
+    You are a business data analyst reviewing client website interaction data.
+    Analyse the data below and provide insights on:
+    - Client Management
+    - Operational Efficency 
+    - Client Retention
+    - Revenue Growth and Market Reach
+
+    Data: ${JSON.stringify(rows)}
+
+    Write a a detailed overview for each section with metrics on each section and a consise summary. Highlight key areas or comments. 
+    Provide a few metric observations if possible, and organise the analysis into clear headings.
+
+    For Client Management Cover these questions
+
+     - How effectively does the solution help you manage your clients? (1-5)
+     - How easy is it to track client progress using the platform? (1-5)
+     - What challenges, if any, have you faced while using the system for managing clients?
+
+    For Operational Efficiency cOVER these questions
+
+     - How much has the platform improved your daily workflow efficiency? (1-5)
+     - How easy is it to complete regular tasks (scheduling, progress tracking)? (1-5)?
+     - What areas of the system could be improved to further enhance efficiency?
+
+    For Client Retention Hypothesis Cover these questions
+     - What percentage of your clients continue to use the platform after 30 days? (%)
+     - How likely are clients to remain engaged through the platform? (1-5)
+     - What factors do you believe contribute to clients continuing to use the system?
+
+    For Revenue Growth and Market Reach Cover these questions
+      - What has been the percentage increase in total revenue since adopting the platform? (%)
+      - How much do you believe the platform contributes to new client acquisition? (1-5)
+      - How has the solution impacted your business growth and financial outcomes?
+    `;
+
+    const response = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      messages: [
+        { role: "system", content: "You are a skilled data analyst providing concise, structured insights." },
+        { role: "user", content: prompt },
+      ],
+      max_tokens: 1000,
+    });
+
+    const aiMessage = response.choices?.[0]?.message?.content || "No analysis generated.";
+
+    console.log("AI analysis output:", aiMessage);
+
+    res.json({
+      analysis: aiMessage,
+    });
+
+  } catch (err) {
+    console.error("Error analysing client hypothesis:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // get all upcoming workouts
 app.get("/api/motivation-message", async (req, res) => {
   try {
