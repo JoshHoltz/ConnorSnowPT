@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import { ClientWelcome } from "../../components/client/ClientWelcome";
 import { PRs } from "../../components/client/PRs";
 import { UpcomingWorkout } from "../../components/client/UpcomingWorkout";
 import { MotivationMessage } from "../../components/client/Motivation";
@@ -50,7 +49,7 @@ export const ClientHome = () => {
     <div className="px-4 py-4">
       <div className="mb-4 text-black">
         {/* <ClientWelcome clientId={clientId} /> */}
-      <VoiceChat clientId={clientId} />
+      <VoiceChat />
 
         <div className="flex flex-col space-y-4 md:flex-row md:space-x-4 md:space-y-0">
           <ClientDetails clientId={clientId} />
