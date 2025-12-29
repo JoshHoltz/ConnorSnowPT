@@ -12,8 +12,9 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 import OpenAI from "openai";
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-import { ElevenLabsClient } from "elevenlabs";
-const elevenLabsClient = new ElevenLabsClient({
+import { ElevenLabsClient } from "@elevenlabs/elevenlabs-js";
+
+const elevenlabs = new ElevenLabsClient({
   apiKey: process.env.ELEVENLABS_API_KEY,
 });
 
@@ -1884,6 +1885,8 @@ app.delete("/api/delete-trainer-todo/:id", async (req, res) => {
 });
 
 //11 Labs
+//https://elevenlabs.io/docs/agents-platform/quickstart
+//https://elevenlabs.io/app/developers
 app.post("/api/voice-agent/:id/start", async (req, res) => {
   const clientId = req.params.id;
   const trainerName = "Connor Snow";
