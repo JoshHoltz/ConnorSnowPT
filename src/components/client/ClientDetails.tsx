@@ -18,13 +18,6 @@ export const ClientDetails = ({ clientId }: { clientId: string | null }) => {
       .finally(() => setLoading(false));
   }, [clientId]);
 
-  const startVoiceConversation = () => {
-  window.open(
-    `https://elevenlabs.io/app/conversations?agent-id=agent_1501kdn3q7eaersbm021gktm7g61`,
-    "_blank"
-  );
-};
-
   const Success = () => {
     setShowSuccess(true);
     setTimeout(() => setShowSuccess(false), 3000);

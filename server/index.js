@@ -1892,7 +1892,7 @@ app.post("/api/voice-agent/:id/start", async (req, res) => {
   const trainerName = "Connor Snow";
   
   try {
-    // Get client data for context
+    // Get client data
     const [upcomingWorkout] = await pool.query(
       "SELECT * FROM upcoming_workouts WHERE client_id = ? ORDER BY upcoming_workout_date ASC LIMIT 1",
       [clientId]
@@ -1920,18 +1920,18 @@ app.post("/api/voice-agent/:id/start", async (req, res) => {
       muscleMass
     };
 
-    const session = await elevenlabs.conversationalAi.sessions.create({
-      agentId: process.env.ELEVENLABS_AGENT_ID,
-      systemPrompt: `You are ${trainerName}. Here's the client's info: ${JSON.stringify(clientData)}. Use this to give personalized fitness advice.`
-    });
+    const systemPrompt = `You are Connor Snow, a personal trainer. Here's the client's background info:
+${JSON.stringify(clientData, null, 2)}
+
+Use this information to give personalized fitness advice during the conversation.`;
 
     res.json({ 
-      sessionId: session.sessionId,
-      message: "Voice conversation started"
+      clientData,
+      systemPrompt
     });
     
   } catch (error) {
-    console.error("Error starting voice agent:", error);
-    res.status(500).json({ error: "Failed to start conversation", details: error.message });
+    console.error("Error:", error);
+    res.status(500).json({ error: "Failed to load client data" });
   }
 });

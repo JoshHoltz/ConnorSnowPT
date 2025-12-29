@@ -5,6 +5,7 @@ import { PRs } from "../../components/client/PRs";
 import { UpcomingWorkout } from "../../components/client/UpcomingWorkout";
 import { MotivationMessage } from "../../components/client/Motivation";
 import { ClientDetails } from "../../components/client/ClientDetails";
+import { VoiceChat } from "../../components/client/VoiceChat";
 
 function getToken() {
   const user_id = sessionStorage.getItem("user_id");
@@ -49,6 +50,7 @@ export const ClientHome = () => {
     <div className="px-4 py-4">
       <div className="mb-4 text-black">
         {/* <ClientWelcome clientId={clientId} /> */}
+      <VoiceChat clientId={clientId} />
 
         <div className="flex flex-col space-y-4 md:flex-row md:space-x-4 md:space-y-0">
           <ClientDetails clientId={clientId} />
