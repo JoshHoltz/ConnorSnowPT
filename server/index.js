@@ -1889,7 +1889,7 @@ app.post("/api/voice-agent/:id/start", async (req, res) => {
   const trainerName = "Connor Snow";
   
   try {
-    // Get client background data
+    // Get client data for context
     const [upcomingWorkout] = await pool.query(
       "SELECT * FROM upcoming_workouts WHERE client_id = ? ORDER BY upcoming_workout_date ASC LIMIT 1",
       [clientId]
@@ -1917,28 +1917,18 @@ app.post("/api/voice-agent/:id/start", async (req, res) => {
       muscleMass
     };
 
-    const systemPrompt = `You are ${trainerName}, a personal trainer having a 1-1 conversation with your client.
-
-Client Background Information:
-${JSON.stringify(clientData, null, 2)}
-
-Use this information to give personalised gym and fitness advice. Be encouraging, conversational, and helpful. Answer questions about their workouts, progress, and fitness goals.`;
-
-    // Create ElevenLabs Agent conversation
-    const conversation = await elevenLabsClient.conversationInitiateSession({
-      agent_id: process.env.ELEVENLABS_AGENT_ID, 
-      config_overrides: {
-        system_prompt: systemPrompt,
-      }
+    const session = await elevenlabs.conversationalAi.sessions.create({
+      agentId: process.env.ELEVENLABS_AGENT_ID,
+      systemPrompt: `You are ${trainerName}. Here's the client's info: ${JSON.stringify(clientData)}. Use this to give personalized fitness advice.`
     });
 
     res.json({ 
-      sessionId: conversation.session_id,
-      message: "Voice conversation started. You can now talk to Connor Snow."
+      sessionId: session.sessionId,
+      message: "Voice conversation started"
     });
     
   } catch (error) {
     console.error("Error starting voice agent:", error);
-    res.status(500).json({ error: "Failed to start voice conversation" });
+    res.status(500).json({ error: "Failed to start conversation", details: error.message });
   }
 });
