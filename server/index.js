@@ -12,6 +12,10 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 import OpenAI from "openai";
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
+import { ElevenLabsClient } from "elevenlabs";
+const elevenLabsClient = new ElevenLabsClient({
+  apiKey: process.env.ELEVENLABS_API_KEY,
+});
 
 import bcrypt from "bcrypt";
 import { data } from "react-router-dom";
@@ -1876,5 +1880,65 @@ app.delete("/api/delete-trainer-todo/:id", async (req, res) => {
   } catch (error) {
     console.error("Error deleting todo:", error);
     res.status(500).json({ error: "Failed to delete todo" });
+  }
+});
+
+//11 Labs
+app.post("/api/voice-agent/:id/start", async (req, res) => {
+  const clientId = req.params.id;
+  const trainerName = "Connor Snow";
+  
+  try {
+    // Get client background data
+    const [upcomingWorkout] = await pool.query(
+      "SELECT * FROM upcoming_workouts WHERE client_id = ? ORDER BY upcoming_workout_date ASC LIMIT 1",
+      [clientId]
+    );
+
+    const [bodyWeights] = await pool.query(
+      "SELECT * FROM body_weights WHERE client_id = ? ORDER BY submitted_date ASC",
+      [clientId]
+    );
+
+    const [bmiMeasurements] = await pool.query(
+      "SELECT * FROM bmi_measurements WHERE client_id = ? ORDER BY submitted_date DESC",
+      [clientId]
+    );
+
+    const [muscleMass] = await pool.query(
+      "SELECT * FROM muscle_mass_measurements WHERE client_id = ? ORDER BY submitted_date DESC",
+      [clientId]
+    );
+
+    const clientData = {
+      upcomingWorkout: upcomingWorkout[0] || null,
+      bodyWeights,
+      bmiMeasurements,
+      muscleMass
+    };
+
+    const systemPrompt = `You are ${trainerName}, a personal trainer having a 1-1 conversation with your client.
+
+Client Background Information:
+${JSON.stringify(clientData, null, 2)}
+
+Use this information to give personalised gym and fitness advice. Be encouraging, conversational, and helpful. Answer questions about their workouts, progress, and fitness goals.`;
+
+    // Create ElevenLabs Agent conversation
+    const conversation = await elevenLabsClient.conversationInitiateSession({
+      agent_id: process.env.ELEVENLABS_AGENT_ID, 
+      config_overrides: {
+        system_prompt: systemPrompt,
+      }
+    });
+
+    res.json({ 
+      sessionId: conversation.session_id,
+      message: "Voice conversation started. You can now talk to Connor Snow."
+    });
+    
+  } catch (error) {
+    console.error("Error starting voice agent:", error);
+    res.status(500).json({ error: "Failed to start voice conversation" });
   }
 });

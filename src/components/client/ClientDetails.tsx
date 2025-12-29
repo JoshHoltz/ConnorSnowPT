@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { UserRound, Trophy, Phone, CrownIcon } from "lucide-react";
+import { UserRound, Trophy, Phone, Crown, Mic } from "lucide-react";
 import Skeleton from "react-loading-skeleton";
 
 export const ClientDetails = ({ clientId }: { clientId: string | null }) => {
@@ -7,6 +7,7 @@ export const ClientDetails = ({ clientId }: { clientId: string | null }) => {
   const [edit, setEdit] = useState(false);
   const [loading, setLoading] = useState(true);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [voiceLoading, setVoiceLoading] = useState(false);
 
   useEffect(() => {
     if (!clientId) return;
@@ -21,6 +22,33 @@ export const ClientDetails = ({ clientId }: { clientId: string | null }) => {
   const Success = () => {
     setShowSuccess(true);
     setTimeout(() => setShowSuccess(false), 3000);
+  };
+
+  const startVoiceConversation = async () => {
+    if (!clientId) return;
+
+    setVoiceLoading(true);
+    try {
+      const response = await fetch(
+        `https://connorsnowpt.onrender.com/api/voice-agent/${clientId}/start`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        window.open(`https://elevenlabs.io/app/conversations/${data.sessionId}`, "_blank");
+      } else {
+        alert("Failed to start voice conversation");
+      }
+    } catch (error) {
+      console.error("Error starting voice conversation:", error);
+      alert("Error starting voice conversation");
+    } finally {
+      setVoiceLoading(false);
+    }
   };
 
   if (loading) {
@@ -47,7 +75,7 @@ export const ClientDetails = ({ clientId }: { clientId: string | null }) => {
       name: "client_preferred_contact",
     },
     {
-      icon: CrownIcon,
+      icon: Crown,
       label: "Plan",
       value: client.client_plan_type,
       name: "client_plan_type",
@@ -65,23 +93,33 @@ export const ClientDetails = ({ clientId }: { clientId: string | null }) => {
           </h1>
           <p className="text-slate-600 mt-1">Client Information</p>
         </div>
-        {!edit && (
+        <div className="flex gap-3">
           <button
-            onClick={() => setEdit(true)}
-            className=" text-slate-600 px-4 py-2 rounded-lg hover:font-bold transition"
+            onClick={startVoiceConversation}
+            disabled={voiceLoading}
+            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition font-semibold flex items-center gap-2 disabled:opacity-50"
           >
-            Edit
+            <Mic size={18} />
+            {voiceLoading ? "Starting..." : "Talk to Connor"}
           </button>
-        )}
-        {edit && (
-          <button
-            type="button"
-            onClick={() => setEdit(false)}
-            className="text-slate-600 hover:text-slate-900 text-sm font-semibold"
-          >
-            Cancel
-          </button>
-        )}
+          {!edit && (
+            <button
+              onClick={() => setEdit(true)}
+              className="text-slate-600 px-4 py-2 rounded-lg hover:font-bold transition"
+            >
+              Edit
+            </button>
+          )}
+          {edit && (
+            <button
+              type="button"
+              onClick={() => setEdit(false)}
+              className="text-slate-600 hover:text-slate-900 text-sm font-semibold"
+            >
+              Cancel
+            </button>
+          )}
+        </div>
       </div>
 
       {!edit ? (
@@ -113,44 +151,8 @@ export const ClientDetails = ({ clientId }: { clientId: string | null }) => {
         </>
       ) : (
         <>
-
-          <form
-            onSubmit={async (e) => {
-              e.preventDefault();
-              const formData = new FormData(e.target);
-              const data = Object.fromEntries(formData);
-
-              try {
-                const response = await fetch(
-                  "https://connorsnowpt.onrender.com/api/insert-client-details",
-                  {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(data),
-                  },
-                );
-
-                if (response.ok) {
-                  setClient({
-                    ...client,
-                    client_firstname: data.client_firstname,
-                    client_lastname: data.client_lastname,
-                    client_goal: data.client_goal,
-                    client_preferred_contact: data.client_preferred_contact,
-                  });
-                  setEdit(false);
-                  Success();
-                } else {
-                  alert("Failed to update client details");
-                }
-              } catch (error) {
-                console.error("Error:", error);
-                alert("Error updating client details");
-              }
-            }}
-            className="space-y-4"
-          >
-            <input type="hidden" name="client_id" value={client.client_id} />
+          <div className="space-y-4">
+            <input type="hidden" value={client.client_id} />
 
             {/* Name Fields */}
             <div className="grid grid-cols-2 gap-4">
@@ -160,7 +162,6 @@ export const ClientDetails = ({ clientId }: { clientId: string | null }) => {
                 </label>
                 <input
                   type="text"
-                  name="client_firstname"
                   defaultValue={client.client_firstname}
                   className="w-full rounded-lg border border-slate-300 px-3 py-2 focus:border-blue-900 focus:outline-none"
                   required
@@ -172,7 +173,6 @@ export const ClientDetails = ({ clientId }: { clientId: string | null }) => {
                 </label>
                 <input
                   type="text"
-                  name="client_lastname"
                   defaultValue={client.client_lastname}
                   className="w-full rounded-lg border border-slate-300 px-3 py-2 focus:border-blue-900 focus:outline-none"
                   required
@@ -187,7 +187,6 @@ export const ClientDetails = ({ clientId }: { clientId: string | null }) => {
               </label>
               <input
                 type="text"
-                name="client_goal"
                 defaultValue={client.client_goal}
                 className="w-full rounded-lg border border-slate-300 px-3 py-2 focus:border-blue-900 focus:outline-none"
                 required
@@ -201,7 +200,6 @@ export const ClientDetails = ({ clientId }: { clientId: string | null }) => {
               </label>
               <input
                 type="text"
-                name="client_preferred_contact"
                 defaultValue={client.client_preferred_contact}
                 className="w-full rounded-lg border border-slate-300 px-3 py-2 focus:border-blue-900 focus:outline-none"
                 required
@@ -209,12 +207,12 @@ export const ClientDetails = ({ clientId }: { clientId: string | null }) => {
             </div>
 
             <button
-              type="submit"
+              type="button"
               className="mt-6 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition font-semibold"
             >
               Save Changes
             </button>
-          </form>
+          </div>
         </>
       )}
 
