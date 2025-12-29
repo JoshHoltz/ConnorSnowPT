@@ -12,12 +12,6 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 import OpenAI from "openai";
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-import { ElevenLabsClient } from "@elevenlabs/elevenlabs-js";
-
-const elevenlabs = new ElevenLabsClient({
-  apiKey: process.env.ELEVENLABS_API_KEY,
-});
-
 import bcrypt from "bcrypt";
 import { data } from "react-router-dom";
 
