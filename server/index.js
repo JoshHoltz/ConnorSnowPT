@@ -48,6 +48,9 @@ app.use(
         "https://*.posthog.com",
         "https://*.openai.com",
         "https://connorsnowpt.onrender.com",
+        "https://hcaptcha.com",
+        "https://*.hcaptcha.com",
+        "https://sentry.hcaptcha.com"
       ],
       frameSrc: ["https://js.stripe.com"],
       objectSrc: ["'none'"],
