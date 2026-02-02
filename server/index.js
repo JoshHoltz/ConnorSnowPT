@@ -58,13 +58,13 @@ app.use(
 app.use(
   helmet.permissionsPolicy({
     features: {
-      geolocation: [],
-      camera: [],
-      microphone: [],
-      payment: [],
-      usb: [],
-      fullscreen: ["self"],
-      clipboardWrite: ["self"],
+      geolocation: ["'none'"],
+      camera: ["'none'"],
+      microphone: ["'none'"],
+      payment: ["'none'"],
+      usb: ["'none'"],
+      fullscreen: ["*"],
+      clipboardWrite: ["'self'"],
     },
   })
 );
