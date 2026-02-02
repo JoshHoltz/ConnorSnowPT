@@ -24,6 +24,7 @@ const POSTHOG_API_KEY = "phx_X1NQ1gB1ipVUJhvPtBpsoLNjCdroOjwxdv0Sj3JJK6XX29i";
 const app = express();
 const port = process.env.PORT || 4000;
 
+//helment reference: https://helmetjs.github.io/
 app.use(helmet());
 
 app.use(
@@ -50,6 +51,20 @@ app.use(
       frameSrc: ["https://js.stripe.com"],
       objectSrc: ["'none'"],
       upgradeInsecureRequests: [],
+    },
+  })
+);
+
+app.use(
+  helmet.permissionsPolicy({
+    features: {
+      geolocation: [],
+      camera: [],
+      microphone: [],
+      payment: [],
+      usb: [],
+      fullscreen: ["self"],
+      clipboardWrite: ["self"],
     },
   })
 );
