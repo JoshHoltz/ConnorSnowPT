@@ -3,6 +3,7 @@ import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
 import { pool } from "./db.js";
+import helmet from "helmet";
 
 import PDFDocument from 'pdfkit';
 
@@ -22,6 +23,36 @@ const POSTHOG_API_KEY = "phx_X1NQ1gB1ipVUJhvPtBpsoLNjCdroOjwxdv0Sj3JJK6XX29i";
 
 const app = express();
 const port = process.env.PORT || 4000;
+
+app.use(helmet());
+
+app.use(
+  helmet.hsts({
+    maxAge: 63072000, // 2 years
+    includeSubDomains: true,
+    preload: true,
+  })
+);
+
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "https://js.stripe.com"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      imgSrc: ["'self'", "data:", "https:"],
+      connectSrc: [
+        "'self'",
+        "https://api.stripe.com",
+        "https://*.posthog.com",
+        "https://*.openai.com"
+      ],
+      frameSrc: ["https://js.stripe.com"],
+      objectSrc: ["'none'"],
+      upgradeInsecureRequests: [],
+    },
+  })
+);
 
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
