@@ -39,7 +39,12 @@ app.use(
   helmet.contentSecurityPolicy({
     directives: {
       defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "https://js.stripe.com"],
+      scriptSrc: [
+        "'self'",
+        "https://js.stripe.com",
+        "https://js.hcaptcha.com",
+        "https://www.google.com/recaptcha/api.js",
+      ],
       styleSrc: ["'self'", "'unsafe-inline'"],
       imgSrc: ["'self'", "data:", "https:"],
       connectSrc: [
@@ -52,12 +57,18 @@ app.use(
         "https://*.hcaptcha.com",
         "https://sentry.hcaptcha.com"
       ],
-      frameSrc: ["https://js.stripe.com"],
+      frameSrc: [
+        "https://js.stripe.com",
+        "https://hcaptcha.com",
+        "https://*.hcaptcha.com",
+        "https://www.google.com/recaptcha/api.js"
+      ],
       objectSrc: ["'none'"],
       upgradeInsecureRequests: [],
     },
   })
 );
+
 
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
