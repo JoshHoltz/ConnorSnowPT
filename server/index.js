@@ -46,7 +46,8 @@ app.use(
         "'self'",
         "https://api.stripe.com",
         "https://*.posthog.com",
-        "https://*.openai.com"
+        "https://*.openai.com",
+        "https://connorsnowpt.onrender.com",
       ],
       frameSrc: ["https://js.stripe.com"],
       objectSrc: ["'none'"],
