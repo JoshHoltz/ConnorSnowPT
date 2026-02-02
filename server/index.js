@@ -55,20 +55,6 @@ app.use(
   })
 );
 
-app.use(
-  helmet.permissionsPolicy({
-    features: {
-      geolocation: ["'none'"],
-      camera: ["'none'"],
-      microphone: ["'none'"],
-      payment: ["'none'"],
-      usb: ["'none'"],
-      fullscreen: ["*"],
-      clipboardWrite: ["'self'"],
-    },
-  })
-);
-
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
