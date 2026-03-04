@@ -28,6 +28,7 @@ type Package = {
   package_description: string;
   package_features: string;
   package_excludes?: string;
+  stripe_payment_link: string;
 };
 
 export const MembershipTiers = () => {
@@ -120,9 +121,9 @@ export const MembershipTiers = () => {
               </div>
 
               <div className="flex flex-1 flex-col justify-end">
-                <button className="w-full bg-black py-4 font-medium text-white transition-colors hover:bg-gray-800">
+                <a href={pkg.stripe_payment_link} className="w-full bg-black py-4 font-medium text-center text-white transition-colors hover:bg-gray-800">
                   Select Plan
-                </button>
+                </a>
               </div>
             </div>
           ))}
@@ -131,3 +132,4 @@ export const MembershipTiers = () => {
     </section>
   );
 };
+
