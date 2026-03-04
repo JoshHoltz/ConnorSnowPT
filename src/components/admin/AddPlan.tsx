@@ -40,6 +40,7 @@ export const AddPlan = ({ onClose, onSuccess }: { onClose: () => void; onSuccess
         onClose();
       } else {
         const data = await response.json();
+        console.log("Response:", data);
         setError(data.error || "Failed to create plan");
       }
     } catch (err) {
@@ -149,19 +150,6 @@ export const AddPlan = ({ onClose, onSuccess }: { onClose: () => void; onSuccess
             />
           </div>
 
-          {/* <div>
-            <label className="block text-sm font-medium text-slate-900 mb-1">
-              Stripe Link
-            </label>
-            <input
-              name="plan_stripe_link"
-              value={formData.plan_stripe_link}
-              onChange={handleChange}
-              placeholder="Enter stripe link e.g. https://stripe..."
-              className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:border-blue-900 focus:ring-2 focus:ring-blue-900 resize-none"
-            />
-          </div> */}
-
             <div>
             <label className="block text-sm font-medium text-slate-900 mb-1">
               Plan Image
@@ -199,3 +187,4 @@ export const AddPlan = ({ onClose, onSuccess }: { onClose: () => void; onSuccess
     </div>
   );
 };
+

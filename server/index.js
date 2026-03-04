@@ -1117,11 +1117,9 @@ app.use("/api/update-client-plan/", async (req, res) => {
 }) 
 
 //inserting a package change
-app.use("/api/insert-package-change", express.urlencoded());
-
+app.use("/api/insert-package-change", express.json());
 app.post("/api/insert-package-change", async (req, res) => {
   console.log("Received package update:", req.body);
-
   const packageId = Number(req.body.package_id);
   const packageName = String(req.body.package_name);
   const packagePrice = String(req.body.package_price);
@@ -1129,36 +1127,106 @@ app.post("/api/insert-package-change", async (req, res) => {
   const featuresArray = req.body.package_features || [];
   const excludesArray = req.body.package_excludes || [];
 
-  const packageFeatures = Array.isArray(featuresArray)
-    ? featuresArray.join(",")
-    : featuresArray || "";
-  const packageExcludes = Array.isArray(excludesArray)
-    ? excludesArray.join(",")
-    : excludesArray || "";
+  const packageFeatures = Array.isArray(featuresArray) ? featuresArray.join(",") : featuresArray || "";
+  const packageExcludes = Array.isArray(excludesArray) ? excludesArray.join(",") : excludesArray || "";
 
   if (!packageId || !packageName || !packagePrice || !packageDescription) {
     return res.status(400).json({ error: "All fields are required" });
   }
 
-  const sql = `
-    UPDATE membership_packages
-    SET package_name = ?, package_price = ?, package_description = ?,
-        package_features = ?, package_excludes = ?
-    WHERE package_id = ?
-  `;
+  try {
+    const [rows] = await pool.query(
+      "SELECT stripe_product_id, stripe_price_id FROM membership_packages WHERE package_id = ?",
+      [packageId]
+    );
 
-  await pool.query(sql, [
-    packageName,
-    packagePrice,
-    packageDescription,
-    packageFeatures,
-    packageExcludes,
-    packageId,
-  ]);
+    if (!rows.length) {
+      return res.status(404).json({ error: "Package not found" });
+    }
 
-  res.json({ message: "Successfully inserted package change" });
+    const { stripe_product_id, stripe_price_id } = rows[0];
+    const priceInPence = Math.round(parseFloat(packagePrice) * 100);
+    let newPriceId = stripe_price_id;
+    let newPaymentLink = null;
+
+    if (stripe_product_id) {
+      // Update product name/description
+      await stripe.products.update(stripe_product_id, {
+        name: packageName,
+        description: packageDescription,
+      });
+
+      // Check if price changed
+      const existingPrice = await stripe.prices.retrieve(stripe_price_id);
+      if (existingPrice.unit_amount !== priceInPence) {
+        await stripe.prices.update(stripe_price_id, { active: false });
+
+        const newPrice = await stripe.prices.create({
+          product: stripe_product_id,
+          unit_amount: priceInPence,
+          currency: "gbp",
+          recurring: { interval: "month" },
+        });
+        newPriceId = newPrice.id;
+
+        const paymentLink = await stripe.paymentLinks.create({
+          line_items: [{ price: newPrice.id, quantity: 1 }],
+        });
+        newPaymentLink = paymentLink.url;
+      }
+    } else {
+      // No Stripe product yet — create from scratch
+      const product = await stripe.products.create({
+        name: packageName,
+        description: packageDescription,
+      });
+
+      const newPrice = await stripe.prices.create({
+        product: product.id,
+        unit_amount: priceInPence,
+        currency: "gbp",
+        recurring: { interval: "month" },
+      });
+      newPriceId = newPrice.id;
+
+      const paymentLink = await stripe.paymentLinks.create({
+        line_items: [{ price: newPrice.id, quantity: 1 }],
+      });
+      newPaymentLink = paymentLink.url;
+
+      await pool.query(
+        "UPDATE membership_packages SET stripe_product_id = ? WHERE package_id = ?",
+        [product.id, packageId]
+      );
+    }
+
+    const sql = `
+      UPDATE membership_packages
+      SET package_name = ?, package_price = ?, package_description = ?,
+          package_features = ?, package_excludes = ?,
+          stripe_price_id = ?,
+          ${newPaymentLink ? "stripe_payment_link = ?," : ""}
+          updated_at = NOW()
+      WHERE package_id = ?
+    `;
+
+    const params = [
+      packageName, packagePrice, packageDescription,
+      packageFeatures, packageExcludes,
+      newPriceId,
+      ...(newPaymentLink ? [newPaymentLink] : []),
+      packageId,
+    ];
+
+    await pool.query(sql, params);
+
+    res.json({ message: "Successfully updated package" });
+
+  } catch (error) {
+    console.error("Error updating package:", error);
+    res.status(500).json({ error: error.message });
+  }
 });
-
 
 //inserting a plan change
 app.use("/api/insert-plan-change", express.urlencoded());
