@@ -1211,7 +1211,6 @@ app.post("/api/insert-package-change", async (req, res) => {
            package_features = ?, package_excludes = ?,
            stripe_price_id = ?,
            stripe_payment_link = ?,
-           updated_at = NOW()
        WHERE package_id = ?`,
       [packageName, packagePrice, packageDescription, packageFeatures, packageExcludes, newPriceId, newPaymentLink, packageId]
     );
