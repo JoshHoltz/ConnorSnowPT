@@ -1205,15 +1205,27 @@ app.post("/api/insert-package-change", async (req, res) => {
       );
     }
 
-    await pool.query(
-      `UPDATE membership_packages
-       SET package_name = ?, package_price = ?, package_description = ?,
-           package_features = ?, package_excludes = ?,
-           stripe_price_id = ?,
-           stripe_payment_link = ?,
-       WHERE package_id = ?`,
-      [packageName, packagePrice, packageDescription, packageFeatures, packageExcludes, newPriceId, newPaymentLink, packageId]
-    );
+  await pool.query(
+    `UPDATE membership_packages
+    SET package_name = ?, 
+        package_price = ?, 
+        package_description = ?,
+        package_features = ?, 
+        package_excludes = ?,
+        stripe_price_id = ?,
+        stripe_payment_link = ?
+    WHERE package_id = ?`,
+    [
+      packageName,
+      packagePrice,
+      packageDescription,
+      packageFeatures,
+      packageExcludes,
+      newPriceId,
+      newPaymentLink,
+      packageId
+    ]
+  );
 
     res.json({ message: "Successfully updated package" });
 

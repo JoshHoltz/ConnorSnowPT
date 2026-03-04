@@ -29,10 +29,15 @@ export const AdminMembershipTiers = () => {
       }
     );
 
-    if (response.ok) {
-      setShowSuccess(true);
-      setTimeout(() => setShowSuccess(false), 3000);
-    }
+  if (response.ok) {
+    const updated = await fetch("https://connorsnowpt.onrender.com/api/membership-packages");
+    const data = await updated.json();
+    setPackages(data);
+
+    setShowSuccess(true);
+    setTimeout(() => setShowSuccess(false), 3000);
+  }
+
   };
 
   return (
