@@ -1135,7 +1135,7 @@ app.post("/api/insert-package-change", async (req, res) => {
 
   try {
     const [rows] = await pool.query(
-      "SELECT stripe_product_id, stripe_price_id FROM membership_packages WHERE package_id = ?",
+      "SELECT stripe_product_id, stripe_price_id, stripe_payment_link FROM membership_packages WHERE package_id = ?",
       [packageId]
     );
 
@@ -1143,10 +1143,10 @@ app.post("/api/insert-package-change", async (req, res) => {
       return res.status(404).json({ error: "Package not found" });
     }
 
-    const { stripe_product_id, stripe_price_id } = rows[0];
+    const { stripe_product_id, stripe_price_id, stripe_payment_link } = rows[0];
     const priceInPence = Math.round(parseFloat(packagePrice) * 100);
     let newPriceId = stripe_price_id;
-    let newPaymentLink = null;
+    let newPaymentLink = stripe_payment_link; // keep existing link by default
 
     if (stripe_product_id) {
       await stripe.products.update(stripe_product_id, {
@@ -1157,7 +1157,6 @@ app.post("/api/insert-package-change", async (req, res) => {
       const existingPrice = await stripe.prices.retrieve(stripe_price_id);
 
       if (existingPrice.unit_amount !== priceInPence) {
-        // Create new price first
         const newPrice = await stripe.prices.create({
           product: stripe_product_id,
           unit_amount: priceInPence,
@@ -1206,25 +1205,16 @@ app.post("/api/insert-package-change", async (req, res) => {
       );
     }
 
-    const sql = `
-      UPDATE membership_packages
-      SET package_name = ?, package_price = ?, package_description = ?,
-          package_features = ?, package_excludes = ?,
-          stripe_price_id = ?,
-          ${newPaymentLink ? "stripe_payment_link = ?," : ""}
-          updated_at = NOW()
-      WHERE package_id = ?
-    `;
-
-    const params = [
-      packageName, packagePrice, packageDescription,
-      packageFeatures, packageExcludes,
-      newPriceId,
-      ...(newPaymentLink ? [newPaymentLink] : []),
-      packageId,
-    ];
-
-    await pool.query(sql, params);
+    await pool.query(
+      `UPDATE membership_packages
+       SET package_name = ?, package_price = ?, package_description = ?,
+           package_features = ?, package_excludes = ?,
+           stripe_price_id = ?,
+           stripe_payment_link = ?,
+           updated_at = NOW()
+       WHERE package_id = ?`,
+      [packageName, packagePrice, packageDescription, packageFeatures, packageExcludes, newPriceId, newPaymentLink, packageId]
+    );
 
     res.json({ message: "Successfully updated package" });
 
