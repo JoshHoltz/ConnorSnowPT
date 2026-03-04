@@ -1126,7 +1126,6 @@ app.post("/api/insert-package-change", async (req, res) => {
   const packageDescription = String(req.body.package_description);
   const featuresArray = req.body.package_features || [];
   const excludesArray = req.body.package_excludes || [];
-
   const packageFeatures = Array.isArray(featuresArray) ? featuresArray.join(",") : featuresArray || "";
   const packageExcludes = Array.isArray(excludesArray) ? excludesArray.join(",") : excludesArray || "";
 
@@ -1150,17 +1149,15 @@ app.post("/api/insert-package-change", async (req, res) => {
     let newPaymentLink = null;
 
     if (stripe_product_id) {
-      // Update product name/description
       await stripe.products.update(stripe_product_id, {
         name: packageName,
         description: packageDescription,
       });
 
-      // Check if price changed
       const existingPrice = await stripe.prices.retrieve(stripe_price_id);
-      if (existingPrice.unit_amount !== priceInPence) {
-        await stripe.prices.update(stripe_price_id, { active: false });
 
+      if (existingPrice.unit_amount !== priceInPence) {
+        // Create new price first
         const newPrice = await stripe.prices.create({
           product: stripe_product_id,
           unit_amount: priceInPence,
@@ -1169,13 +1166,18 @@ app.post("/api/insert-package-change", async (req, res) => {
         });
         newPriceId = newPrice.id;
 
+        await stripe.products.update(stripe_product_id, {
+          default_price: newPrice.id,
+        });
+
+        await stripe.prices.update(stripe_price_id, { active: false });
+
         const paymentLink = await stripe.paymentLinks.create({
           line_items: [{ price: newPrice.id, quantity: 1 }],
         });
         newPaymentLink = paymentLink.url;
       }
     } else {
-      // No Stripe product yet — create from scratch
       const product = await stripe.products.create({
         name: packageName,
         description: packageDescription,
@@ -1188,6 +1190,10 @@ app.post("/api/insert-package-change", async (req, res) => {
         recurring: { interval: "month" },
       });
       newPriceId = newPrice.id;
+
+      await stripe.products.update(product.id, {
+        default_price: newPrice.id,
+      });
 
       const paymentLink = await stripe.paymentLinks.create({
         line_items: [{ price: newPrice.id, quantity: 1 }],
