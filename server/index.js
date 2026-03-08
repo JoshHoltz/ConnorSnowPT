@@ -18,9 +18,6 @@ import { data } from "react-router-dom";
 
 const trainerName = "Connor Snow";
 
-const POSTHOG_PROJECT_ID = 83713;
-const POSTHOG_API_KEY = "phx_X1NQ1gB1ipVUJhvPtBpsoLNjCdroOjwxdv0Sj3JJK6XX29i";
-
 const app = express();
 const port = process.env.PORT || 4000;
 
