@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Edit2, Plus } from "lucide-react";
 import { UpcomingWorkoutEditor } from "./EditPremadeExercise";
+import { AddPremadeWorkoutForm } from "./AddPremadeWorkoutForm";
 
 export const PremadeTrainingPlanTable = () => {
   const [premadePlans, setPremadePlans] = useState([]);
@@ -21,36 +22,37 @@ export const PremadeTrainingPlanTable = () => {
     fetchPlans();
   }, []);
 
-  const handleAddPlan = async (workout) => {
-    setError(null);
-    setSaving(true);
-    try {
-      const res = await fetch(
-        "https://connorsnowpt.onrender.com/api/insert-premade-workout",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            premade_workout_name: workout.name,
-            premade_workout_exercises: workout.exercises ?? [],
-          }),
-        }
-      );
+const handleAddPlan = async (plan) => {
+  try {
+    const formattedPlan = {
+      name: plan.name,
+      exercises: plan.exercises.map((ex) => ({
+        exercise_name: ex.name,
+        sets: Number(ex.sets),
+        reps: Number(ex.reps)
+      }))
+    };
 
-      if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
-        throw new Error(data.error );
+    const res = await fetch(
+      "https://connorsnowpt.onrender.com/api/insert-premade-workout",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(formattedPlan)
       }
+    );
 
-      setAddedPlanForm(false);
-      fetchPlans();
-    } catch (err) {
-      console.error("Error inserting premade plan:", err);
-      setError(err.message);
-    } finally {
-      setSaving(false);
-    }
-  };
+    if (!res.ok) throw new Error("Failed");
+
+    setAddedPlanForm(false);
+    fetchPlans();
+
+  } catch (err) {
+    console.error("Error inserting premade plan:", err);
+  }
+};
 
   return (
     <section className="p-6">
@@ -156,14 +158,11 @@ export const PremadeTrainingPlanTable = () => {
       </div>
 
       {/* Add new plan form */}
-      {addedPlanForm && (
-        <UpcomingWorkoutEditor
-          initialWorkout={null}
-          onClose={() => setAddedPlanForm(false)}
-          onSave={handleAddPlan}         
-          saving={saving}    
-        />
-      )}
+      <AddPremadeWorkoutForm
+        onClose={() => setAddedPlanForm(false)}
+        onSave={handleAddPlan}
+        saving={saving}
+      />
     </section>
   );
 };
