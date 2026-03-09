@@ -1753,6 +1753,7 @@ app.get("/api/posthog-homepage-cta-clicks", async (req, res) => {
 
 // Fetching the traffic that interact with the Packages Checkout Button
 app.get("/api/posthog-checkout-clicks", async (req, res) => {
+  console.log(POSTHOG_API_KEY, POSTHOG_PROJECT_ID);
   const url = `https://eu.posthog.com/api/projects/${POSTHOG_PROJECT_ID}/query/`;
   const headers = {
     "Content-Type": "application/json",
