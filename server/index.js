@@ -1574,31 +1574,27 @@ app.post("/api/insert-client-details", async (req, res) => {
 
 //insert a premade workout
 //db columns: premade_workout_id, INT, premade_workout_name, VARCHAR, premade_workout_exercies_json, JSON
-const handleAddPlan = async (plan) => {
+app.post("/api/insert-premade-workout", async (req, res) => {
   try {
-    const res = await fetch(
-      "https://connorsnowpt.onrender.com/api/insert-premade-workout",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          premade_workout_name: plan.name,
-          premade_workout_exercises: plan.exercises
-        })
-      }
-    );
+    console.log("Received request:", req.body);
 
-    if (!res.ok) throw new Error();
+    const premade_workout_name = String(req.body.name);
+    const premade_workout_exercises = req.body.exercises || [];
 
-    setAddedPlanForm(false);
-    fetchPlans();
+    const premade_workout_exercises_json = JSON.stringify(premade_workout_exercises);
+
+    const sql =
+      "INSERT INTO premade_workouts (premade_workout_name, premade_workout_exercies_json) VALUES (?, ?)";
+
+    await pool.query(sql, [premade_workout_name, premade_workout_exercises_json]);
+
+    res.json({ message: "Successfully inserted Premade Workout" });
 
   } catch (err) {
-    console.error("Error inserting premade plan:", err);
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
   }
-};
+});
 
 
 // add user from client screen
