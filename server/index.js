@@ -50,7 +50,7 @@ app.use(
       ],
       styleSrc: ["'self'", "'unsafe-inline'"],
       //allow png and jpg
-      imgSrc: ["self", "data:", "https:", "blob:", "png", "jpg"],
+      imgSrc: ["'self'", "data:", "https:", "blob:", "png", "jpg"],
       connectSrc: [
         "'self'",
         "https://api.stripe.com",
