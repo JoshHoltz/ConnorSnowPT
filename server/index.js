@@ -28,7 +28,9 @@ const app = express();
 const port = process.env.PORT || 4000;
 
 //helment reference: https://helmetjs.github.io/
-app.use(helmet());
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: "cross-origin" }
+}));
 
 app.use(
   helmet.hsts({
