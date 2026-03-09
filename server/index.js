@@ -1574,10 +1574,10 @@ app.post("/api/insert-client-details", async (req, res) => {
 
 //insert a premade workout
 //db columns: premade_workout_id, INT, premade_workout_name, VARCHAR, premade_workout_exercies_json, JSON
-app.use("/api/update-upcoming-workout", express.json());
+app.use("/api/insert-premade-workout", express.json());
 
-app.post("/api/update-upcoming-workout", async (req, res) => {
-
+app.post("/api/insert-premade-workout", async (req, res) => {
+  
   console.log("Received request to insert premade workout:", req.body);
   const premade_workout_name = String(req.body.premade_workout_name);
   const premade_workout_exercises = req.body.premade_workout_exercises || [];

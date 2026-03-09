@@ -39,7 +39,7 @@ export const PremadeTrainingPlanTable = () => {
 
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
-        throw new Error(data.error || "Failed to save plan");
+        throw new Error(data.error );
       }
 
       setAddedPlanForm(false);
