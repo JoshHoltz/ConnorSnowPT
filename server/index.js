@@ -16,6 +16,11 @@ const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 import bcrypt from "bcrypt";
 import { data } from "react-router-dom";
 
+//import posthog from .env
+const POSTHOG_API_KEY = process.env.POSTHOG_API_KEY;
+const POSTHOG_PROJECT_ID = process.env.POSTHOG_PROJECT_ID;
+
+
 const trainerName = "Connor Snow";
 
 const app = express();
