@@ -15,6 +15,7 @@ const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 import bcrypt from "bcrypt";
 import { data } from "react-router-dom";
+import { json } from "stream/consumers";
 
 //import posthog from .env
 const POSTHOG_API_KEY = process.env.POSTHOG_API_KEY;
@@ -1781,7 +1782,8 @@ app.get("/api/posthog-checkout-clicks", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 
-  console.log('Total clicks: ', payload.query.query);
+  //print total clicks from the data
+  console.log('Total clicks: ', data.results?.[0]?.[0] || 0);
 });
 
 // Fetch the Average Rating of the PT
