@@ -1138,8 +1138,8 @@ app.post("/api/update-upcoming-workout", async (req, res) => {
 
     const sql = `
       UPDATE upcoming_workouts
-      SET workout_name = ?, workout_exercises_json = ?
-      WHERE workout_name = ?
+      SET premade_workout_name = ?, premade_workout_exercies_json = ?
+      WHERE premade_workout_name = ?
     `;
 
     await pool.query(sql, [name, exercises_json, name]);
