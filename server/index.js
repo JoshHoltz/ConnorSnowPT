@@ -1122,7 +1122,36 @@ app.use("/api/update-client-plan/", async (req, res) => {
   await pool.query(sql, [plan_change, client_id]);
   res.json({message: 'inserted plan change'})
 
-}) 
+});
+
+app.post("/api/update-upcoming-workout", async (req, res) => {
+  try {
+    console.log("Updating upcoming workout:", req.body);
+
+    const { name, exercises } = req.body;
+
+    if (!name) {
+      return res.status(400).json({ error: "Workout name required" });
+    }
+
+    const exercises_json = JSON.stringify(exercises || []);
+
+    const sql = `
+      UPDATE upcoming_workouts
+      SET workout_name = ?, workout_exercises_json = ?
+      WHERE workout_name = ?
+    `;
+
+    await pool.query(sql, [name, exercises_json, name]);
+
+    res.json({ message: "Workout updated successfully" });
+
+  } catch (err) {
+    console.error("Update upcoming workout error:", err);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
 
 //inserting a package change
 app.use("/api/insert-package-change", express.json());

@@ -158,11 +158,13 @@ const handleAddPlan = async (plan) => {
       </div>
 
       {/* Add new plan form */}
-      <AddPremadeWorkoutForm
-        onClose={() => setAddedPlanForm(false)}
-        onSave={handleAddPlan}
-        saving={saving}
-      />
+      {addedPlanForm && (
+        <AddPremadeWorkoutForm
+          onClose={() => setAddedPlanForm(false)}
+          onSave={handleAddPlan}
+          saving={saving}
+        />
+      )}
     </section>
   );
 };

@@ -34,6 +34,8 @@ export const AddPremadeWorkoutForm = ({ onClose, onSave, saving }) => {
       name: workoutName,
       exercises
     });
+
+    onClose();
   };
 
   return (
