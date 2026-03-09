@@ -47,10 +47,11 @@ app.use(
         "https://js.stripe.com",
         "https://js.hcaptcha.com",
         "https://www.google.com/recaptcha/api.js",
+        "https://js.hcaptcha.com",
+        "https://www.google.com/recaptcha/api.js",
       ],
       styleSrc: ["'self'", "'unsafe-inline'"],
-      //allow png and jpg
-      imgSrc: ["'self'", "data:", "https:", "blob:", "png", "jpg"],
+      imgSrc: ["'self'", "data:", "https:", "blob:"],
       connectSrc: [
         "'self'",
         "https://api.stripe.com",
@@ -65,7 +66,9 @@ app.use(
         "https://js.stripe.com",
         "https://hcaptcha.com",
         "https://*.hcaptcha.com",
-        "https://www.google.com/recaptcha/api.js"
+        "https://www.google.com/recaptcha/api.js",
+        "https://www.youtube.com",
+        "https://www.youtube-nocookie.com"
       ],
       objectSrc: ["'none'"],
       upgradeInsecureRequests: [],
