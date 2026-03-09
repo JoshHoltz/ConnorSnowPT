@@ -1590,10 +1590,9 @@ app.post("/api/update-upcoming-workout", async (req, res) => {
   const sql =
     "INSERT INTO premade_workouts (premade_workout_name, premade_workout_exercises_json) VALUES (?, ?)";
   await pool.query(sql, [premade_workout_name, premade_workout_exercises_json]);
-  
+
   res.json({ message: "Successfully inserted Premade Workout" });
 });
-
 
 // add user from client screen
 app.post("/api/create-client", async (req, res) => {
