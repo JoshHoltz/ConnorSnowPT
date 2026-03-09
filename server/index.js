@@ -1137,7 +1137,7 @@ app.post("/api/update-upcoming-workout", async (req, res) => {
     const exercises_json = JSON.stringify(exercises || []);
 
     const sql = `
-      UPDATE upcoming_workouts
+      UPDATE premade_workouts
       SET premade_workout_name = ?, premade_workout_exercies_json = ?
       WHERE premade_workout_name = ?
     `;
