@@ -1572,6 +1572,29 @@ app.post("/api/insert-client-details", async (req, res) => {
   res.json({ message: "Successfully inserted Client Details" });
 });
 
+//insert a premade workout
+//db columns: premade_workout_id, INT, premade_workout_name, VARCHAR, premade_workout_exercies_json, JSON
+app.use("/api/update-upcoming-workout", express.json());
+
+app.post("/api/update-upcoming-workout", async (req, res) => {
+
+  console.log("Received request to insert premade workout:", req.body);
+  const premade_workout_name = String(req.body.premade_workout_name);
+  const premade_workout_exercises = req.body.premade_workout_exercises || [];
+
+  const premade_workout_exercises_json = JSON.stringify(premade_workout_exercises);
+  if (!premade_workout_name || !premade_workout_exercises.length) {
+    return res.status(400).json({ error: "All fields are required" });
+  }
+
+  const sql =
+    "INSERT INTO premade_workouts (premade_workout_name, premade_workout_exercises_json) VALUES (?, ?)";
+  await pool.query(sql, [premade_workout_name, premade_workout_exercises_json]);
+  
+  res.json({ message: "Successfully inserted Premade Workout" });
+});
+
+
 // add user from client screen
 app.post("/api/create-client", async (req, res) => {
   const {
