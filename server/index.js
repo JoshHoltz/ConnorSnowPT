@@ -1780,6 +1780,8 @@ app.get("/api/posthog-checkout-clicks", async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
+
+  console.log('Total clicks: ', payload.query.query);
 });
 
 // Fetch the Average Rating of the PT
