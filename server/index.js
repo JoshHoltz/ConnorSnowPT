@@ -49,7 +49,8 @@ app.use(
         "https://www.google.com/recaptcha/api.js",
       ],
       styleSrc: ["'self'", "'unsafe-inline'"],
-      imgSrc: ["'self'", "data:", "https:"],
+      //allow png and jpg
+      imgSrc: ["self", "data:", "https:", "blob:", "png", "jpg"],
       connectSrc: [
         "'self'",
         "https://api.stripe.com",

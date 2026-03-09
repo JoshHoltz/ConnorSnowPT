@@ -27,11 +27,11 @@ export const Header = () => {
           <Link to="/about" className="ml-4 text-white hover:text-gray-400">
             About
           </Link>
-          <Link to="/plans" className="ml-4 text-white hover:text-gray-400">
-            Plans
-          </Link>
           <Link to="/packages" className="ml-4 text-white hover:text-gray-400">
             Packages
+          </Link>
+          <Link to="/plans" className="ml-4 text-white hover:text-gray-400">
+            Plans
           </Link>
           <Link to="/contact" className="ml-4 text-white hover:text-gray-400">
             Contact

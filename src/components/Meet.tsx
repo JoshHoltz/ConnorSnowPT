@@ -7,12 +7,12 @@ export const Meet = () => {
         {/* Image Section */}
         <div className="relative w-full md:w-1/4 space-y-8">
           <img
-            src="../images/connor-4.png"
-            alt="Personal trainer working with client"
+            src="../images/Connor-Hyrox.jpg"
+            alt="Personal Trainer at Hyrox Event"
             className="w-full h-[22rem] md:h-[24rem] object-cover rounded-xl shadow-lg"
           />
           <img
-            src="../images/connor-3.png"
+            src="../images/connor-4.png"
             alt="Personal trainer working with client"
             className="w-full h-[22rem] md:h-[24rem] object-cover rounded-xl shadow-lg"
           />
