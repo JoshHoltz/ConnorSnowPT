@@ -67,6 +67,7 @@ app.use(helmet({
         "https://www.google.com/recaptcha/",
         "https://www.youtube.com",
         "https://www.youtube-nocookie.com",
+        "https://calendar.google.com", 
       ],
       objectSrc: ["'none'"],
       upgradeInsecureRequests: [],
