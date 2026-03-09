@@ -29,29 +29,21 @@ const port = process.env.PORT || 4000;
 
 //helment reference: https://helmetjs.github.io/
 app.use(helmet({
-  crossOriginResourcePolicy: { policy: "cross-origin" }
-}));
-
-app.use(
-  helmet.hsts({
-    maxAge: 63072000, // 2 years
+  crossOriginResourcePolicy: { policy: "cross-origin" },
+  hsts: {
+    maxAge: 63072000,
     includeSubDomains: true,
     preload: true,
-  })
-);
-
-app.use(
-  helmet.contentSecurityPolicy({
+  },
+  contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
       scriptSrc: [
         "'self'",
         "https://js.stripe.com",
         "https://js.hcaptcha.com",
-        "https://www.google.com/recaptcha/api.js",
-        "https://js.hcaptcha.com",
-        "https://www.google.com/recaptcha/api.js",
-        "https://www.gstatic.com/recaptcha/",  
+        "https://www.google.com/recaptcha/",
+        "https://www.gstatic.com/recaptcha/",
         "https://eu-assets.i.posthog.com",
         "'sha256-ieoeWczDHkReVBsRBqaal5AFMlBtNjMzgwKvLqi/tSU='",
       ],
@@ -61,26 +53,26 @@ app.use(
         "'self'",
         "https://api.stripe.com",
         "https://*.posthog.com",
+        "https://eu-assets.i.posthog.com",
         "https://*.openai.com",
         "https://connorsnowpt.onrender.com",
         "https://hcaptcha.com",
         "https://*.hcaptcha.com",
         "https://sentry.hcaptcha.com",
-        "https://eu-assets.i.posthog.com",
       ],
       frameSrc: [
         "https://js.stripe.com",
         "https://hcaptcha.com",
         "https://*.hcaptcha.com",
-        "https://www.google.com/recaptcha/api.js",
+        "https://www.google.com/recaptcha/",
         "https://www.youtube.com",
-        "https://www.youtube-nocookie.com"
+        "https://www.youtube-nocookie.com",
       ],
       objectSrc: ["'none'"],
       upgradeInsecureRequests: [],
     },
-  })
-);
+  },
+}));
 
 
 app.use(cors());
