@@ -51,6 +51,9 @@ app.use(
         "https://www.google.com/recaptcha/api.js",
         "https://js.hcaptcha.com",
         "https://www.google.com/recaptcha/api.js",
+        "https://www.gstatic.com/recaptcha/",  
+        "https://eu-assets.i.posthog.com",
+        "'sha256-ieoeWczDHkReVBsRBqaal5AFMlBtNjMzgwKvLqi/tSU='",
       ],
       styleSrc: ["'self'", "'unsafe-inline'"],
       imgSrc: ["'self'", "data:", "https:", "blob:"],
@@ -62,7 +65,8 @@ app.use(
         "https://connorsnowpt.onrender.com",
         "https://hcaptcha.com",
         "https://*.hcaptcha.com",
-        "https://sentry.hcaptcha.com"
+        "https://sentry.hcaptcha.com",
+        "https://eu-assets.i.posthog.com",
       ],
       frameSrc: [
         "https://js.stripe.com",
