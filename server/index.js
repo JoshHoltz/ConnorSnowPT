@@ -1781,9 +1781,6 @@ app.get("/api/posthog-checkout-clicks", async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
-
-  //print total clicks from the data
-  console.log('Total clicks: ', data.results?.[0]?.[0] || 0);
 });
 
 // Fetch the Average Rating of the PT
