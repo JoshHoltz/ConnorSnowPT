@@ -1627,6 +1627,9 @@ app.post("/api/insert-premade-workout", async (req, res) => {
 
 //send connor message api route
 app.post("/api/send-connor-message", async (req, res) => {
+
+  console.log("Received request to send message:", req.body);
+
   try {
     console.log("Received request:", req.body);
     const { name, email, phone, message } = req.body;
