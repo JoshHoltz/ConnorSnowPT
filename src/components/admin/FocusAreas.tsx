@@ -48,5 +48,9 @@ export const FocusAreas = () => {
     },
   };
 
-  return <Radar data={chartData} options={options} />;
+return (
+  <div className="relative w-full h-48 md:h-full">
+    <Radar data={chartData} options={options} />
+  </div>
+);
 };

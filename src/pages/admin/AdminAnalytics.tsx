@@ -29,40 +29,36 @@ export const AdminAnalytics = () => {
   }, [navigate]);
 
   return (
-    <div className="flex h-screen flex-col gap-4 bg-gray-100 p-2">
+    <div className="flex flex-col gap-4 bg-gray-100 md:p-2 min-h-screen">
+
       {/* Web Traffic */}
-      <div className="h-1/3 rounded-lg bg-white p-4 shadow">
+      <div className="rounded-lg bg-white shadow hidden p-4 md:block">
         <WebTraffic />
       </div>
 
-      {/* Bottom section */}
-
-      {/* CTA Clicking */}
-      <div className="flex h-2/3 gap-4">
-        <div className="flex w-1/4 flex-col gap-4">
-          <div className="flex-1 rounded-lg bg-white p-4 shadow">
-            <HomepageCTAClicks />
-          </div>
-          <div className="flex-1 rounded-lg bg-white p-4 shadow">
-            <CheckoutCTAClicks />
-          </div>
+      {/* CTA Clicks - stack on mobile, side by side on desktop */}
+      <div className="flex flex-col md:flex-row gap-4">
+        <div className="rounded-lg bg-white p-4 shadow md:w-1/4">
+          <HomepageCTAClicks />
+        </div>
+        <div className="rounded-lg bg-white p-4 shadow md:w-1/4">
+          <CheckoutCTAClicks />
         </div>
 
-        <div className="flex w-3/4 flex-col gap-4">
-          <div className="flex gap-4">
-            <div className="w-1/2 flex-1 rounded-lg bg-white p-4 shadow">
-              <AverageRating />
-            </div>
-            <div className="flex-1 rounded-lg bg-white p-4 shadow">
-              <FocusAreas />
-            </div>
-          </div>
-
-          <div className="flex-1 rounded-lg bg-white p-4 shadow">
-            <StripeAnalytics />
-          </div>
+        {/* Rating + Focus Areas */}
+        <div className="rounded-lg bg-white p-4 shadow md:w-1/4">
+          <AverageRating />
+        </div>
+        <div className="rounded-lg bg-white p-4 shadow md:w-1/4">
+          <FocusAreas />
         </div>
       </div>
+
+      {/* Stripe */}
+      <div className="rounded-lg bg-white p-4 shadow">
+        <StripeAnalytics />
+      </div>
+
     </div>
   );
 };
