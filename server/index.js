@@ -1956,7 +1956,7 @@ app.get("/api/posthog-web-connections", async (req, res) => {
               FROM events
           WHERE 
             event = '$pageview'
-            AND timestamp >= now() - INTERVAL 30 DAY
+            AND timestamp >= now() - INTERVAL 7 DAY
           GROUP BY date
           ORDER BY date ASC`,
     },
