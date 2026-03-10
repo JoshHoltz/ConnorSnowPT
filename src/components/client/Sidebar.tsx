@@ -63,13 +63,6 @@ export const Sidebar = () => {
                   text="Book a Session"
                 />
               </li>
-              <li className="list-none px-4">
-                <NavButton
-                  href="/client/Messages"
-                  icon={<Dumbbell />}
-                  text="Message Trainer"
-                />
-              </li>
             </ul>
 
             {/* Bottom */}
@@ -142,9 +135,6 @@ export const Sidebar = () => {
           </Link>
           <Link to="/client/booking" className="block hover:text-gray-400">
             Book
-          </Link>
-          <Link to="/client/messages" className="block hover:text-gray-400">
-            Messages
           </Link>
           <Link
             to="/"
