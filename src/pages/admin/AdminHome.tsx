@@ -21,7 +21,6 @@ export const AdminHome = () => {
 
   useEffect(() => {
     const token = getToken();
-
     if (!token || token.isAdmin !== "Y") {
       navigate("/forbidden", { replace: true });
       window.location.reload();
@@ -29,23 +28,25 @@ export const AdminHome = () => {
   }, [navigate]);
 
   return (
-    <>
+    <>      
 
-      {/* Width 100% */}
-      <TopLevelInfo />
-      <QuickLinks />
+      <div className="pt-16 md:pt-10 mb-6 px-6 md:hidden">
+        <h1 className="text-2xl font-bold text-gray-800">Welcome Back, Connor</h1>
+      </div>
 
-      {/* flex w-full */}
-      <div className="flex w-full">
+      <div className="hidden md:block">
+        <TopLevelInfo />
+        <QuickLinks />
+      </div>
 
-       <div className="w-2/3 h-full">
-        <AIAnalysis />
+      <div className="flex flex-col md:flex-row w-full">
+        <div className="w-full md:w-2/3 h-full">
+          <AIAnalysis />
         </div>
-        <div className="w-1/3 pr-8">
-        <ToDo />
+        <div className="w-full md:w-1/3 pr-0 md:pr-8">
+          <ToDo />
         </div>
-
-        </div>
+      </div>
     </>
   );
 };

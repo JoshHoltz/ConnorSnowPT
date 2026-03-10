@@ -55,7 +55,7 @@ const handleAddPlan = async (plan) => {
 };
 
   return (
-    <section className="p-6">
+    <section className="md:p-6 mt-14 md:mt-0">
       <div className="mb-8">
         {/* Add Premade Plan Button */}
         <div className="flex justify-end mb-6">
@@ -88,7 +88,7 @@ const handleAddPlan = async (plan) => {
               <thead>
                 <tr className="bg-gradient-to-r from-slate-900 to-slate-800 text-white">
                   <th className="px-6 py-4 text-left font-semibold">Workout Name</th>
-                  <th className="px-6 py-4 text-left font-semibold">Exercises</th>
+                  <th className="px-6 py-4 text-left font-semibold">Exercise</th>
                   <th className="px-6 py-4 text-left font-semibold">Actions</th>
                 </tr>
               </thead>
@@ -107,7 +107,7 @@ const handleAddPlan = async (plan) => {
                     {/* Exercise Count */}
                     <td className="px-6 py-4">
                       <span className="text-slate-700 font-medium">
-                        {plan.exercises?.length || 0} exercises
+                        {plan.exercises?.length || 0} exercise(s)
                       </span>
                     </td>
 

@@ -31,10 +31,9 @@ export function AIAnalysis() {
           "https://connorsnowpt.onrender.com/api/posthog-average-rating"
         );
         if (trainerRes.ok) {
-          const trainerData = await trainerRes.json()
-          setTrainerAnalysis(trainerData)
+          const trainerData = await trainerRes.json();
+          setTrainerAnalysis(trainerData);
         }
-
       } catch (err) {
         console.error("Error fetching data:", err);
         setError("Error loading analysis");
@@ -48,7 +47,7 @@ export function AIAnalysis() {
 
   if (error) {
     return (
-      <div className="px-6 py-4">
+      <div className="px-4 py-4">
         <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-red-700">
           {error}
         </div>
@@ -65,8 +64,8 @@ export function AIAnalysis() {
   }
 
   return (
-    <div className="px-8">
-      <div className="mb-6 rounded-xl border-gray-100 bg-white p-6 shadow-lg">
+    <div className="px-4 md:px-8">
+      <div className="mb-6 rounded-xl border-gray-100 bg-white p-4 md:p-6 shadow-lg">
         <div className="mb-4 flex items-center justify-between">
           <h2 className="flex items-center text-lg font-semibold text-gray-800">
             <Zap size={20} className="mr-2 text-purple-500" />
@@ -82,19 +81,16 @@ export function AIAnalysis() {
             </p>
           </div>
 
-          <div className="mt-4 flex gap-4">
-            <div className="w-1/2">
+          <div className="mt-4 flex flex-col md:flex-row gap-4">
+            <div className="w-full md:w-1/2">
               <div className="rounded-lg border border-blue-100 bg-blue-50 p-4">
                 <h1 className="font-bold mb-2">AI Trainer Analysis</h1>
-                <div className="text-sm space-y-1">
-                    <p>
-                      {trainerAnalysis?.analysis || "No analysis available"}
-                    </p>
-                </div>
+                <p className="text-sm">
+                  {trainerAnalysis?.analysis || "No analysis available"}
+                </p>
               </div>
             </div>
-
-            <div className="w-1/2">
+            <div className="w-full md:w-1/2">
               <div className="rounded-lg border border-green-100 bg-green-50 p-4">
                 <h1 className="font-bold mb-2">AI Web Analysis</h1>
                 <p className="text-sm text-green-900 leading-relaxed">

@@ -27,7 +27,9 @@ export const AdminClients = () => {
 
   return (
     <>
+    <div className="hidden md:block">
       <TopLevelInfo />
+    </div>
       <MembersTable />
     </>
   );
