@@ -1625,6 +1625,23 @@ app.post("/api/insert-premade-workout", async (req, res) => {
   }
 });
 
+//send connor message api route
+app.post("/api/send-connor-message", async (req, res) => {
+  try {
+    console.log("Received request:", req.body);
+    const { name, email, phone, message } = req.body;
+
+    const sql =
+      "INSERT INTO messages (message_name, message_email, message_phone, message_body) VALUES (?, ?, ?, ?)";
+    await pool.query(sql, [name, email, phone || null, message]);
+
+    res.json({ message: "Message sent successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
 
 // add user from client screen
 app.post("/api/create-client", async (req, res) => {
