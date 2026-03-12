@@ -1645,6 +1645,17 @@ app.post("/api/send-connor-message", async (req, res) => {
   }
 });
 
+//get connor message
+app.get("/api/get-sent-messages", async (req, res) => {
+  try {
+    const sql = "SELECT * FROM messages ORDER BY message_id DESC";
+    const [rows] = await pool.query(sql);
+    res.json({ messages: rows });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+});
 
 // add user from client screen
 app.post("/api/create-client", async (req, res) => {
