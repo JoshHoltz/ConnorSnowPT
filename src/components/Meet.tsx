@@ -64,15 +64,17 @@ export const Meet = () => {
             </div>
           </div>
 
-          {/* Video Connor Section */}
-          <div className="mt-10 h-[32rem]">
-            <iframe
-              className="h-full w-full rounded-xl shadow-lg"
-              src="https://www.youtube.com/embed/NpEaa2P7qZI?si=K8NMT9UxAUejFV22"
-              title="Placeholder Connor Video"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            />
-          </div>
+        {/* Video Connor Section */}
+        <div className="mt-10 h-[32rem]">
+          <iframe
+            className="h-full w-full rounded-xl shadow-lg"
+            src="https://www.youtube.com/embed/NpEaa2P7qZI?si=K8NMT9UxAUejFV22"
+            title="Placeholder Connor Video"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowFullScreen
+            referrerPolicy="strict-origin-when-cross-origin"
+          />
+        </div>
         </div>
       </div>
     </section>
