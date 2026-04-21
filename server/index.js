@@ -45,6 +45,8 @@ app.use(helmet({
         "https://www.google.com/recaptcha/",
         "https://www.gstatic.com/recaptcha/",
         "https://eu-assets.i.posthog.com",
+        "https://www.youtube.com",
+        "https://s.ytimg.com", //youtube CDN network channel for embed 
         "'sha256-ieoeWczDHkReVBsRBqaal5AFMlBtNjMzgwKvLqi/tSU='",
       ],
       styleSrc: ["'self'", "'unsafe-inline'"],
