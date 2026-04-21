@@ -140,7 +140,11 @@ export const WorkoutSplitTable = () => {
                           exercise.name,
                           exercise.sets,
                           exercise.reps,
-                          exercise.howTo,
+                          <iframe
+                            src={`https://www.youtube.com/embed/${exercise.howTo}`}
+                            referrerPolicy="strict-origin-when-cross-origin"
+                            allowFullScreen
+                          />,
                           `${workout.idupcoming_workouts}_${index}`,
                         )
                       ) : null,
