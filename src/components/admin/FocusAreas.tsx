@@ -18,7 +18,6 @@ export const FocusAreas = () => {
     fetch("https://connorsnowpt.onrender.com/api/posthog-client-focus-areas")
       .then((res) => res.json())
       .then((data) => {
-        // Extract labels and values from results
         const labels = data.results.map((item) => item[0]);
         const values = data.results.map((item) => item[1]);
 
